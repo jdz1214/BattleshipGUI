@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GUIController">
+  <children>
+      <AnchorPane prefHeight="400.0" prefWidth="640.0">
+         <children>
+            <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="400.0" prefWidth="640.0" text="BATTLESHIP" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <content>
+                <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="359.0" prefWidth="661.0">
+                     <children>
+                        <SplitPane dividerPositions="0.7187857961053836" layoutX="199.0" layoutY="55.0" orientation="VERTICAL" prefHeight="371.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <SplitPane dividerPositions="0.29797979797979796" layoutX="219.0" layoutY="38.0" prefHeight="336.0" prefWidth="638.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                             <children>
+                                                <SplitPane dividerPositions="0.19292604501607716" layoutX="-7.0" layoutY="77.0" orientation="VERTICAL" prefHeight="313.0" prefWidth="186.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <items>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                         <children>
+                                                            <MenuButton layoutX="15.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="154.0" text="Actions...">
+                                                              <items>
+                                                                <MenuItem id="menuNewGame" fx:id="menuNewGame" mnemonicParsing="false" onAction="#newGameActionEvent" text="New Game" />
+                                                                  <MenuItem id="menuListPlayers" fx:id="menuListPlayers" mnemonicParsing="false" onAction="#listPlayersActionEvent" text="List Players" />
+                                                                <MenuItem id="menuLogout" fx:id="menuLogout" mnemonicParsing="false" onAction="#logoutActionEvent" text="Log Out" />
+                                                              </items>
+                                                            </MenuButton>
+                                                         </children>
+                                                      </AnchorPane>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                         <children>
+                                                            <TextArea fx:id="txtAreaChat" editable="false" prefHeight="247.0" prefWidth="184.0" promptText="Chat Area" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                  </items>
+                                                </SplitPane>
+                                             </children>
+                                          </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                             <children>
+                                                <GridPane fx:id="gameGrid" alignment="CENTER" gridLinesVisible="true" layoutX="73.0" layoutY="58.0" prefHeight="312.0" prefWidth="443.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <columnConstraints>
+                                                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                  </columnConstraints>
+                                                  <rowConstraints>
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                                  </rowConstraints>
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
+                                                   <children>
+                                                      <Text fx:id="grid00" strokeType="OUTSIDE" strokeWidth="0.0" text="~">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid01" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid02" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid03" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid04" layoutX="262.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid05" layoutX="336.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid10" layoutX="40.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="1">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid12" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid11" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid13" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid14" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid15" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid20" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="2">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid21" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid22" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid23" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid24" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid25" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid30" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="3">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid31" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid32" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid33" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid34" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid35" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid40" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="4">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid41" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid42" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid43" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid44" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid45" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid50" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="5">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid51" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid52" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid53" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid54" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4" GridPane.rowIndex="5">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="grid55" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5" GridPane.rowIndex="5">
+                                                         <font>
+                                                            <Font name="System Bold" size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                   </children>
+                                                </GridPane>
+                                             </children>
+                                          </AnchorPane>
+                                      </items>
+                                    </SplitPane>
+                                 </children>
+                              </AnchorPane>
+                              <TextField fx:id="chatTextField" onAction="#onEnter" promptText="Chat Input" />
+                          </items>
+                        </SplitPane>
+                     </children>
+                </AnchorPane>
+               </content>
+            </TitledPane>
+         </children>
+      </AnchorPane>
+  </children>
+</VBox>

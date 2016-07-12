@@ -27,7 +27,7 @@ public class ClientRunnable implements Runnable {
     private SimpleDateFormat sdf;
     private Watchtower.Status status;
     private	Boolean loggedIn;
-    protected ObjectInputStream is;
+    private ObjectInputStream is;
     private ObjectOutputStream os;
     private int attempts;
     private Watchtower w;
@@ -46,7 +46,7 @@ public class ClientRunnable implements Runnable {
     }
 
     //Methods
-    public void init(Watchtower w) {
+    void init(Watchtower w) {
         this.w = w;
     }
 
@@ -115,7 +115,7 @@ public class ClientRunnable implements Runnable {
                                     case CLIENTREQUEST:
                                         ArrayList<String> lobbyList = new ArrayList<>();
                                         for (int i = 0; i < w.clientList.size(); i++) {
-                                            String uname = ((ClientRunnable) w.clientList.get(i)).getUsername();
+                                            String uname = w.clientList.get(i).getUsername();
                                             lobbyList.add(uname);
                                             System.out.println("connected client added: " + uname);
                                         }
@@ -161,13 +161,10 @@ public class ClientRunnable implements Runnable {
                                 os.flush();
                                 System.out.println("Wrote new success object @ line 153.");
                                 Platform.runLater(
-                                        new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                w.clientList.add(ClientRunnable.this);
-                                                w.usernameList.add(username);
-                                                w.clientOs.add(os);
-                                            }
+                                        () -> {
+                                            w.clientList.add(ClientRunnable.this);
+                                            w.usernameList.add(username);
+                                            w.clientOs.add(os);
                                         }
                                 );
                             } else {
@@ -202,20 +199,17 @@ public class ClientRunnable implements Runnable {
     }
 
     void logout() throws IOException {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                w.clientList.remove(ClientRunnable.this);
-                w.usernameList.remove(username);
-                w.clientOs.remove(os);
-            }
+        Platform.runLater(() -> {
+            w.clientList.remove(ClientRunnable.this);
+            w.usernameList.remove(username);
+            w.clientOs.remove(os);
         });
         status = Watchtower.Status.UNAVAILABLE;
         System.out.println("Client logging out");
         loggedIn = false;
         try {
             s.shutdownInput();
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
         LoginObject lo = new LoginObject();
         Transmission t;
         lo.setType(LoginObject.Type.LOGIN);
@@ -223,7 +217,7 @@ public class ClientRunnable implements Runnable {
         try {
             os.writeObject(t);
             os.flush();
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
         System.out.println("Executed logout transmission.");
         is.close();
         os.close();

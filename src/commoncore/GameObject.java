@@ -1,25 +1,20 @@
 package commoncore;
 
-import java.io.Serializable;
+import commoncore.Game.*;
 
-import commoncore.Game.Attack;
-import commoncore.Game.AttackResult;
-import commoncore.Game.GameRequest;
-import commoncore.Game.Gameboard;
-import commoncore.Game.Gamestate;
-import commoncore.Game.History;
+import java.io.Serializable;
 
 public class GameObject implements Serializable {
 	
 	private static final long serialVersionUID = -4391807776691961968L;
-	Attack attack;
-	AttackResult attackResult;
-	Gamestate gamestate;
-	Gameboard gameboard;
-	History history;
-	GameRequest gameRequest;
-	GameObjectType gameObjectType;
-	public enum GameObjectType {
+	private Attack attack;
+	private AttackResult attackResult;
+	private Gamestate gamestate;
+	private Gameboard gameboard;
+	private History history;
+	private GameRequest gameRequest;
+	private GameObjectType gameObjectType;
+	enum GameObjectType {
 		ATTACK, 
 		ATTACKRESULT, 
 		BOARD, 
@@ -30,17 +25,17 @@ public class GameObject implements Serializable {
 	}
 	
 	// Constructors
-	public GameObject (Attack attack) {
+	GameObject(Attack attack) {
 		this.attack = attack;
 		this.gameObjectType = GameObjectType.ATTACK;
 	}
 	
-	public GameObject (AttackResult attackResult) {
+	GameObject(AttackResult attackResult) {
 		this.attackResult = attackResult;
 		this.gameObjectType = GameObjectType.ATTACKRESULT;
 	}
 	
-	public GameObject (Gamestate gamestate) {
+	GameObject(Gamestate gamestate) {
 		this.gamestate = gamestate;
 		this.gameObjectType = GameObjectType.GAMESTATE;
 	}
@@ -61,19 +56,19 @@ public class GameObject implements Serializable {
 	}
 	
 	// Getters
-	public Attack getAttack() {
+	Attack getAttack() {
 		return attack;
 	}
 
-	public AttackResult getAttackResult() {
+	AttackResult getAttackResult() {
 		return attackResult;
 	}
 
-	public Gamestate getGamestate() {
+	Gamestate getGamestate() {
 		return gamestate;
 	}
 
-	public History getHistory() {
+	History getHistory() {
 		return history;
 	}
 
@@ -81,7 +76,7 @@ public class GameObject implements Serializable {
 		return gameRequest;
 	}
 
-	public Gameboard getGameboard () {
+	Gameboard getGameboard() {
 		return gameboard;
 	}
 	

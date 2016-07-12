@@ -28,7 +28,7 @@ public class Transmission implements Serializable{
 		this.transmissionType = TransmissionType.CHATMESSAGE;
 	}
 	
-	public Transmission (GameObject gameObject) {
+	Transmission(GameObject gameObject) {
 		this.gameObject = gameObject;
 		this.transmissionType = TransmissionType.GAMEOBJECT;
 	}
@@ -75,8 +75,7 @@ public class Transmission implements Serializable{
 	}
 
 	public Game requestGame(ClientRunnable clientRunnable1, ClientRunnable clientRunnable2) throws Exception {
-		Game game = new Game (clientRunnable1, clientRunnable2);
-		return game;
+		return new Game (clientRunnable1, clientRunnable2);
 	}
 	
 	public void setTransmissionType(TransmissionType transmissionType) {

@@ -3,7 +3,6 @@ package client;
 import commoncore.LoginObject;
 import commoncore.ServerRequestObject;
 import commoncore.Transmission;
-import gui.GUIController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -54,7 +53,7 @@ public class Main extends Application {
         ex = Executors.newFixedThreadPool(10);
         stage = primaryStage;
         handleShutdown();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/Login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/login.fxml"));
         Parent root = loader.load();
         lc = loader.getController();
         lc.init(this);
@@ -100,7 +99,7 @@ public class Main extends Application {
     private void startLogin() throws Exception {
         stage.getScene().getWindow().hide();
         getConnection();
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/Login.fxml"));
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/login.fxml"));
         //Parent root = loader.load();
         //lc = loader.getController();
         //lc.init(this);
@@ -114,7 +113,7 @@ public class Main extends Application {
             if (connected && loggedIn) {
                 try {
                 stage.getScene().getWindow().hide();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/GUI.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui.fxml"));
                 Parent parent = loader.load();
                 gc = loader.getController();
                 gc.init(this);

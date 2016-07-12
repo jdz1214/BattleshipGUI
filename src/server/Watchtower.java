@@ -9,12 +9,10 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -30,30 +28,28 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Watchtower extends Application {
-	private int port;
-	private ExecutorService lobby;
+    private ExecutorService lobby;
 	private ExecutorService gamePool;
 	private ServerSocket ss;
 	private Boolean atWar;
-    protected ObservableList<String> usernameList;
-	protected ObservableList<ClientRunnable> clientList;
-    protected ArrayList<ObjectOutputStream> clientOs;
+    ObservableList<ClientRunnable> clientList;
+    ArrayList<ObjectOutputStream> clientOs;
 	private SimpleDateFormat sdf;
     private Stage stage;
     private ServerController sc;
-    private SimpleListProperty lp;
-    private MysqlDataSource dataSource;
+    private SimpleListProperty<String> lp;
     private Connection connect;
+    ObservableList<String> usernameList;
 
-	//Constructor
+    //Constructor
 	public Watchtower () throws Exception {
-		port = 1500;
+        int port = 1500;
 		clientList = FXCollections.observableList(new ArrayList<ClientRunnable>());
-        usernameList = FXCollections.observableList(new ArrayList<String>());
+        ObservableList<String> usernameList = FXCollections.observableList(new ArrayList<String>());
         clientOs = new ArrayList<>();
         lp = new SimpleListProperty<>(usernameList);
         ss = new ServerSocket(port);
-		lobby = Executors.newFixedThreadPool(50);
+        lobby = Executors.newFixedThreadPool(50);
 		gamePool = Executors.newFixedThreadPool(10);
         atWar = true;
         sdf = new SimpleDateFormat("hh:mm:ss a MMM/dd/yyyy");
@@ -95,19 +91,16 @@ public class Watchtower extends Application {
 	}
 
     private void handleShutdown() {
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent t) {
-                lobby.shutdownNow();
-                gamePool.shutdownNow();
-                Platform.exit();
-            }
+        stage.setOnCloseRequest(t -> {
+            lobby.shutdownNow();
+            gamePool.shutdownNow();
+            Platform.exit();
         });
     }
 
     private void mySQLSetup() {
         try {
-            dataSource = new MysqlDataSource();
+            MysqlDataSource dataSource = new MysqlDataSource();
             dataSource.setUrl("jdbc:mysql://battleshipdb.ci19hdnrsizi.us-east-1.rds.amazonaws.com:3306");
             String sqlUser = "battleship";
             String sqlPass = "Mercedes789!";
@@ -117,13 +110,11 @@ public class Watchtower extends Application {
         } catch (SQLException e1) {e1.printStackTrace();}
     }
 
-    protected Boolean trySql(String username, String password) {
-        String u = username;
-        String p = password;
+    Boolean trySql(String username, String password) {
         Boolean success = false;
         try {
             Statement stmt = connect.createStatement();
-            String query = "SELECT * from Battleship.login WHERE username = '" + u + "';";
+            String query = "SELECT * from Battleship.login WHERE username = '" + username + "';";
 
             ResultSet result = stmt.executeQuery(query);
 
@@ -131,8 +122,8 @@ public class Watchtower extends Application {
                 String queryUsername = result.getString("username");
                 String queryPassword = result.getString("password");
 
-                if (u.equals(queryUsername) && p.equals(queryPassword)) {
-                    System.out.println(u + " logged in at " + sdf.format(new Date()));
+                if (username.equals(queryUsername) && password.equals(queryPassword)) {
+                    System.out.println(username + " logged in at " + sdf.format(new Date()));
                     success = true;
                     break;
                 }
@@ -141,11 +132,11 @@ public class Watchtower extends Application {
         return success;
     }
 
-    protected void broadcast(String msg) {
+    void broadcast(String msg) {
         sc.txtAreaConsole.appendText(msg + "\n");
-        for (int i = 0; i < clientOs.size(); i++) {
+        for (ObjectOutputStream clientO : clientOs) {
             try {
-                clientOs.get(i).writeObject(new Transmission(msg + "\n"));
+                clientO.writeObject(new Transmission(msg + "\n"));
             } catch (IOException e) {
                 System.out.println("Error broadcasting message");
             }
@@ -156,7 +147,7 @@ public class Watchtower extends Application {
 		atWar = false;
 	}
 
-    public void kick(String uname) {
+    void kick(String uname) {
         for (int i = clientList.size(); --i >= 0;) {
             if (clientList.get(i).getUsername().equals(uname)) {
                 try {
@@ -172,14 +163,12 @@ public class Watchtower extends Application {
     }
 	
 	public void newGame (ClientRunnable player1, ClientRunnable player2) throws Exception {
-		ClientRunnable p1 = player1;
-        ClientRunnable p2 = player2;
         Game newGame;
 		try {
-			newGame = new Game(p1, p2);
+			newGame = new Game(player1, player2);
 			gamePool.execute(newGame);
 		} catch (IOException e) {e.printStackTrace();}
 	}
 
-    protected enum Status {INGAME, SPECTATING, AVAILABLE, UNAVAILABLE}
+    enum Status {INGAME, SPECTATING, AVAILABLE, UNAVAILABLE}
 }

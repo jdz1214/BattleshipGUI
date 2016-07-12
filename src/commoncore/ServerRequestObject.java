@@ -25,15 +25,12 @@ public class ServerRequestObject implements Serializable {
 	
 	public ServerRequestObject (ServerRequestObjectType type) {
 		// Pass string "LOBBYLIST" to request a client list.
-		this.serverRequest = serverRequest;
 		serverRequestObjectType = ServerRequestObjectType.CLIENTREQUEST;
 	}
 	
 	public ServerRequestObject (ArrayList<String> lobbyList) {
 		this.lobbyList = new ArrayList<>();
-		for (int i = 0; i < lobbyList.size(); i++) {
-			this.lobbyList.add(lobbyList.get(i));
-		}
+		this.lobbyList.addAll(lobbyList);
 		serverRequestObjectType = ServerRequestObjectType.LOBBYLIST;
 	}
 	

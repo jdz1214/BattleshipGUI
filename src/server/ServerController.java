@@ -15,17 +15,17 @@ import java.util.ResourceBundle;
  */
 public class ServerController implements Initializable {
     @FXML private Watchtower app;
-    @FXML public ListView clientList;
+    @FXML public ListView<String> clientList;
     @FXML public TextArea txtAreaConsole;
     @FXML private Button btnKick;
 
     @FXML
     private void kickClicked(ActionEvent event) {
-        String uname = (String) clientList.getSelectionModel().getSelectedItem();
+        String uname = clientList.getSelectionModel().getSelectedItem();
         app.kick(uname);
     }
 
-    public void init (Watchtower app) {
+    void init(Watchtower app) {
         this.app = app;
     }
 

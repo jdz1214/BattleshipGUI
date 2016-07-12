@@ -1,9 +1,5 @@
-package gui;
+package client;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import client.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,6 +8,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class GUIController implements Initializable {
 
@@ -60,7 +59,7 @@ public class GUIController implements Initializable {
 	@FXML private Text grid55;
 
 	@FXML
-    public void updateChat(String msg) {
+    void updateChat(String msg) {
         txtChatArea.appendText(msg + "\n");
     }
 	
@@ -96,7 +95,7 @@ public class GUIController implements Initializable {
 	}
 
 	@FXML
-	public void init(Main m) {
+	void init(Main m) {
 		this.m = m;
 	}
 	

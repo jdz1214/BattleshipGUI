@@ -30,7 +30,7 @@ public class LoginController implements Initializable {
 		attemptLogin();
 	}
 
-    public void attemptLogin() {
+    private void attemptLogin() {
         String u = txtUsername.getText();
         String p = txtPassword.getText();
         if (u.length() > 0 && p.length() > 0) {
@@ -39,13 +39,13 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void enableLogin() {
+    void enableLogin() {
         txtPassword.setEditable(true);
         txtUsername.setEditable(true);
     }
 
     @FXML
-    public void disableLogin() {
+    void disableLogin() {
         txtPassword.setEditable(false);
         txtPassword.setEditable(false);
     }
@@ -56,7 +56,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void setLblMessage(String lblTxt) {
+    void setLblMessage(String lblTxt) {
         lblMessage.setText(lblTxt);
     }
 
@@ -70,7 +70,7 @@ public class LoginController implements Initializable {
         return txtPassword.getText();
     }
 
-	public void init(Main m) {
+	void init(Main m) {
 		this.m = m;
 	}
 

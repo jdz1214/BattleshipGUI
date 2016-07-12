@@ -106,6 +106,8 @@ public class ClientRunnable implements Runnable {
                                     case GAMEREQUEST:
                                         // TODO
                                         break;
+                                    case GAMEBOARD:
+                                        break;
                                 }
 
                             case SERVERREQUESTOBJECT:

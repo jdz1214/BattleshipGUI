@@ -14,7 +14,7 @@ public class GameObject implements Serializable {
 	private History history;
 	private GameRequest gameRequest;
 	private GameObjectType gameObjectType;
-	enum GameObjectType {
+	public enum GameObjectType {
 		ATTACK, 
 		ATTACKRESULT, 
 		BOARD, 

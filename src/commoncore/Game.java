@@ -689,7 +689,7 @@ public class Game implements Runnable {
 		}
 		
 		//Methods
-		public void decode(Transmission transmission) {
+		void decode(Transmission transmission) {
 			TransmissionType type = transmission.getTransmissionType();
 			switch (type) {
 				case GAMEOBJECT:

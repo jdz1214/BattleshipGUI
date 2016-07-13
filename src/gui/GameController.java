@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
  * Created by jdz on 7/12/16.
  */
 public class GameController implements Initializable {
-    @FXML 
+    @FXML
 
 
     @Override

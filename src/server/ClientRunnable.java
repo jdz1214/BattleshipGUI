@@ -1,16 +1,15 @@
 package server;
 
-import commoncore.GameObject;
-import commoncore.LoginObject;
-import commoncore.ServerRequestObject;
-import commoncore.Transmission;
+import commoncore.*;
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,15 +21,22 @@ import java.util.Date;
 public class ClientRunnable implements Runnable {
     private Socket s;
     private String username;
-    private	String chatMessage;
     private Boolean connected;
     private SimpleDateFormat sdf;
     private Watchtower.Status status;
     private	Boolean loggedIn;
-    protected ObjectInputStream is;
+    private ObjectInputStream is;
     private ObjectOutputStream os;
     private int attempts;
     private Watchtower w;
+    //Game variables
+    private Game game;
+    private Game.Gameboard board;
+    private Game.History history;
+    private Game.Fleet fleet;
+    private int playerNumber;
+    private Game.AttackResult attackResult;
+    private Boolean myTurn = false;
 
 
 
@@ -48,6 +54,19 @@ public class ClientRunnable implements Runnable {
     //Methods
     public void init(Watchtower w) {
         this.w = w;
+        w.usernameList.addListener(new ListChangeListener<String>() {
+            @Override
+            public void onChanged(Change<? extends String> c) {
+                ArrayList<String> temp = new ArrayList<>(w.usernameList);
+                temp.forEach(System.out::println);
+                Transmission t = new Transmission(new ServerRequestObject(temp));
+                try {
+                    os.writeObject(t);
+                    os.flush();
+                } catch (SocketException ignored) {}
+                  catch (Exception e) {e.printStackTrace();}
+            }
+        });
     }
 
     @Override
@@ -68,6 +87,45 @@ public class ClientRunnable implements Runnable {
                 try {
                     Transmission t = (Transmission) is.readObject();
                     if (loggedIn) {
+                        if (status == Watchtower.Status.INGAME) {
+                            switch (t.getTransmissionType()) {
+                                case CHATMESSAGE:
+
+                                case GAMEOBJECT:
+                                    GameObject go = t.getGameObject();
+                                    switch (go.getGameObjectType()) {
+                                        case ATTACK:
+                                            // TODO
+                                            break;
+                                        case ATTACKRESULT:
+                                            // TODO
+                                            break;
+                                        case BOARD:
+                                            // TODO
+                                            break;
+                                        case HISTORY:
+                                            // TODO
+                                            break;
+                                        case GAMESTATE:
+                                            Game.Gamestate gs = go.getGamestate();
+                                            switch (gs) {
+                                                case youAreUp:
+                                                    //TODO set attack board editable
+                                                    break;
+
+                                                case youAreNotUp:
+                                                    //TODO set attack board uneditable
+                                                    break;
+
+
+                                            }
+                                            break;
+                                        case GAMEREQUEST:
+                                            // TODO
+                                            break;
+                                    }
+                            }
+                        } else {
                         switch (t.getTransmissionType()) {
                             case CHATMESSAGE:
                                 String msg = t.getChatMessage();
@@ -85,52 +143,22 @@ public class ClientRunnable implements Runnable {
                                         break;
                                 }
                                 break;
-                            case GAMEOBJECT:
-                                GameObject go = t.getGameObject();
-                                switch (go.getGameObjectType()) {
-                                    case ATTACK:
-                                        // TODO
-                                        break;
-                                    case ATTACKRESULT:
-                                        // TODO
-                                        break;
-                                    case BOARD:
-                                        // TODO
-                                        break;
-                                    case HISTORY:
-                                        // TODO
-                                        break;
-                                    case GAMESTATE:
-                                        // TODO
-                                        break;
-                                    case GAMEREQUEST:
-                                        // TODO
-                                        break;
-                                }
-
                             case SERVERREQUESTOBJECT:
                                 ServerRequestObject sro = t.getServerRequestObject();
                                 ServerRequestObject.ServerRequestObjectType sroType = sro.getServerRequestObjectType();
                                 switch (sroType) {
                                     case CLIENTREQUEST:
-                                        ArrayList<String> lobbyList = new ArrayList<>();
-                                        for (int i = 0; i < w.clientList.size(); i++) {
-                                            String uname = ((ClientRunnable) w.clientList.get(i)).getUsername();
-                                            lobbyList.add(uname);
-                                            System.out.println("connected client added: " + uname);
-                                        }
-                                        ServerRequestObject listServerObject = new ServerRequestObject(lobbyList);
-                                        listServerObject.setServerRequestObjectType(ServerRequestObject.ServerRequestObjectType.LOBBYLIST);
-                                        t = new Transmission(listServerObject);
+                                        ServerRequestObject listServerObject = new ServerRequestObject(new ArrayList<>(w.usernameList));
                                         try {
-                                            os.writeObject(t);
+                                            os.writeObject(new Transmission(listServerObject));
                                             os.flush();
                                             System.out.println("Wrote server list to client.");
                                         } catch (IOException e1) {
-                                            System.out.println("Error sending client list");
+                                            System.out.println("Error sending client list.");
                                         }
                                         break;
                                 }
+                            }
                         }
                     }
                     //// Login Section
@@ -161,13 +189,10 @@ public class ClientRunnable implements Runnable {
                                 os.flush();
                                 System.out.println("Wrote new success object @ line 153.");
                                 Platform.runLater(
-                                        new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                w.clientList.add(ClientRunnable.this);
-                                                w.usernameList.add(username);
-                                                w.clientOs.add(os);
-                                            }
+                                        () -> {
+                                            w.clientList.add(ClientRunnable.this);
+                                            w.usernameList.add(username);
+                                            w.clientOs.add(os);
                                         }
                                 );
                             } else {
@@ -177,21 +202,17 @@ public class ClientRunnable implements Runnable {
                                 lo.setLoginSuccess(false);
                                 os.writeObject(new Transmission(lo));
                                 os.flush();
-                                System.out.println("Wrote new failed login object @ line 180.");
+                                System.out.println("Wrote 'unsuccessful login' object @ line 180.");
                             }
                         }
                     }
-                } catch (EOFException a) {System.out.println("Client disconnnected.");
-                    try {
+                }   catch (SocketException se) {System.out.println("Socket closed."); connected = false; logout(); break; }
+                    catch (EOFException a) {System.out.println("Client disconnnected.");
                         logout();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    connected = false; break;}
-                catch (Exception e) {
-                    System.out.println("Error in ClientHandler reading input stream.");
-                    e.printStackTrace();
-                }
+                        connected = false; break;}
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
             }
         };
 
@@ -201,36 +222,24 @@ public class ClientRunnable implements Runnable {
         System.out.println("ClientRunnable Started receive thread.");
     }
 
-    void logout() throws IOException {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                w.clientList.remove(ClientRunnable.this);
-                w.usernameList.remove(username);
-                w.clientOs.remove(os);
-            }
+    void logout() {
+        Platform.runLater(() -> {
+            w.clientOs.remove(os);
+            w.usernameList.remove(username);
+            w.clientList.remove(this);
         });
         status = Watchtower.Status.UNAVAILABLE;
         System.out.println("Client logging out");
         loggedIn = false;
-        try {
-            s.shutdownInput();
-        } catch (Exception e) {}
         LoginObject lo = new LoginObject();
-        Transmission t;
-        lo.setType(LoginObject.Type.LOGIN);
-        t = new Transmission(lo);
+        lo.setType(LoginObject.Type.LOGOUT);
         try {
-            os.writeObject(t);
+            os.writeObject(new Transmission(lo));
             os.flush();
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
         System.out.println("Executed logout transmission.");
-        is.close();
-        os.close();
-        s.close();
         System.out.println(username + " logged out at " + sdf.format(new Date()));
-        loggedIn = false;
-        connected = false;
+        Thread.currentThread().interrupt();
     }
 
     public String getUsername() {
@@ -241,11 +250,32 @@ public class ClientRunnable implements Runnable {
         return os;
     }
 
-    public ObjectInputStream getObjectInputStream () {
-        return is;
+    //Game methods
+    public void enterGameMode(Game game, int playerNumber) {
+        w.clientOs.remove(os);
+        this.game = game;
+        this.playerNumber = playerNumber;
+        this.status = Watchtower.Status.INGAME;
+        try {
+            os.writeObject(new Transmission(new GameObject(Game.Gamestate.preGame)));
+        } catch (IOException e) {System.out.println("Error sending client's preGame transmission.");}
     }
 
-    public Socket getSocket() {
-        return s;
+    public Game.Fleet getFleet() {
+        return fleet;
+    }
+
+    public void setMyTurn(Boolean up) {
+        myTurn = up;
+    }
+
+    public Game.History getAttackHistory() {
+        return history;
+    }
+
+    public void quit() {
+        game.gc.remove(os);
+        w.clientOs.add(os);
+        status = Watchtower.Status.AVAILABLE;
     }
 }

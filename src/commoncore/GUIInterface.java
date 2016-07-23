@@ -1,18 +1,18 @@
 package commoncore;
 
-import javax.swing.JTextField;
-
 import commoncore.Game.Attack;
 import commoncore.Game.Gameboard;
 
+import javax.swing.*;
+
 public interface GUIInterface {
 
-	public void 			drawBoard(Gameboard board);
-	public void 			printToChat(String chatMessage);
-	public String 		getText(JTextField inputField);
-	public void 			attackMode();
-	public void 			regularMode();
-	public void 			enterGameMode();
-	public Attack		parseAttack();
-	public Transmission 	gameRequest(String opponentUsername);
+	void 	drawBoard(Gameboard board);
+	void 	printToChat(String chatMessage);
+	String 	getText(JTextField inputField);
+	void 	attackMode();
+	void 	regularMode();
+	void 	enterGameMode();
+	Attack	parseAttack();
+	Transmission 	gameRequest(String opponentUsername);
 }

@@ -1,95 +1,74 @@
 package commoncore;
 
-import commoncore.GameObject.GameObjectType;
-import commoncore.Transmission.TransmissionType;
 import server.ClientRunnable;
+import server.Watchtower;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Game implements Runnable {
-	private Player player1;
-	private Player player2;
-	private Player winner;
+	private Watchtower watchtower;
+    public  ArrayList<ObjectOutputStream> gc;
+	private ClientRunnable p1;
+	private ClientRunnable p2;
+	private ClientRunnable winner;
 	private Boolean gameOver;
-	private int yourTurn;
-	private Boolean firstMove;
+	private ClientRunnable playerUp;
 	private Gameboard gameboard;
 	private Gamestate gamestate;
-	protected Gamechat gamechat;
-	protected enum Gamestate { gameOn, gameOver, youAreUp }
+	public enum Gamestate { gameOn, gameOver, youAreUp, youAreNotUp, preGame }
 	
 	//Constructors
-	public Game (ClientRunnable player1, ClientRunnable player2) throws Exception {
-		this.player1 = new Player(player1);
-		this.player2 = new Player(player2);
+	public Game (ClientRunnable p1, ClientRunnable p2, Watchtower watchtower) throws Exception {
+	    this.watchtower = watchtower;
+		this.p1 = p1;
+		this.p2 = p2;
+        this.p1.enterGameMode(this, 1);
+        this.p2.enterGameMode(this, 2);
 		gameOver = false;
 		gameboard = new Gameboard();
 		gameboard.resetServerBoard();
-		gamechat = new Gamechat(this.player1, this.player2);
+		gc = new ArrayList<>();
+        gc.add(p1.getObjectOutputStream());
+        gc.add(p2.getObjectOutputStream());
+        determineFirst();
 		gamestate = Gamestate.gameOn;
-		firstMove = true;
 		run();
 	}
 	
 	//Methods
 	@Override
 	public void run() {
-		int first;
-		while (gamestate == Gamestate.gameOn) {
-			try {
-				if (firstMove) {
-					first = determineFirst(); 
-					if (first == 1) {
-						player1.isUp();
-					}
-					else 
-					{
-						player2.isUp();
-					}
-						firstMove = false;
-				}
-				while (!gameOver) {
-					//Listen for attack from first player
-					Attack attack = listenForAttackFrom(getCurrentPlayer(yourTurn));
-					//Process attack
-					AttackResult attackResult = getCurrentPlayer(yourTurn).fleet.validateAttack(attack);
-					//Return attack result
-					Transmission attackResultTransmission = new Transmission (new GameObject(attackResult));
-					getCurrentPlayer(yourTurn).getObjectOutputStream().writeObject(attackResultTransmission);
-					
-					//Transmit otherplayer.isUp();
-					notifyPlayerIsUp(getCurrentPlayer(yourTurn).getOtherPlayer());
-					
-					gamestate = determineGamestate();
-				}
-			} catch (ClassNotFoundException | IOException e) {e.printStackTrace();}
-		}
+        notifyPlayers();
 	}
 
-	public int determineFirst() {
+	public void determineFirst() {
 		//Choose random player to go first
-		int  rand = ThreadLocalRandom.current().nextInt(0, 2);
-		return rand + 1;
+		int rand = ThreadLocalRandom.current().nextInt(0, 2);
+		int first = rand + 1;
+        if (first == 1) {
+            playerUp = p1;
+        } else {
+            playerUp = p2;
+        }
 	}
 	
-	public Gamestate determineGamestate () {
-		Gamestate gamestate = Gamestate.gameOn;
+	public void determineGamestate () {
 		int player1HitsRemaining = 0;
+        Fleet p1Fleet = p1.getFleet();
+        Fleet p2Fleet = p2.getFleet();
 		int player2HitsRemaining = 0;
-		for (int i = 0; i < player1.fleet.size(); i++) {
-			Ship ship = player1.fleet.get(i);
+		for (int i = 0; i < p1Fleet.size(); i++) {
+			Ship ship = p2Fleet.get(i);
 			int hitsRemaining = ship.getHitsRemaining();
 			player1HitsRemaining = player1HitsRemaining + hitsRemaining;
 		}
 		
-		for (int i = 0; i < player2.fleet.size(); i++) {
-			Ship ship = player2.fleet.get(i);
+		for (int i = 0; i < p2Fleet.size(); i++) {
+			Ship ship = p2Fleet.get(i);
 			int hitsRemaining = ship.getHitsRemaining();
 			player2HitsRemaining = player2HitsRemaining + hitsRemaining;
 		}
@@ -98,65 +77,39 @@ public class Game implements Runnable {
 			gamestate = Gamestate.gameOver;
 			winner = determineWinner(player1HitsRemaining, player2HitsRemaining);
 		}
-		return gamestate;
 	}
 	
-	public Player determineWinner(int player1HitsRemaining, int player2HitsRemaining) {
+	public ClientRunnable determineWinner(int player1HitsRemaining, int player2HitsRemaining) {
 		winner = null;
 		if (player1HitsRemaining == 0) {
 			gamestate = Gamestate.gameOver;
-			winner = player2;
+			winner = p2;
 		}
 		else if (player2HitsRemaining == 0) {
 			gamestate = Gamestate.gameOver;
-			winner = player1;
+			winner = p1;
 		}
 		return winner;
 	}
-	
-	public Player getPlayer1() {
-		return player1;
-	}
-	
-	public Player getPlayer2() {
-		return player2;
-	}
-	
-	public Player getCurrentPlayer(int playerNumber) {
-		Player getPlayer = null;
-		if (playerNumber == 1) {
-			getPlayer = player1;
-		}
-		else if (playerNumber == 2) {
-			getPlayer = player2;
-		}
-		return getPlayer;
-	}
-	
-	public Attack listenForAttackFrom(Player attackingPlayer) throws ClassNotFoundException, IOException {
-		Attack attack = new Attack();
-        Transmission transmission = new Transmission();
-		Boolean attackNotYetReceived = true;
-		
-		while (attackNotYetReceived) {
 
-            transmission = (Transmission) attackingPlayer.getObjectInputStream().readObject();
+	public void relayAttack(Attack attack, ClientRunnable attackingPlayer) {
+	    if (attackingPlayer.equals(playerUp)) {
 
-			if (transmission.getTransmissionType() == TransmissionType.GAMEOBJECT) {
-				GameObject gameObject = transmission.getGameObject();
-				attack = gameObject.getAttack();
-				attackNotYetReceived = false;
-			}
-		}
-		return attack;
-	}
-	
-	public void notifyPlayerIsUp (Player playerWhoIsUp) throws IOException {
-		Player playerUp = getCurrentPlayer(yourTurn).getOtherPlayer();
-		yourTurn = getCurrentPlayer(yourTurn).getOtherPlayer().playerNumber;
+
+
+
+        }
+
+    }
+	public void notifyPlayers () {
+	    ClientRunnable otherPlayer = (playerUp.equals(p1)) ? p2 : p1;
 		Transmission youAreUp = new Transmission(new GameObject(Gamestate.youAreUp));
-		playerUp.getObjectOutputStream().writeObject(youAreUp);
-	}
+        Transmission youAreNotUp = new Transmission(new GameObject(Gamestate.youAreNotUp));
+        try {
+            playerUp.getObjectOutputStream().writeObject(youAreUp);
+            otherPlayer.getObjectOutputStream().writeObject(youAreNotUp);
+        } catch (IOException e) {System.out.println("Error writing client 'your turn' transmissions.");}
+    }
 	
 	//Classes
 	public class Gameboard extends ArrayList<String> {
@@ -206,44 +159,6 @@ public class Game implements Runnable {
 		}
 	}
 	
-	protected class Gamechat {
-		Player player1;
-		Player player2;
-		Transmission t1;
-		Transmission t2;
-		ObjectOutputStream p1os;
-		ObjectOutputStream p2os;
-		ObjectInputStream p1is;
-		ObjectInputStream p2is;
-		public Gamechat (Player p1, Player p2) throws ClassNotFoundException, IOException {
-			this.player1 = p1;
-			this.player2 = p2;
-			start();
-		};
-		
-		public void start() throws ClassNotFoundException, IOException {
-			p1os = this.player1.getObjectOutputStream();
-			p2os = this.player2.getObjectOutputStream();
-			p1is = this.player1.getObjectInputStream();
-			p2is = this.player2.getObjectInputStream();
-			
-			while (!gameOver) {
-				t1 = (Transmission) p1is.readObject();
-				if (t1.getTransmissionType() == TransmissionType.CHATMESSAGE) {
-					String msg = t1.getChatMessage();
-					t1 = new Transmission(msg);
-					p2os.writeObject(t1);
-				}
-				t2 = (Transmission) p2is.readObject();
-				if (t2.getTransmissionType() == TransmissionType.CHATMESSAGE) {
-					String msg = t2.getChatMessage();
-					t2 = new Transmission(msg);
-					p1os.writeObject(t2);
-				}
-			}
-		}
-	}
-	
 	protected class GameRequest {
 		Transmission gameRequest;
 		Boolean gameOn;
@@ -279,17 +194,19 @@ public class Game implements Runnable {
 		public Spot attackSpot;
 		//Constructor
 		public Attack () {}
+
 		public Attack (Spot spotToAttack) throws IOException {
 			Attack attack = new Attack();
 			attack.setSpot(spotToAttack);
-			Player currentPlayer = getCurrentPlayer(yourTurn);
 			this.attackSpot = spotToAttack;
-			targetedPlayerNumber = (yourTurn == 1) ? 1 : 2;
+			ClientRunnable targetedPlayer = (playerUp.equals(p1) ? p2 : p1);
 			GameObject gameObject = new GameObject(attack);
 			Transmission attackTransmission = new Transmission (gameObject);
-			currentPlayer.getObjectOutputStream().writeObject(attackTransmission);
-			currentPlayer.setMyTurn(false);
-			yourTurn = currentPlayer.getOtherPlayer().playerNumber;
+			playerUp.getObjectOutputStream().writeObject(attackTransmission);
+            playerUp.setMyTurn(false);
+			playerUp = (playerUp.equals(p1) ? p2 : p1);
+            notify();
+            //TODO untested -- might not be working properly. Esp. the notify part.
 		};
 		
 		public Spot getSpot() {
@@ -300,12 +217,12 @@ public class Game implements Runnable {
 			this.attackSpot = attackSpot;
 		}
 		
-		public Spot convertFromUserView(Player player, Spot spot) {
-			if (player.getUsername().equals("player1" )) {
+		public Spot convertFromUserView(ClientRunnable player, Spot spot) {
+			if (player.getUsername().equals("p1" )) {
 				Spot adjustedCoordinates = new Spot(spot.getX()+4, spot.getY()-1);
 				return adjustedCoordinates;
 			}
-			else if (player.getUsername().equals("player2")) {
+			else if (player.getUsername().equals("p2")) {
 				Spot adjustedCoordinates = new Spot(spot.getX()-1, spot.getY()-1);
 				return adjustedCoordinates;
 			}
@@ -316,7 +233,7 @@ public class Game implements Runnable {
 		}
 	}
 	
-	protected class AttackResult {
+	public class AttackResult {
 		Boolean result = false;
 		Boolean sunkShip = false;
 		//Constructor
@@ -327,7 +244,7 @@ public class Game implements Runnable {
 		}
 	}
 	
-	protected class Fleet extends ArrayList<Ship>{
+	public class Fleet extends ArrayList<Ship> {
 		private static final long serialVersionUID = 5959358336090731180L;
 		//one fleet per player
 		int numberOfShips = 4; //number of ships in fleet
@@ -361,9 +278,8 @@ public class Game implements Runnable {
 			AttackResult attackResult = new AttackResult();
 			Spot attackSpot = attack.getSpot();
 			Boolean repeatAttack = false;
-			Player currentPlayer = getCurrentPlayer(yourTurn);
-			for (int i = 0; i < currentPlayer.getAttackHistory().size(); i++) {
-				Spot pastAttackSpot = currentPlayer.getAttackHistory().get(i);
+			for (int i = 0; i < playerUp.getAttackHistory().size(); i++) {
+				Spot pastAttackSpot = playerUp.getAttackHistory().get(i);
 				if (pastAttackSpot.equals(attackSpot)) {
 					repeatAttack = true;
 				}
@@ -661,107 +577,8 @@ public class Game implements Runnable {
 			return updatedSpotPool;
 		}
 	}
-	
-	protected class Player extends ClientRunnable {
-		Game game;
-		Gameboard board;
-		History history;
-		String name;
-		Fleet fleet;
-		int playerNumber;
-		Transmission transmission;
-		AttackResult attackResult;
-		Boolean myTurn = false;
-		
-		
-		//Constructor
-		Player(ClientRunnable clientRunnable) throws Exception {
-			
-			super(clientRunnable.getSocket());
-			
-			name = clientRunnable.getUsername();
-			int lastDigit = Character.getNumericValue(name.charAt(name.length()-1));
-			if ( lastDigit == 1 || lastDigit == 2) {
-				this.playerNumber = lastDigit;
-			} else { System.out.println("Invalid player number detected.");}
-			history = new History();
-			
-		}
-		
-		//Methods
-		public void decode(Transmission transmission) {
-			TransmissionType type = transmission.getTransmissionType();
-			switch (type) {
-				case GAMEOBJECT:
-					GameObject gameObject = transmission.getGameObject();
-					GameObjectType gameObjectType = gameObject.getGameObjectType();
-						switch (gameObjectType) {
-						case ATTACK: System.out.println("Error: Client receieved unexpected attack object."); break;
-						case ATTACKRESULT: this.attackResult = gameObject.getAttackResult(); break;
-						case BOARD: this.board = gameObject.getGameboard(); break;
-						case HISTORY: this.history = gameObject.getHistory(); break;
-						case GAMESTATE: if (gameObject.getGamestate() == Gamestate.youAreUp) { myTurn = true;}
-						default: 
-							break;
-						}
-			default:
-				break;
-			}
-		}
-		
-		public String getName(Player player) {
-			return name;
-		}
-		
-		public void listenForTransmissions(Socket socket) throws ClassNotFoundException, IOException {
-            Transmission t;
-            while (!gameOver) {
-                t = (Transmission) this.getObjectInputStream().readObject();
-                decode(t);
-                }
-        }
-		
-		public void updateGUI() {
-			if (myTurn) {
-                //TODO
-				// 1) Change GUI board to History
-				// 2) Enable Attack button
-				// 3) Listen for attack coordinates
-				// 4) Send attack coordinates
-			}
-		}
-		
-		public void isUp() throws IOException {
-			Player currentPlayer = getCurrentPlayer(yourTurn);
-			Transmission gamestateUpdate = new Transmission(new GameObject (Gamestate.youAreUp));
-			currentPlayer.getObjectOutputStream().writeObject(gamestateUpdate);
-		}
 
-		public Player getOtherPlayer() {
-			Player otherPlayer = null;
-			if (playerNumber == 1) {
-				otherPlayer = game.getPlayer2();
-			}
-			else  if (playerNumber == 2) {
-				otherPlayer = game.getPlayer1();
-			} else {System.out.println("Error returning other player from " + this.getUsername() + ".");}
-			return otherPlayer;
-		}
-
-		public History getAttackHistory() {
-			return history;
-		}
-		
-		public Boolean getMyTurn() {
-			return myTurn;
-		}
-		
-		public void setMyTurn (Boolean isItMyTurn) {
-			this.myTurn = isItMyTurn;
-		}
-	}
-
-	protected class History extends ArrayList<Spot>{
+	public class History extends ArrayList<Spot>{
 
 		private static final long serialVersionUID = 6046904576120105528L;
 		History history;

@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-	@FXML private Label lblMessage;
+	@FXML public Label lblMessage;
 	@FXML private TextField txtUsername;
 	@FXML private PasswordField txtPassword;
 	@FXML private Button btnLogin;
@@ -41,13 +41,19 @@ public class LoginController implements Initializable {
     @FXML
     public void enableLogin() {
         txtPassword.setEditable(true);
+        txtPassword.setDisable(false);
+        txtUsername.setDisable(false);
         txtUsername.setEditable(true);
+        btnLogin.setDisable(false);
     }
 
     @FXML
     public void disableLogin() {
-        txtPassword.setEditable(false);
-        txtPassword.setEditable(false);
+        btnLogin.setDisable(true);
+        txtPassword.setText("");
+        txtUsername.setText("");
+        txtUsername.setDisable(true);
+        txtPassword.setDisable(true);
     }
 
     @FXML

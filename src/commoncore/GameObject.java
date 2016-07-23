@@ -1,16 +1,10 @@
 package commoncore;
 
+import commoncore.Game.*;
+
 import java.io.Serializable;
 
-import commoncore.Game.Attack;
-import commoncore.Game.AttackResult;
-import commoncore.Game.GameRequest;
-import commoncore.Game.Gameboard;
-import commoncore.Game.Gamestate;
-import commoncore.Game.History;
-
 public class GameObject implements Serializable {
-	
 	private static final long serialVersionUID = -4391807776691961968L;
 	Attack attack;
 	AttackResult attackResult;
@@ -81,7 +75,7 @@ public class GameObject implements Serializable {
 		return gameRequest;
 	}
 
-	public Gameboard getGameboard () {
+	public Gameboard getGameboard() {
 		return gameboard;
 	}
 	

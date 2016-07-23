@@ -137,17 +137,19 @@ public class Watchtower extends Application {
                     break;
                 }
             }
-        } catch (SQLException e) {System.out.println("Error in SQL querying.");}
+        } catch (SQLException e) {e.printStackTrace(); System.out.println("Error in SQL querying.");} //Put SQL reconnection script in catch block
         return success;
     }
 
     protected void broadcast(String msg) {
         sc.txtAreaConsole.appendText(msg + "\n");
-        for (int i = 0; i < clientOs.size(); i++) {
-            try {
-                clientOs.get(i).writeObject(new Transmission(msg + "\n"));
-            } catch (IOException e) {
-                System.out.println("Error broadcasting message");
+        if (clientOs.size() > 0) {
+            for (ObjectOutputStream clientO : clientOs) {
+                try {
+                    clientO.writeObject(new Transmission(msg + "\n"));
+                } catch (IOException e) {
+                    System.out.println("Error broadcasting message");
+                }
             }
         }
     }
@@ -172,11 +174,9 @@ public class Watchtower extends Application {
     }
 	
 	public void newGame (ClientRunnable player1, ClientRunnable player2) throws Exception {
-		ClientRunnable p1 = player1;
-        ClientRunnable p2 = player2;
         Game newGame;
 		try {
-			newGame = new Game(p1, p2);
+			newGame = new Game(player1, player2, this);
 			gamePool.execute(newGame);
 		} catch (IOException e) {e.printStackTrace();}
 	}

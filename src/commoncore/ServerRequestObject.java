@@ -1,9 +1,9 @@
 package commoncore;
 
+import commoncore.Game.GameRequest;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import commoncore.Game.GameRequest;
 
 public class ServerRequestObject implements Serializable {
 
@@ -25,15 +25,11 @@ public class ServerRequestObject implements Serializable {
 	
 	public ServerRequestObject (ServerRequestObjectType type) {
 		// Pass string "LOBBYLIST" to request a client list.
-		this.serverRequest = serverRequest;
 		serverRequestObjectType = ServerRequestObjectType.CLIENTREQUEST;
 	}
 	
-	public ServerRequestObject (ArrayList<String> lobbyList) {
-		this.lobbyList = new ArrayList<>();
-		for (int i = 0; i < lobbyList.size(); i++) {
-			this.lobbyList.add(lobbyList.get(i));
-		}
+	public ServerRequestObject (ArrayList<String> lobbyList ) {
+	    this.lobbyList = new ArrayList<>(lobbyList);
 		serverRequestObjectType = ServerRequestObjectType.LOBBYLIST;
 	}
 	

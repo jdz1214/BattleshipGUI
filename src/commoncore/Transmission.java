@@ -1,7 +1,5 @@
 package commoncore;
 
-import server.ClientRunnable;
-
 import java.io.Serializable;
 
 
@@ -72,11 +70,6 @@ public class Transmission implements Serializable{
 		}
 		else {System.out.println("Transmission type was incorrect for " + this.toString());}
 		return loginObject;
-	}
-
-	public Game requestGame(ClientRunnable clientRunnable1, ClientRunnable clientRunnable2) throws Exception {
-		Game game = new Game (clientRunnable1, clientRunnable2);
-		return game;
 	}
 	
 	public void setTransmissionType(TransmissionType transmissionType) {

@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-/**
- * Created by jdz on 7/8/16.
- */
 public class ClientRunnable implements Runnable {
     private Socket s;
     private String username;
@@ -52,7 +49,7 @@ public class ClientRunnable implements Runnable {
     }
 
     //Methods
-    public void init(Watchtower w) {
+    void init(Watchtower w) {
         this.w = w;
         w.usernameList.addListener(new ListChangeListener<String>() {
             @Override
@@ -173,7 +170,6 @@ public class ClientRunnable implements Runnable {
                             Boolean unique = true;
                             if (w.clientList.size() > 0) {
                                 for (int i = 0; i < w.clientList.size(); i++) {
-                                    ClientRunnable cr = w.clientList.get(i);
                                     if (w.clientList.get(i).getUsername().equals(username)) {
                                         unique = false;
                                     }
@@ -231,10 +227,8 @@ public class ClientRunnable implements Runnable {
         status = Watchtower.Status.UNAVAILABLE;
         System.out.println("Client logging out");
         loggedIn = false;
-        LoginObject lo = new LoginObject();
-        lo.setType(LoginObject.Type.LOGOUT);
         try {
-            os.writeObject(new Transmission(lo));
+            os.writeObject(new Transmission(new LoginObject(LoginObject.Type.LOGOUT)));
             os.flush();
         } catch (Exception ignored) {}
         System.out.println("Executed logout transmission.");

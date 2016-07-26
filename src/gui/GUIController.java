@@ -1,7 +1,6 @@
 package gui;
 
 import client.Main;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -13,9 +12,6 @@ public class GUIController implements Initializable {
 
 	@FXML private Main m;
     @FXML private TitledPane titlePane;
-	@FXML private Button btnNewGame;
-	@FXML private Button btnLogout;
-	@FXML private Button btnAbout;
     @FXML private Label lblInfo;
     @FXML private ListView<String> lstUsers;
 	@FXML private TextArea txtChatArea;
@@ -35,12 +31,22 @@ public class GUIController implements Initializable {
             if(lblInfo.getText().equals("Please select a user from the 'Users' list first.")) {
                 lblInfo.setText("");
             }
-            m.gameRequest(selected);
+            if(!selected.equals(m.getUsername())){
+                m.gameRequest(selected);
+            } else {
+                lblInfo.setText("You cannot start a game with yourself!");
+            }
+
         }
 	}
-	
+
 	@FXML
-	public void listPlayersActionEvent(ActionEvent e) {
+    public void startSpectate() {
+	    //TODO
+    }
+
+	@FXML
+	public void listPlayersActionEvent() {
 		m.listPlayers();
 	}
 
@@ -54,17 +60,17 @@ public class GUIController implements Initializable {
     }
 	
 	@FXML
-	public void logoutActionEvent(ActionEvent e) {
+	public void logoutActionEvent() {
 		m.logout();
 	}
 	
 	@FXML
-	public void onEnter(ActionEvent e) {
+	public void onEnter() {
 		sendMessage();
 	}
 
 	@FXML
-    public void aboutClick(ActionEvent e) {
+    public void aboutClick() {
         if (lblInfo.getText().equals("Battleship © 2016 Atlas Innovation LLC All Rights Reserved.")) {
             lblInfo.setText("");
         } else {

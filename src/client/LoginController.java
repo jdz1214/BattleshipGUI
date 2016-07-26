@@ -1,6 +1,5 @@
 package client;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -21,16 +20,12 @@ public class LoginController implements Initializable {
 	@FXML private Main m;
 	
 	@FXML
-	public void btnLoginAction(ActionEvent event) throws ClassNotFoundException, IOException {
-	    attemptLogin();
-	}
+	public void btnLoginAction() throws ClassNotFoundException, IOException {attemptLogin();}
 	
 	@FXML
-	public void onEnter(ActionEvent event) throws ClassNotFoundException, IOException {
-		attemptLogin();
-	}
+	public void onEnter() throws ClassNotFoundException, IOException {attemptLogin();}
 
-    public void attemptLogin() {
+    private void attemptLogin() {
         String u = txtUsername.getText();
         String p = txtPassword.getText();
         if (u.length() > 0 && p.length() > 0) {
@@ -39,7 +34,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void enableLogin() {
+    void enableLogin() {
         txtPassword.setEditable(true);
         txtPassword.setDisable(false);
         txtUsername.setDisable(false);
@@ -48,7 +43,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void disableLogin() {
+    void disableLogin() {
         btnLogin.setDisable(true);
         txtPassword.setText("");
         txtUsername.setText("");
@@ -56,33 +51,14 @@ public class LoginController implements Initializable {
         txtPassword.setDisable(true);
     }
 
-    @FXML
-    public void setTxtUsername(String txt) {
-        txtUsername.setText(txt);
-    }
-
-    @FXML
-    public void setLblMessage(String lblTxt) {
+    void setLblMessage(String lblTxt) {
         lblMessage.setText(lblTxt);
     }
 
-    @FXML
-    public String getTxtUsername() {
-        return txtUsername.getText();
-    }
-
-    @FXML
-    public String getTxtPassword() {
-        return txtPassword.getText();
-    }
-
-	public void init(Main m) {
+    void init(Main m) {
 		this.m = m;
 	}
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-        txtPassword.setEditable(false);
-        txtUsername.setEditable(false);
-    }
+	public void initialize(URL location, ResourceBundle resources) {}
 }

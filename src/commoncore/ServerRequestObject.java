@@ -1,7 +1,5 @@
 package commoncore;
 
-import commoncore.Game.GameRequest;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 

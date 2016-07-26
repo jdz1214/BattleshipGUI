@@ -159,16 +159,7 @@ public class Game implements Runnable {
 		}
 	}
 	
-	protected class GameRequest {
-		Transmission gameRequest;
-		Boolean gameOn;
-		ClientRunnable client1;
-		ClientRunnable client2;
-		GameRequest (ClientRunnable you, ClientRunnable opponent) {
-			this.client1 = you;
-			this.client2 = opponent;
-		}
-	}
+
 	
 	protected class Spot {
 		public int x = 0;

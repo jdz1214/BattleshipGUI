@@ -8,12 +8,10 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -86,24 +84,16 @@ public class Main extends Application {
             System.out.println("Connected to Watchtower.");
         } catch (Exception e) {connected = false; System.out.println("Error establishing initial server connection.");}
         if (connected) {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    lc.enableLogin();
-                }
-            });
+            Platform.runLater(() -> lc.enableLogin());
         } else {
             lc.setLblMessage("Unable to reach the server");
         }
     }
 
     private void handleShutdown() {
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent t) {
-                ex.shutdownNow();
-                Platform.exit();
-            }
+        stage.setOnCloseRequest(t -> {
+            ex.shutdownNow();
+            Platform.exit();
         });
     }
 
@@ -153,13 +143,11 @@ public class Main extends Application {
         Platform.runLater(sg);
     }
 
-    protected void login(String user, String pass) {
+    void login(String user, String pass) {
         Runnable lgin = () -> {
             System.out.println("Received call to log in. Attempts = " + attempts);
             if (attempts < 5) {
-                String u = user;
-                String p = pass;
-                LoginObject lo = new LoginObject(true, u, p);
+                LoginObject lo = new LoginObject(true, user, pass);
                 Transmission t = new Transmission(lo);
                 try {
                     os.writeObject(t);
@@ -205,12 +193,7 @@ public class Main extends Application {
                                                 startGUI();
                                             } catch (Exception e) {System.out.println("Error starting client GUI.");}
                                 } else {
-                                    Platform.runLater(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            lc.setLblMessage("Login attempt " + attempts + "/5 unsuccessful.");
-                                        }
-                                    });
+                                    Platform.runLater(() -> lc.setLblMessage("Login attempt " + attempts + "/5 unsuccessful."));
                                 }
                             }
                     } else if(inGame) {
@@ -265,9 +248,7 @@ public class Main extends Application {
                                             Platform.runLater(() -> lc.disableLogin());
                                             for (int i = 30; i > 0; i--) {
                                                 final int iFin = i;
-                                                Platform.runLater(() -> {
-                                                    lc.lblMessage.setText("You were kicked. [" + iFin + "]");
-                                                });
+                                                Platform.runLater(() -> lc.lblMessage.setText("You were kicked. [" + iFin + "]"));
                                                 try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
                                             }
                                             Platform.runLater(() -> {
@@ -291,8 +272,8 @@ public class Main extends Application {
                             }
                         }
                     } catch (SocketException soe) {System.out.println("Client disconnected via closing socket.");}
-                catch (EOFException eof) {System.out.println("Disconnected from the server."); logout(); break;}
-                catch (Exception e) {System.out.println("Error receiving transmission."); e.printStackTrace();}
+                      catch (EOFException eof) {System.out.println("Disconnected from the server."); logout(); break;}
+                      catch (Exception e) {System.out.println("Error receiving transmission."); e.printStackTrace();}
             }
         };
 
@@ -308,16 +289,11 @@ public class Main extends Application {
                 os.writeObject(new Transmission(username + ": " + msg));
                 os.flush();
             } catch (Exception e) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        lc.setLblMessage("Error sending message.");
-                    }
-                });}
+                Platform.runLater(() -> lc.setLblMessage("Error sending message."));}
         }
     }
 
-    public void send(Transmission t) {
+    private void send(Transmission t) {
         try {
             os.writeObject(t);
             os.flush();
@@ -352,7 +328,9 @@ public class Main extends Application {
     }
 
     public void gameRequest(String otherPlayerUsername) {
-        //TODO
+        try {
+            os.writeObject(new Transmission(new GameObject(new GameRequest(otherPlayerUsername))));
+        } catch (IOException e) {e.printStackTrace();}
     }
 
     public String getUsername() {

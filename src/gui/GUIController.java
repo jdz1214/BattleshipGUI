@@ -1,11 +1,13 @@
 package gui;
 
 import client.Main;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class GUIController implements Initializable {
@@ -33,6 +35,7 @@ public class GUIController implements Initializable {
             }
             if(!selected.equals(m.getUsername())){
                 m.gameRequest(selected);
+                System.out.println("Started Main gamerequest with " + selected);
             } else {
                 lblInfo.setText("You cannot start a game with yourself!");
             }
@@ -56,6 +59,26 @@ public class GUIController implements Initializable {
         if (msg.length() > 0) {
             m.send(msg);
             chatTextField.setText("");
+        }
+    }
+
+    @FXML
+    public void confirmRequest(String opponentUsername) {
+        System.out.println("Opened confirmRequest dialog.");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("New Game Request!");
+        alert.setHeaderText(opponentUsername + " has requested to battle you!");
+        alert.setContentText("Do you accept this challenge?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            // ... user chose OK
+            // /// TODO: 8/2/16
+            Platform.runLater(() -> m.newGame(opponentUsername));
+            System.out.println("Client Main accepted game request from dialog.");
+
+        } else {
+            // ... user chose CANCEL or closed the dialog
         }
     }
 	

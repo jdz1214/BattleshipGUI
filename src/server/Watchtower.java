@@ -170,12 +170,21 @@ public class Watchtower extends Application {
     }
 	
 	public void newGame (ClientRunnable player1, ClientRunnable player2) {
-        Game newGame;
-		try {
-			newGame = new Game(player1, player2, this);
-			gamePool.execute(newGame);
-		} catch (IOException e) {e.printStackTrace();} catch (Exception e) {e.printStackTrace();}
+        Game newGame = new Game(player1, player2, this);
+        gamePool.submit(newGame);
+        System.out.println("Watchtower started newGame.");
     }
+
+    public ClientRunnable getClientRunnable(String username) {
+        ClientRunnable retCr = null;
+        for (ClientRunnable cr : clientList) {
+            if (cr.getUsername().equals(username)) {
+                retCr = cr;
+            }
+        }
+        return retCr;
+    }
+
 
     enum Status {INGAME, SPECTATING, AVAILABLE, UNAVAILABLE}
 }

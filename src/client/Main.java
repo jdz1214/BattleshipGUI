@@ -106,13 +106,14 @@ public class Main extends Application {
         ready = true;
     }
 	
-	private void startGUI() {
+	public void startGUI() {
         Runnable stgui = () -> {
             if (connected && loggedIn) {
                 try {
                 stage.getScene().getWindow().hide();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/gui.fxml"));
                 Parent parent = loader.load();
+                gc = null;
                 gc = loader.getController();
                 gc.init(this);
                 Scene scene = new Scene(parent);
@@ -124,7 +125,7 @@ public class Main extends Application {
         Platform.runLater(stgui);
 	}
 
-	private void startGame() {
+	private void startGame(String opponentUsername) {
         inGame = true;
 	    Runnable sg = () -> {
 	        if (connected && loggedIn) {
@@ -133,7 +134,7 @@ public class Main extends Application {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/game.fxml"));
                     Parent parent = loader.load();
                     gameController = loader.getController();
-                    gameController.init(this);
+                    gameController.init(this, opponentUsername);
                     Scene scene = new Scene(parent);
                     stage.setScene(scene);
                     stage.show();
@@ -208,7 +209,7 @@ public class Main extends Application {
                                         Game.Gamestate gs = go.getGamestate();
                                         switch (gs) {
                                             case preGame:
-                                                startGame();
+                                                startGame(go.getOpponentUsername());
                                                 break;
 
                                             case youAreUp:
@@ -267,7 +268,18 @@ public class Main extends Application {
                                     }
                                     break;
                                 case GAMEOBJECT:
-                                    //TODO
+                                    System.out.println("Main received GameObject.");
+                                    GameObject go = t.getGameObject();
+                                    GameObject.GameObjectType gto = go.getGameObjectType();
+                                    switch (gto) {
+                                        case GAMEREQUEST:
+                                            confirmRequest(go.getGameRequest().getUsername());
+                                            break;
+                                        case GAMESTATE:
+                                            if (go.getGamestate() == Game.Gamestate.preGame) {
+                                                startGame(go.getOpponentUsername());
+                                            }
+                                    }
                                     break;
                             }
                         }
@@ -330,7 +342,26 @@ public class Main extends Application {
     public void gameRequest(String otherPlayerUsername) {
         try {
             os.writeObject(new Transmission(new GameObject(new GameRequest(otherPlayerUsername))));
+            os.flush();
         } catch (IOException e) {e.printStackTrace();}
+        System.out.println("Sent gameRequest.");
+    }
+
+    public void newGame(String opponentUsername) {
+        try {
+            os.writeObject(new Transmission(new GameObject(opponentUsername)));
+            os.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Client Main initiated Watchtower newGame.");
+    }
+
+    public void confirmRequest(String opponentUsername) {
+        //TODO
+        //Create dialog box that asks for user confirmation of new game, and includes opponent's username.
+        Platform.runLater(() -> gc.confirmRequest(opponentUsername));
+
     }
 
     public String getUsername() {

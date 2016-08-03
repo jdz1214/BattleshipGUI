@@ -3,7 +3,7 @@ package commoncore;
 import java.io.Serializable;
 
 
-public class Transmission implements Serializable{
+public class Transmission implements Serializable {
 	
 	private static final long serialVersionUID = 4852737544034013158L;
     private TransmissionType transmissionType;

@@ -89,6 +89,7 @@ public class ClientRunnable implements Runnable {
                                 case CHATMESSAGE:
 
                                 case GAMEOBJECT:
+                                    System.out.println("Received GameObject @ ClientRunnable.");
                                     GameObject go = t.getGameObject();
                                     switch (go.getGameObjectType()) {
                                         case ATTACK:
@@ -114,15 +115,11 @@ public class ClientRunnable implements Runnable {
                                                     //TODO set attack board uneditable
                                                     break;
 
-
                                             }
-                                            break;
-                                        case GAMEREQUEST:
-                                            // TODO
                                             break;
                                     }
                             }
-                        } else {
+                        } else { // Not in game
                         switch (t.getTransmissionType()) {
                             case CHATMESSAGE:
                                 String msg = t.getChatMessage();
@@ -137,6 +134,35 @@ public class ClientRunnable implements Runnable {
                                         break;
                                     case LOGOUT:
                                         logout();
+                                        break;
+                                }
+                                break;
+                            case GAMEOBJECT:
+                                System.out.println("Received GameObject @ ClientRunnable.");
+                                GameObject go = t.getGameObject();
+                                switch (go.getGameObjectType()) {
+                                    case GAMEREQUEST:
+                                        System.out.println("Received gameRequest from Main.");
+                                        String opponentUsername = t.getGameObject().getGameRequest().getUsername();
+                                        ClientRunnable cr = w.getClientRunnable(opponentUsername);
+                                        if (cr != null) {
+                                            try {
+                                                cr.getObjectOutputStream().writeObject(new Transmission(new GameObject((new GameRequest(username)))));
+                                                cr.getObjectOutputStream().flush();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                            System.out.println("Wrote opponent's Main a new gameRequest.");
+                                            //Because it is from this username (and not from 'opponentUsername')
+                                        } else {
+                                            System.out.println("Error handling gamerequest transaction.");
+                                        }
+                                        break;
+                                    case GAMEBOARD:
+                                        break;
+                                    case NEWGAME:
+                                        ClientRunnable player1 = w.getClientRunnable(go.getOpponentUsername());
+                                        w.newGame(player1, this);
                                         break;
                                 }
                                 break;
@@ -245,13 +271,14 @@ public class ClientRunnable implements Runnable {
     }
 
     //Game methods
-    public void enterGameMode(Game game, int playerNumber) {
+    public void enterGameMode(Game game, String opponentUsername, int playerNumber) {
         w.clientOs.remove(os);
         this.game = game;
         this.playerNumber = playerNumber;
         this.status = Watchtower.Status.INGAME;
         try {
             os.writeObject(new Transmission(new GameObject(Game.Gamestate.preGame)));
+            os.flush();
         } catch (IOException e) {System.out.println("Error sending client's preGame transmission.");}
     }
 

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static commoncore.Game.Gamestate.youAreNotUp;
+
 public class Game implements Runnable {
 	private Watchtower watchtower;
     public  ArrayList<ObjectOutputStream> gc;
@@ -22,18 +24,14 @@ public class Game implements Runnable {
 	public enum Gamestate { gameOn, gameOver, youAreUp, youAreNotUp, preGame }
 	
 	//Constructors
-	public Game (ClientRunnable p1, ClientRunnable p2, Watchtower watchtower) throws Exception {
+	public Game (ClientRunnable p1, ClientRunnable p2, Watchtower watchtower) {
 	    this.watchtower = watchtower;
 		this.p1 = p1;
 		this.p2 = p2;
-        this.p1.enterGameMode(this, 1);
-        this.p2.enterGameMode(this, 2);
+        init();
 		gameOver = false;
-		gameboard = new Gameboard();
-		gameboard.resetServerBoard();
-		gc = new ArrayList<>();
-        gc.add(p1.getObjectOutputStream());
-        gc.add(p2.getObjectOutputStream());
+        //TODO gameboard development in progress.
+		//gameboard = new Gameboard();
         determineFirst();
 		gamestate = Gamestate.gameOn;
 		run();
@@ -44,6 +42,11 @@ public class Game implements Runnable {
 	public void run() {
         notifyPlayers();
 	}
+
+	private void init() {
+	    p1.enterGameMode(this, p2.getUsername(), 1);
+        p2.enterGameMode(this, p1.getUsername(), 2);
+    }
 
 	public void determineFirst() {
 		//Choose random player to go first
@@ -101,13 +104,12 @@ public class Game implements Runnable {
         }
 
     }
+
 	public void notifyPlayers () {
 	    ClientRunnable otherPlayer = (playerUp.equals(p1)) ? p2 : p1;
-		Transmission youAreUp = new Transmission(new GameObject(Gamestate.youAreUp));
-        Transmission youAreNotUp = new Transmission(new GameObject(Gamestate.youAreNotUp));
         try {
-            playerUp.getObjectOutputStream().writeObject(youAreUp);
-            otherPlayer.getObjectOutputStream().writeObject(youAreNotUp);
+            playerUp.getObjectOutputStream().writeObject(new Transmission(new GameObject(Gamestate.youAreUp)));
+            otherPlayer.getObjectOutputStream().writeObject(new Transmission(new GameObject(youAreNotUp)));
         } catch (IOException e) {System.out.println("Error writing client 'your turn' transmissions.");}
     }
 	
@@ -119,11 +121,28 @@ public class Game implements Runnable {
 		private String defaultRow = "~~~~~";
 		
 		//Constructor
-		public Gameboard() {}
-		
-		
+		public Gameboard() {
+            resetServerBoard();
+        }
+
+        public void resetServerBoard() {
+            //initialize to default
+            String row = "";
+
+            for (int i = 0; i < defaultRows; i++) {
+                row = row + "~";
+            }
+
+            Gameboard gameboard = new Gameboard();
+            //Server board gets double the normal amount of columns because it consists of both players' boards in one.
+            for (int i = 0; i < defaultCols*2; i++) {
+                gameboard.add(i, row);
+            }
+        }
+
 		//Methods
 		public Gameboard buildClientBoard(int playerNumber, Gameboard serverboard) {
+		    //TODO needs rebuilding.
 			Gameboard clientBoard = new Gameboard();
 			clientBoard.resetClientBoard(clientBoard);
 			if (playerNumber == 1) {
@@ -138,20 +157,7 @@ public class Game implements Runnable {
 			}
 			return clientBoard;
 		}
-		public void resetServerBoard() {
-			//initialize to default
-			String row = "";
-			
-			for (int i = 0; i < defaultRows; i++) {
-				row = row + "~";
-			}
-			
-			Gameboard gameboard = new Gameboard();
-			//Server board gets double the normal amount of columns because it consists of both players' boards in one.
-			for (int i = 0; i < defaultCols*2; i++) {
-				gameboard.add(i, row);
-			}
-		}
+
 		public void resetClientBoard(Gameboard clientBoard) {
 			for (int i = 0; i < 4; i++) {
 				clientBoard.add(i, defaultRow);

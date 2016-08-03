@@ -13,6 +13,8 @@ public class GameObject implements Serializable {
 	History history;
 	GameRequest gameRequest;
 	GameObjectType gameObjectType;
+    String opponentUsername;
+    String username;
 	public enum GameObjectType {
 		ATTACK, 
 		ATTACKRESULT, 
@@ -20,7 +22,8 @@ public class GameObject implements Serializable {
 		HISTORY, 
 		GAMESTATE,
 		GAMEREQUEST,
-		GAMEBOARD
+		GAMEBOARD,
+		NEWGAME
 	}
 	
 	// Constructors
@@ -53,6 +56,11 @@ public class GameObject implements Serializable {
 		this.gameboard = gameboard;
 		this.gameObjectType = GameObjectType.GAMEBOARD;
 	}
+
+	public GameObject (String opponentUsername) {
+	    this.gameObjectType = GameObjectType.NEWGAME;
+        this.opponentUsername = opponentUsername;
+    }
 	
 	// Getters
 	public Attack getAttack() {
@@ -82,6 +90,14 @@ public class GameObject implements Serializable {
 	public GameObjectType getGameObjectType() {
 		return gameObjectType;
 	}
+
+	public String getOpponentUsername() {
+	    return opponentUsername;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 
 	//Setters
 	public void setAttack(Attack attack) {

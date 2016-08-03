@@ -21,21 +21,28 @@ public class GameController implements Initializable {
     @FXML private Button btnQuit;
     @FXML private TextArea txtGameChat;
     @FXML private TextField txtInput;
-    @FXML private Main app;
+    @FXML private Main m;
+          private String opponentUsername;
 
 
     @FXML
     private void quit() {
-        //TODO
+        m.startGUI();
     }
 
     @FXML private void onEnter() {
-        //TODO send message for gamechat
+        String msg = txtInput.getText();
+        if (msg != null) {
+            m.send(txtInput.getText());
+            txtInput.setText("");
+        }
+
     }
 
     @FXML
-    public void init(Main app) {
-        this.app = app;
+    public void init(Main m, String opponentUsername) {
+        this.m = m;
+        lblAttackHistory.setText("Attack History vs. " + opponentUsername);
     }
 
     @FXML

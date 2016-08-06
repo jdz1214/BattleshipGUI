@@ -32,23 +32,25 @@ public class Watchtower extends Application {
 	private ExecutorService gamePool;
 	private ServerSocket ss;
 	private Boolean atWar;
-    ObservableList<ClientRunnable> clientList;
+    ObservableList<String> usernameList;
+	ObservableList<ClientRunnable> clientList;
     ArrayList<ObjectOutputStream> clientOs;
 	private SimpleDateFormat sdf;
     private Stage stage;
     private ServerController sc;
     private SimpleListProperty<String> lp;
     private Connection connect;
-    ObservableList<String> usernameList;
 
-    //Constructor
-	public Watchtower () throws Exception {
+	//Constructor
+	public Watchtower () {
         int port = 1500;
 		clientList = FXCollections.observableList(new ArrayList<ClientRunnable>());
-        ObservableList<String> usernameList = FXCollections.observableList(new ArrayList<String>());
+        usernameList = FXCollections.observableList(new ArrayList<String>());
         clientOs = new ArrayList<>();
         lp = new SimpleListProperty<>(usernameList);
-        ss = new ServerSocket(port);
+        try {
+            ss = new ServerSocket(port);
+        } catch (IOException e) {e.printStackTrace();}
         lobby = Executors.newFixedThreadPool(50);
 		gamePool = Executors.newFixedThreadPool(10);
         atWar = true;
@@ -58,11 +60,14 @@ public class Watchtower extends Application {
     public static void main(String[] args) {launch(args);}
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         boot();
         stage = primaryStage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/server/watchtower.fxml"));
-        Parent parent = loader.load();
+        Parent parent = null;
+        try {
+            parent = loader.load();
+        } catch (IOException e) {System.out.println("FXMLLoader failed to load initial parent.");}
         sc = loader.getController();
         sc.init(this);
         sc.clientList.itemsProperty().bind(lp);
@@ -128,17 +133,19 @@ public class Watchtower extends Application {
                     break;
                 }
             }
-        } catch (SQLException e) {System.out.println("Error in SQL querying.");}
+        } catch (SQLException e) {e.printStackTrace(); System.out.println("Error in SQL querying.");} //Put SQL reconnection script in catch block
         return success;
     }
 
     void broadcast(String msg) {
         sc.txtAreaConsole.appendText(msg + "\n");
-        for (ObjectOutputStream clientO : clientOs) {
-            try {
-                clientO.writeObject(new Transmission(msg + "\n"));
-            } catch (IOException e) {
-                System.out.println("Error broadcasting message");
+        if (clientOs.size() > 0) {
+            for (ObjectOutputStream clientO : clientOs) {
+                try {
+                    clientO.writeObject(new Transmission(msg + "\n"));
+                } catch (IOException e) {
+                    System.out.println("Error broadcasting message");
+                }
             }
         }
     }
@@ -162,13 +169,22 @@ public class Watchtower extends Application {
         }
     }
 	
-	public void newGame (ClientRunnable player1, ClientRunnable player2) throws Exception {
-        Game newGame;
-		try {
-			newGame = new Game(player1, player2);
-			gamePool.execute(newGame);
-		} catch (IOException e) {e.printStackTrace();}
-	}
+	public void newGame (ClientRunnable player1, ClientRunnable player2) {
+        Game newGame = new Game(player1, player2, this);
+        gamePool.submit(newGame);
+        System.out.println("Watchtower started newGame.");
+    }
+
+    public ClientRunnable getClientRunnable(String username) {
+        ClientRunnable retCr = null;
+        for (ClientRunnable cr : clientList) {
+            if (cr.getUsername().equals(username)) {
+                retCr = cr;
+            }
+        }
+        return retCr;
+    }
+
 
     enum Status {INGAME, SPECTATING, AVAILABLE, UNAVAILABLE}
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="2267447799">
-    <data-source source="LOCAL" name="MySQL - BattleshipDB" uuid="ef1d5b2e-dbf0-47a8-9d31-0e69de5f5391">
+  <component name="DataSourceManagerImpl" format="xml" hash="759897173">
+    <data-source source="LOCAL" name="BattleshipDB" uuid="77914e7f-05d9-4dbf-bbd3-ecb6fbee79bc">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>

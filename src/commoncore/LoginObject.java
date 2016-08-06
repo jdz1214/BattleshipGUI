@@ -17,6 +17,10 @@ public class LoginObject implements Serializable {
 		this.username = username;
 		this.password = password;
 	}
+	public LoginObject (Type t) {
+	    super();
+        this.type = t;
+    }
 
 	public enum Type {
 		LOGIN,
@@ -49,11 +53,4 @@ public class LoginObject implements Serializable {
         this.type = type;
     }
 
-	public void setUsername(String userName) {
-		this.username = userName;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
 }

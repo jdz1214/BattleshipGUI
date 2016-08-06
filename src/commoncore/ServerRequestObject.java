@@ -3,8 +3,6 @@ package commoncore;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import commoncore.Game.GameRequest;
-
 public class ServerRequestObject implements Serializable {
 
 	private static final long serialVersionUID = -3360166450589642180L;
@@ -28,9 +26,8 @@ public class ServerRequestObject implements Serializable {
 		serverRequestObjectType = ServerRequestObjectType.CLIENTREQUEST;
 	}
 	
-	public ServerRequestObject (ArrayList<String> lobbyList) {
-		this.lobbyList = new ArrayList<>();
-		this.lobbyList.addAll(lobbyList);
+	public ServerRequestObject (ArrayList<String> lobbyList ) {
+	    this.lobbyList = new ArrayList<>(lobbyList);
 		serverRequestObjectType = ServerRequestObjectType.LOBBYLIST;
 	}
 	

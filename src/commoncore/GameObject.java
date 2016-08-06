@@ -5,15 +5,16 @@ import commoncore.Game.*;
 import java.io.Serializable;
 
 public class GameObject implements Serializable {
-	
 	private static final long serialVersionUID = -4391807776691961968L;
-	private Attack attack;
-	private AttackResult attackResult;
-	private Gamestate gamestate;
-	private Gameboard gameboard;
-	private History history;
-	private GameRequest gameRequest;
-	private GameObjectType gameObjectType;
+	Attack attack;
+	AttackResult attackResult;
+	Gamestate gamestate;
+	Gameboard gameboard;
+	History history;
+	GameRequest gameRequest;
+	GameObjectType gameObjectType;
+    String opponentUsername;
+    String username;
 	public enum GameObjectType {
 		ATTACK, 
 		ATTACKRESULT, 
@@ -21,21 +22,22 @@ public class GameObject implements Serializable {
 		HISTORY, 
 		GAMESTATE,
 		GAMEREQUEST,
-		GAMEBOARD
+		GAMEBOARD,
+		NEWGAME
 	}
 	
 	// Constructors
-	GameObject(Attack attack) {
+	public GameObject (Attack attack) {
 		this.attack = attack;
 		this.gameObjectType = GameObjectType.ATTACK;
 	}
 	
-	GameObject(AttackResult attackResult) {
+	public GameObject (AttackResult attackResult) {
 		this.attackResult = attackResult;
 		this.gameObjectType = GameObjectType.ATTACKRESULT;
 	}
 	
-	GameObject(Gamestate gamestate) {
+	public GameObject (Gamestate gamestate) {
 		this.gamestate = gamestate;
 		this.gameObjectType = GameObjectType.GAMESTATE;
 	}
@@ -54,21 +56,26 @@ public class GameObject implements Serializable {
 		this.gameboard = gameboard;
 		this.gameObjectType = GameObjectType.GAMEBOARD;
 	}
+
+	public GameObject (String opponentUsername) {
+	    this.gameObjectType = GameObjectType.NEWGAME;
+        this.opponentUsername = opponentUsername;
+    }
 	
 	// Getters
-	Attack getAttack() {
+	public Attack getAttack() {
 		return attack;
 	}
 
-	AttackResult getAttackResult() {
+	public AttackResult getAttackResult() {
 		return attackResult;
 	}
 
-	Gamestate getGamestate() {
+	public Gamestate getGamestate() {
 		return gamestate;
 	}
 
-	History getHistory() {
+	public History getHistory() {
 		return history;
 	}
 
@@ -76,13 +83,21 @@ public class GameObject implements Serializable {
 		return gameRequest;
 	}
 
-	Gameboard getGameboard() {
+	public Gameboard getGameboard() {
 		return gameboard;
 	}
 	
 	public GameObjectType getGameObjectType() {
 		return gameObjectType;
 	}
+
+	public String getOpponentUsername() {
+	    return opponentUsername;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 
 	//Setters
 	public void setAttack(Attack attack) {

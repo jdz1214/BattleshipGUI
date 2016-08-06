@@ -1,11 +1,9 @@
 package commoncore;
 
-import server.ClientRunnable;
-
 import java.io.Serializable;
 
 
-public class Transmission implements Serializable{
+public class Transmission implements Serializable {
 	
 	private static final long serialVersionUID = 4852737544034013158L;
     private TransmissionType transmissionType;
@@ -28,7 +26,7 @@ public class Transmission implements Serializable{
 		this.transmissionType = TransmissionType.CHATMESSAGE;
 	}
 	
-	Transmission(GameObject gameObject) {
+	public Transmission (GameObject gameObject) {
 		this.gameObject = gameObject;
 		this.transmissionType = TransmissionType.GAMEOBJECT;
 	}
@@ -72,10 +70,6 @@ public class Transmission implements Serializable{
 		}
 		else {System.out.println("Transmission type was incorrect for " + this.toString());}
 		return loginObject;
-	}
-
-	public Game requestGame(ClientRunnable clientRunnable1, ClientRunnable clientRunnable2) throws Exception {
-		return new Game (clientRunnable1, clientRunnable2);
 	}
 	
 	public void setTransmissionType(TransmissionType transmissionType) {

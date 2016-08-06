@@ -1,77 +1,55 @@
-package client;
+package gui;
 
-import javafx.event.ActionEvent;
+import client.Main;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
+import javafx.scene.control.*;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class GUIController implements Initializable {
 
 	@FXML private Main m;
-	@FXML private MenuItem menuNewGame;
-	@FXML private MenuItem menuListPlayers;
-	@FXML private MenuItem menuLogout;
+    @FXML private TitledPane titlePane;
+    @FXML private Label lblInfo;
+    @FXML private ListView<String> lstUsers;
 	@FXML private TextArea txtChatArea;
-	@FXML private GridPane gameGrid;
 	@FXML private TextField chatTextField;
-	@FXML private Text grid00;
-	@FXML private Text grid01;
-	@FXML private Text grid02;
-	@FXML private Text grid03;
-	@FXML private Text grid04;
-	@FXML private Text grid05;
-	@FXML private Text grid10;
-	@FXML private Text grid11;
-	@FXML private Text grid12;
-	@FXML private Text grid13;
-	@FXML private Text grid14;
-	@FXML private Text grid15;
-	@FXML private Text grid20;
-	@FXML private Text grid21;
-	@FXML private Text grid22;
-	@FXML private Text grid23;
-	@FXML private Text grid24;
-	@FXML private Text grid25;
-	@FXML private Text grid30;
-	@FXML private Text grid31;
-	@FXML private Text grid32;
-	@FXML private Text grid33;
-	@FXML private Text grid34;
-	@FXML private Text grid35;
-	@FXML private Text grid40;
-	@FXML private Text grid41;
-	@FXML private Text grid42;
-	@FXML private Text grid43;
-	@FXML private Text grid44;
-	@FXML private Text grid45;
-	@FXML private Text grid50;
-	@FXML private Text grid51;
-	@FXML private Text grid52;
-	@FXML private Text grid53;
-	@FXML private Text grid54;
-	@FXML private Text grid55;
 
 	@FXML
-    void updateChat(String msg) {
-        txtChatArea.appendText(msg + "\n");
+    public void updateChat(String msg) {
+        txtChatArea.appendText(msg);
     }
 	
 	@FXML
-	public void newGameActionEvent(ActionEvent e) {
-		// TODO
-		//Get username
-		m.gameRequest();
+	public void startNewGame() {
+	    String selected = lstUsers.getSelectionModel().getSelectedItem();
+        if(selected == null) {
+            lblInfo.setText("Please select a user from the 'Users' list first.");
+        } else {
+            if(lblInfo.getText().equals("Please select a user from the 'Users' list first.")) {
+                lblInfo.setText("");
+            }
+            if(!selected.equals(m.getUsername())){
+                m.gameRequest(selected);
+                System.out.println("Started Main gamerequest with " + selected);
+            } else {
+                lblInfo.setText("You cannot start a game with yourself!");
+            }
+
+        }
 	}
-	
+
 	@FXML
-	public void listPlayersActionEvent(ActionEvent e) {
+    public void startSpectate() {
+	    //TODO
+    }
+
+	@FXML
+	public void listPlayersActionEvent() {
 		m.listPlayers();
 	}
 
@@ -83,21 +61,51 @@ public class GUIController implements Initializable {
             chatTextField.setText("");
         }
     }
+
+    @FXML
+    public void confirmRequest(String opponentUsername) {
+        System.out.println("Opened confirmRequest dialog.");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("New Game Request!");
+        alert.setHeaderText(opponentUsername + " has requested to battle you!");
+        alert.setContentText("Do you accept this challenge?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            // ... user chose OK
+            // /// TODO: 8/2/16
+            Platform.runLater(() -> m.newGame(opponentUsername));
+            System.out.println("Client Main accepted game request from dialog.");
+
+        } else {
+            // ... user chose CANCEL or closed the dialog
+        }
+    }
 	
 	@FXML
-	public void logoutActionEvent(ActionEvent e) {
+	public void logoutActionEvent() {
 		m.logout();
 	}
 	
 	@FXML
-	public void onEnter(ActionEvent e) {
+	public void onEnter() {
 		sendMessage();
 	}
 
 	@FXML
-	void init(Main m) {
+    public void aboutClick() {
+        if (lblInfo.getText().equals("Battleship © 2016 Atlas Innovation LLC All Rights Reserved.")) {
+            lblInfo.setText("");
+        } else {
+            lblInfo.setText("Battleship © 2016 Atlas Innovation LLC All Rights Reserved.");
+        }
+    }
+	@FXML
+	public void init(Main m) {
 		this.m = m;
-	}
+        lstUsers.itemsProperty().bind(m.slp);
+        titlePane.setText("BATTLESHIP - Lobby: " + m.getUsername());
+    }
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

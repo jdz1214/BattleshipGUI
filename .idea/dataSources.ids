@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="BattleshipDB" uuid="77914e7f-05d9-4dbf-bbd3-ecb6fbee79bc">
+    <database-info product="MySQL" version="5.7.11-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.6">
+      <schema id="1" name="Battleship">
+        <visible>1</visible>
+      </schema>
+      <schema id="2" name="information_schema"/>
+      <schema id="3" name="innodb"/>
+      <schema id="4" name="mysql"/>
+      <schema id="5" name="performance_schema"/>
+      <schema id="6" name="sys"/>
+      <schema id="7" name="tmp"/>
+      <table id="8" parent="1" name="login"/>
+      <column id="9" parent="8" name="username">
+        <mandatory>1</mandatory>
+        <data-type>varchar(45)|0</data-type>
+      </column>
+      <column id="10" parent="8" name="password">
+        <mandatory>1</mandatory>
+        <data-type>varchar(45)|0</data-type>
+      </column>
+      <index id="11" parent="8" name="username_UNIQUE">
+        <columns>username</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="12" parent="8" name="PRIMARY">
+        <columns>username</columns>
+        <primary>1</primary>
+      </key>
+      <key id="13" parent="8" name="username_UNIQUE">
+        <columns>username</columns>
+        <underlying-index>username_UNIQUE</underlying-index>
+      </key>
+    </database-model>
+  </data-source>
+</component>

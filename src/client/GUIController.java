@@ -1,7 +1,6 @@
 package gui;
 
 import client.Main;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -23,6 +22,11 @@ public class GUIController implements Initializable {
     public void updateChat(String msg) {
         txtChatArea.appendText(msg);
     }
+
+    @FXML
+    public void updateInfoLabel(String newText) {
+        lblInfo.setText(newText);
+    }
 	
 	@FXML
 	public void startNewGame() {
@@ -36,6 +40,7 @@ public class GUIController implements Initializable {
             if(!selected.equals(m.getUsername())){
                 m.gameRequest(selected);
                 System.out.println("Started Main gamerequest with " + selected);
+                lblInfo.setText("");
             } else {
                 lblInfo.setText("You cannot start a game with yourself!");
             }
@@ -74,7 +79,7 @@ public class GUIController implements Initializable {
         if (result.get() == ButtonType.OK){
             // ... user chose OK
             // /// TODO: 8/2/16
-            Platform.runLater(() -> m.newGame(opponentUsername));
+            m.newGame(opponentUsername);
             System.out.println("Client Main accepted game request from dialog.");
 
         } else {

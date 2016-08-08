@@ -19,16 +19,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
+import static commoncore.GameObject.GameObjectType.QUIT;
 
 
 public class Main extends Application {
+    //Network
+
+    //Graphic
     private Stage stage;
+    private Scene guiScene;
+    private Scene loginScene;
+    private Scene gameScene;
     private LoginController lc;
     private GUIController gc;
     private GameController gameController;
-    private ExecutorService ex;
     private String address;
     private int port;
     private Socket s;
@@ -38,34 +43,35 @@ public class Main extends Application {
     private Boolean connected;
     private Boolean loggedIn;
     private Boolean inGame;
-    private int attempts;
+    private int loginAttempts;
     private String username;
-    private Scene loginScene;
     private ObservableList<String> usernameList;
     public SimpleListProperty<String> slp;
 
     public Main() {
         address = "localhost";
         port = 1500;
-        ex = Executors.newFixedThreadPool(10);
         connected = false;
         loggedIn = false;
         inGame = false;
-        attempts = 0;
+        loginAttempts = 0;
         usernameList = FXCollections.observableArrayList();
         slp = new SimpleListProperty<>(usernameList);
         ready = false;
     }
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
-        ex = Executors.newFixedThreadPool(10);
+	public void start(Stage primaryStage) {
         stage = primaryStage;
         handleShutdown();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/Login.fxml"));
-        Parent root = loader.load();
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {e.printStackTrace();}
         lc = loader.getController();
         lc.init(this);
+        assert root != null;
         loginScene = new Scene(root);
         loginScene.getStylesheets().add("/client/application.css");
         stage.setScene(loginScene);
@@ -81,98 +87,14 @@ public class Main extends Application {
             os = new ObjectOutputStream(s.getOutputStream());
             is = new ObjectInputStream(s.getInputStream());
             connected = true;
-            System.out.println("Connected to Watchtower.");
         } catch (Exception e) {connected = false; System.out.println("Error establishing initial server connection.");}
         if (connected) {
-            Platform.runLater(() -> lc.enableLogin());
+            System.out.println("Connected to Watchtower.");
+            lc.setLblMessage("Connected to Watchtower. Please log in.");
+            lc.enableLogin();
         } else {
-            lc.setLblMessage("Unable to reach the server");
+            lc.setLblMessage("Unable to reach the server.");
         }
-    }
-
-    private void handleShutdown() {
-        stage.setOnCloseRequest(t -> {
-            ex.shutdownNow();
-            Platform.exit();
-        });
-    }
-
-    private void startLogin() throws Exception {
-        stage.getScene().getWindow().hide();
-        //getConnection();
-        stage.setScene(loginScene);
-        stage.show();
-        //receive();
-        ready = true;
-    }
-	
-	public void startGUI() {
-        Runnable stgui = () -> {
-            if (connected && loggedIn) {
-                try {
-                stage.getScene().getWindow().hide();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/gui.fxml"));
-                Parent parent = loader.load();
-                gc = null;
-                gc = loader.getController();
-                gc.init(this);
-                Scene scene = new Scene(parent);
-                stage.setScene(scene);
-                stage.show();
-                } catch (IOException e) {e.printStackTrace();}
-            }
-        };
-        Platform.runLater(stgui);
-	}
-
-	private void startGame(String opponentUsername) {
-        inGame = true;
-	    Runnable sg = () -> {
-	        if (connected && loggedIn) {
-	            try {
-	                stage.getScene().getWindow().hide();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/game.fxml"));
-                    Parent parent = loader.load();
-                    gameController = loader.getController();
-                    gameController.init(this, opponentUsername);
-                    Scene scene = new Scene(parent);
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {System.out.println("Error setting up game GUI.");}
-            }
-        };
-        Platform.runLater(sg);
-    }
-
-    void login(String user, String pass) {
-        Runnable lgin = () -> {
-            System.out.println("Received call to log in. Attempts = " + attempts);
-            if (attempts < 5) {
-                LoginObject lo = new LoginObject(true, user, pass);
-                Transmission t = new Transmission(lo);
-                try {
-                    os.writeObject(t);
-                    os.flush();
-                } catch (Exception e) {
-                    System.out.println("Error sending login attempt to server.");
-                }
-                attempts++;
-            } else {
-                System.out.println("You have failed to log in too many times.");
-                lc.disableLogin();
-                connected = false;
-                try {
-                    is.close();
-                    os.close();
-                    s.shutdownInput();
-                    s.shutdownOutput();
-                    s.close();
-                } catch (Exception e) {
-                    System.out.println("Error in shutdown after too many incorrect attempts.");
-                }
-            }
-        };
-        Platform.runLater(lgin);
     }
 
     private void receive() {
@@ -183,35 +105,36 @@ public class Main extends Application {
                 try {
                     t = (Transmission) is.readObject();
                     if (!loggedIn) {
-                            if (t.getTransmissionType() == Transmission.TransmissionType.LOGINOBJECT) {
-                                LoginObject lo = t.getLoginObject();
-                                Boolean successful = lo.getLoginSuccess();
-                                if (successful) {
-                                    loggedIn = true;
-                                    username = lo.getUsername();
-
-                                            try {
-                                                startGUI();
-                                            } catch (Exception e) {System.out.println("Error starting client GUI.");}
-                                } else {
-                                    Platform.runLater(() -> lc.setLblMessage("Login attempt " + attempts + "/5 unsuccessful."));
-                                }
+                        if (t.getTransmissionType() == Transmission.TransmissionType.LOGINOBJECT) {
+                            LoginObject lo = t.getLoginObject();
+                            if (lo.getLoginSuccess()) {
+                                loggedIn = true;
+                                username = lo.getUsername();
+                                startGUI();
+                            } else {
+                                Platform.runLater(() -> lc.setLblMessage("Login attempt " + loginAttempts + "/5 was unsuccessful."));
                             }
-                    } else if(inGame) {
+                        }
+                    } else if (inGame) {
                         switch (t.getTransmissionType()) {
                             case CHATMESSAGE:
                                 String msg = t.getChatMessage();
-                                gc.updateChat(msg);
+                                Platform.runLater(() -> gameController.updateChat(msg));
+                                break;
                             case GAMEOBJECT:
                                 GameObject go = t.getGameObject();
                                 switch (go.getGameObjectType()) {
+                                    case QUIT:
+                                        System.out.println("Received QUIT object.");
+                                        if (inGame) {
+                                            Platform.runLater(() -> gameController.disableChat());
+                                            Platform.runLater(() -> gameController.updateChat("[" + go.getUserWhoQuit() + "has quit.]"));
+                                        }
+                                        endGame();
+                                        break;
                                     case GAMESTATE:
                                         Game.Gamestate gs = go.getGamestate();
                                         switch (gs) {
-                                            case preGame:
-                                                startGame(go.getOpponentUsername());
-                                                break;
-
                                             case youAreUp:
                                                 //TODO set attack board editable
                                                 break;
@@ -222,98 +145,133 @@ public class Main extends Application {
                                         }
                                         break;
                                 }
-                            }
-                        } else { // Lobby activity
-                            switch (t.getTransmissionType()) {
-                                case CHATMESSAGE:
-                                    String msg = t.getChatMessage();
-                                    if (msg.length() > 0) {
-                                        gc.updateChat(msg);
-                                    }
-                                    break;
-                                case LOGINOBJECT:
-                                    LoginObject lo = t.getLoginObject();
-                                    switch (lo.getType()) {
-                                        case LOGOUT:
-                                            logout();
-                                            break;
-                                        case LOGIN:
-                                            System.out.println("Error: Received login obj but already logged in.");
-                                            break;
-                                        case KICK:
-                                            System.out.println("[Kicked from server]");
-                                            logout();
-                                            while(!ready) {
-                                                Thread.sleep(10);
-                                            }
-                                            Platform.runLater(() -> lc.disableLogin());
-                                            for (int i = 30; i > 0; i--) {
-                                                final int iFin = i;
-                                                Platform.runLater(() -> lc.lblMessage.setText("You were kicked. [" + iFin + "]"));
-                                                try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
-                                            }
-                                            Platform.runLater(() -> {
-                                                lc.setLblMessage("");
-                                                lc.enableLogin();
-                                            });
-                                            break;
-                                    }
-                                    break;
-                                case SERVERREQUESTOBJECT:
-                                    ServerRequestObject sro = t.getServerRequestObject();
-                                    switch (sro.getServerRequestObjectType()) {
-                                        case LOBBYLIST:
-                                            usernameList = FXCollections.observableArrayList(sro.getLobbyList());
-                                            Platform.runLater(() -> slp.set(usernameList));
-                                    }
-                                    break;
-                                case GAMEOBJECT:
-                                    System.out.println("Main received GameObject.");
-                                    GameObject go = t.getGameObject();
-                                    GameObject.GameObjectType gto = go.getGameObjectType();
-                                    switch (gto) {
-                                        case GAMEREQUEST:
-                                            confirmRequest(go.getGameRequest().getUsername());
-                                            break;
-                                        case GAMESTATE:
-                                            if (go.getGamestate() == Game.Gamestate.preGame) {
-                                                startGame(go.getOpponentUsername());
-                                            }
-                                    }
-                                    break;
-                            }
+                                break;
                         }
-                    } catch (SocketException soe) {System.out.println("Client disconnected via closing socket.");}
-                      catch (EOFException eof) {System.out.println("Disconnected from the server."); logout(); break;}
-                      catch (Exception e) {System.out.println("Error receiving transmission."); e.printStackTrace();}
+                    } else { // Lobby activity
+                        switch (t.getTransmissionType()) {
+                            case CHATMESSAGE:
+                                String msg = t.getChatMessage();
+                                if (msg.length() > 0) {
+                                    Platform.runLater(() -> gc.updateChat(msg));
+                                }
+                                break;
+                            case LOGINOBJECT:
+                                LoginObject lo = t.getLoginObject();
+                                switch (lo.getType()) {
+                                    case LOGOUT:
+                                        logout();
+                                        break;
+                                    case LOGIN:
+                                        System.out.println("Error: Received login obj but already logged in.");
+                                        break;
+                                    case KICK:
+                                        System.out.println("[Kicked from server]");
+                                        logout();
+                                        while(!ready) {
+                                            Thread.sleep(10);
+                                        }
+                                        Platform.runLater(() -> lc.disableLogin());
+                                        for (int i = 30; i > 0; i--) {
+                                            final int iFin = i;
+                                            Platform.runLater(() -> lc.lblMessage.setText("You were kicked. [" + iFin + "]"));
+                                            try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
+                                        }
+                                        Platform.runLater(() -> {
+                                            lc.setLblMessage("");
+                                            lc.enableLogin();
+                                        });
+                                        break;
+                                }
+                                break;
+                            case SERVERREQUESTOBJECT:
+                                ServerRequestObject sro = t.getServerRequestObject();
+                                switch (sro.getServerRequestObjectType()) {
+                                    case LOBBYLIST:
+                                        usernameList = FXCollections.observableArrayList(sro.getLobbyList());
+                                        Platform.runLater(() -> slp.set(usernameList));
+                                }
+                                break;
+                            case GAMEOBJECT:
+                                System.out.println("Main received GameObject.");
+                                GameObject go = t.getGameObject();
+                                GameObject.GameObjectType gto = go.getGameObjectType();
+                                switch (gto) {
+                                    case GAMEREQUEST:
+                                        confirmRequest(go.getGameRequest().getUsername());
+                                        break;
+                                    case GAMESTATE:
+                                        if (go.getGamestate() == Game.Gamestate.preGame) {
+                                            startGame(go.getOpponentUsername());
+                                        }
+                                        break;
+                                }
+                                break;
+                        }
+                    }
+                } catch (SocketException soe) {System.out.println("Client disconnected via closing socket.");}
+                catch (EOFException eof) {System.out.println("Disconnected from the server."); logout(); break;}
+                catch (Exception e) {System.out.println("Error receiving transmission."); e.printStackTrace();}
             }
         };
 
-        Thread r = new Thread(receive);
-        r.setDaemon(true);
-        r.start();
+        Thread t = new Thread(receive);
+        t.setDaemon(true);
+        t.start();
+        //
         System.out.println("Started receive thread.");
     }
 
-    public void send(String msg) {
-        if (msg.length() > 0) {
+    public void startGUI() {
+        Runnable stgui = () -> {
+            if (connected && loggedIn) {
+                stage.getScene().getWindow().hide();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/gui.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException e) {e.printStackTrace();}
+                gc = loader.getController();
+                gc.init(this);
+                assert root != null;
+                guiScene = new Scene(root);
+                stage.setScene(guiScene);
+                stage.show();
+            }
+        };
+        Platform.runLater(stgui);
+    }
+
+    public void showGUI() {
+        Runnable stgui = () -> {
+            gc.updateInfoLabel("");
+            inGame = false;
             try {
-                os.writeObject(new Transmission(username + ": " + msg));
+                os.writeObject(new Transmission(new GameObject(QUIT, username)));
                 os.flush();
-            } catch (Exception e) {
-                Platform.runLater(() -> lc.setLblMessage("Error sending message."));}
-        }
+            } catch (IOException e) {e.printStackTrace();}
+            stage.getScene().getWindow().hide();
+
+            if (connected && loggedIn) {
+                stage.setScene(guiScene);
+                stage.show();
+            } else {
+                showLogin();
+            }
+        };
+        Platform.runLater(stgui);
     }
 
-    private void send(Transmission t) {
-        try {
-            os.writeObject(t);
-            os.flush();
-        } catch (Exception e) {System.out.println("Error sending transmission object");}
-    }
-
-    public void listPlayers() {
-        send(new Transmission(new ServerRequestObject(ServerRequestObject.ServerRequestObjectType.CLIENTREQUEST)));
+    private void showLogin() {
+        Runnable shLogin = () -> {
+            stage.getScene().getWindow().hide();
+            loggedIn = false;
+            if (connected) {
+                lc.enableLogin();
+            }
+            stage.setScene(loginScene);
+            stage.show();
+        };
+        Platform.runLater(shLogin);
     }
 
     public void logout() {
@@ -328,21 +286,101 @@ public class Main extends Application {
             os.writeObject(new Transmission(lo));
             os.flush();
         } catch (IOException e) {e.printStackTrace();}
-        //ex.shutdownNow();
         loggedIn = false;
         username = "";
-        attempts = 0;
+        loginAttempts = 0;
         Platform.runLater(() -> {
             try {
-                startLogin();
+                showLogin();
             } catch (Exception e) {System.out.println("Error restarting login gui");}
         });
+    }
+
+    private void handleShutdown() {
+        stage.setOnCloseRequest(t -> {
+            Platform.exit();
+        });
+    }
+
+	private void startGame(String opponentUsername) {
+        inGame = true;
+	    Runnable sg = () -> {
+	        if (connected && loggedIn) {
+                stage.getScene().getWindow().hide();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/game.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                    gameScene = new Scene(root);
+                } catch (IOException e) {e.printStackTrace();}
+                gameController = loader.getController();
+                gameController.init(this, opponentUsername);
+                stage.setScene(gameScene);
+                stage.show();
+            }
+        };
+        Platform.runLater(sg);
+    }
+
+    void login(String user, String pass) {
+        Runnable lgin = () -> {
+            System.out.println("Received call to log in. Attempts = " + loginAttempts);
+            if (loginAttempts < 5) {
+                LoginObject lo = new LoginObject(true, user, pass);
+                Transmission t = new Transmission(lo);
+                try {
+                    os.writeObject(t);
+                    os.flush();
+                } catch (Exception e) {
+                    System.out.println("Error sending login attempt to server.");
+                }
+                loginAttempts++;
+            } else {
+                System.out.println("You have failed to log in too many times.");
+                lc.disableLogin();
+                connected = false;
+                try {
+                    is.close();
+                    os.close();
+                    s.shutdownInput();
+                    s.shutdownOutput();
+                    s.close();
+                } catch (Exception e) {
+                    System.out.println("Error in shutdown after too many incorrect loginAttempts.");
+                }
+            }
+        };
+        Platform.runLater(lgin);
+    }
+
+    public void send(String msg) {
+        if (msg.length() > 0) {
+            try {
+                os.writeObject(new Transmission(username + ": " + msg));
+                os.flush();
+            } catch (Exception e) {
+                Platform.runLater(() -> lc.setLblMessage("Error sending message."));}
+        }
+    }
+
+    public void send(Transmission t) {
+        try {
+            os.writeObject(t);
+            os.flush();
+        } catch (Exception e) {System.out.println("Error sending transmission object");}
+    }
+
+    public void listPlayers() {
+        send(new Transmission(new ServerRequestObject(ServerRequestObject.ServerRequestObjectType.CLIENTREQUEST)));
     }
 
     public void gameRequest(String otherPlayerUsername) {
         try {
             os.writeObject(new Transmission(new GameObject(new GameRequest(otherPlayerUsername))));
             os.flush();
+            Platform.runLater( () -> {
+                gc.updateInfoLabel("Game request sent.");
+            });
         } catch (IOException e) {e.printStackTrace();}
         System.out.println("Sent gameRequest.");
     }
@@ -355,6 +393,8 @@ public class Main extends Application {
             e.printStackTrace();
         }
         System.out.println("Client Main initiated Watchtower newGame.");
+        startGame(opponentUsername);
+
     }
 
     public void confirmRequest(String opponentUsername) {
@@ -362,6 +402,11 @@ public class Main extends Application {
         //Create dialog box that asks for user confirmation of new game, and includes opponent's username.
         Platform.runLater(() -> gc.confirmRequest(opponentUsername));
 
+    }
+
+    private void endGame() {
+        Platform.runLater(() -> gameController.disableChat());
+        inGame = false;
     }
 
     public String getUsername() {

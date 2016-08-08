@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static commoncore.GameObject.GameObjectType.QUIT;
+
 
 public class ClientRunnable implements Runnable {
     private Socket s;
@@ -26,6 +28,7 @@ public class ClientRunnable implements Runnable {
     private ObjectOutputStream os;
     private int attempts;
     private Watchtower w;
+    private ClientRunnable opponent;
     //Game variables
     private Game game;
     private Game.Gameboard board;
@@ -87,7 +90,10 @@ public class ClientRunnable implements Runnable {
                         if (status == Watchtower.Status.INGAME) {
                             switch (t.getTransmissionType()) {
                                 case CHATMESSAGE:
-
+                                    assert t.getChatMessage().length() > 0;
+                                    opponent.getObjectOutputStream().writeObject(new Transmission(t.getChatMessage()));
+                                    opponent.getObjectOutputStream().flush();
+                                    break;
                                 case GAMEOBJECT:
                                     System.out.println("Received GameObject @ ClientRunnable.");
                                     GameObject go = t.getGameObject();
@@ -117,6 +123,12 @@ public class ClientRunnable implements Runnable {
 
                                             }
                                             break;
+                                        case QUIT:
+                                            if (opponent != null) {
+                                                opponent.endGame();
+                                            }
+                                            endGame();
+                                            break;
                                     }
                             }
                         } else { // Not in game
@@ -143,7 +155,7 @@ public class ClientRunnable implements Runnable {
                                 switch (go.getGameObjectType()) {
                                     case GAMEREQUEST:
                                         System.out.println("Received gameRequest from Main.");
-                                        String opponentUsername = t.getGameObject().getGameRequest().getUsername();
+                                        String opponentUsername = go.getGameRequest().getUsername();
                                         ClientRunnable cr = w.getClientRunnable(opponentUsername);
                                         if (cr != null) {
                                             try {
@@ -163,6 +175,7 @@ public class ClientRunnable implements Runnable {
                                     case NEWGAME:
                                         ClientRunnable player1 = w.getClientRunnable(go.getOpponentUsername());
                                         w.newGame(player1, this);
+                                        opponentUsername = player1.getUsername();
                                         break;
                                 }
                                 break;
@@ -272,12 +285,16 @@ public class ClientRunnable implements Runnable {
 
     //Game methods
     public void enterGameMode(Game game, String opponentUsername, int playerNumber) {
+        System.out.println(opponentUsername + " ClientRunnable line 283");
         w.clientOs.remove(os);
         this.game = game;
         this.playerNumber = playerNumber;
         this.status = Watchtower.Status.INGAME;
+        opponent = game.getClientRunnable(opponentUsername);
         try {
-            os.writeObject(new Transmission(new GameObject(Game.Gamestate.preGame)));
+            GameObject go = new GameObject(Game.Gamestate.preGame);
+            go.setOpponentUsername(opponentUsername);
+            os.writeObject(new Transmission(go));
             os.flush();
         } catch (IOException e) {System.out.println("Error sending client's preGame transmission.");}
     }
@@ -294,9 +311,16 @@ public class ClientRunnable implements Runnable {
         return history;
     }
 
-    public void quit() {
-        game.gc.remove(os);
+    public void endGame() {
+        try {
+            os.writeObject(new Transmission(new GameObject(QUIT, username)));
+            os.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         w.clientOs.add(os);
         status = Watchtower.Status.AVAILABLE;
+        game = null;
+        opponent = null;
     }
 }

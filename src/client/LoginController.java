@@ -35,9 +35,8 @@ public class LoginController implements Initializable {
 
     @FXML
     void enableLogin() {
+        txtPassword.setText(""); // Only password so username can be prefilled when returning to login later.
         txtPassword.setEditable(true);
-        txtPassword.setDisable(false);
-        txtUsername.setDisable(false);
         txtUsername.setEditable(true);
         btnLogin.setDisable(false);
     }

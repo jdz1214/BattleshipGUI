@@ -15,6 +15,7 @@ public class GameObject implements Serializable {
 	GameObjectType gameObjectType;
     String opponentUsername;
     String username;
+    String userWhoQuit;
 	public enum GameObjectType {
 		ATTACK, 
 		ATTACKRESULT, 
@@ -23,10 +24,14 @@ public class GameObject implements Serializable {
 		GAMESTATE,
 		GAMEREQUEST,
 		GAMEBOARD,
-		NEWGAME
+		NEWGAME,
+		QUIT
 	}
 	
 	// Constructors
+
+    public GameObject () {}
+
 	public GameObject (Attack attack) {
 		this.attack = attack;
 		this.gameObjectType = GameObjectType.ATTACK;
@@ -58,10 +63,14 @@ public class GameObject implements Serializable {
 	}
 
 	public GameObject (String opponentUsername) {
-	    this.gameObjectType = GameObjectType.NEWGAME;
         this.opponentUsername = opponentUsername;
+	    this.gameObjectType = GameObjectType.NEWGAME;
     }
-	
+
+    public GameObject (GameObjectType QUIT, String userWhoQuit) {
+        this.gameObjectType = QUIT;
+        this.userWhoQuit = userWhoQuit;
+    }
 	// Getters
 	public Attack getAttack() {
 		return attack;
@@ -99,6 +108,8 @@ public class GameObject implements Serializable {
         return username;
     }
 
+    public String getUserWhoQuit() { return userWhoQuit; }
+
 	//Setters
 	public void setAttack(Attack attack) {
 		this.attack = attack;
@@ -123,6 +134,8 @@ public class GameObject implements Serializable {
 	public void setGameBoard (Gameboard gameboard) {
 		this.gameboard = gameboard;
 	}
+
+	public void setOpponentUsername (String opponentUsername) {this.opponentUsername = opponentUsername;}
 	
 	public void setGameObjectType(GameObjectType gameObjectType) {
 		this.gameObjectType = gameObjectType;

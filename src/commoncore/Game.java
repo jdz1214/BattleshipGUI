@@ -4,7 +4,6 @@ import server.ClientRunnable;
 import server.Watchtower;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -12,8 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static commoncore.Game.Gamestate.youAreNotUp;
 
 public class Game implements Runnable {
-	private Watchtower watchtower;
-    public  ArrayList<ObjectOutputStream> gc;
+	private Watchtower w;
 	private ClientRunnable p1;
 	private ClientRunnable p2;
 	private ClientRunnable winner;
@@ -24,8 +22,8 @@ public class Game implements Runnable {
 	public enum Gamestate { gameOn, gameOver, youAreUp, youAreNotUp, preGame }
 	
 	//Constructors
-	public Game (ClientRunnable p1, ClientRunnable p2, Watchtower watchtower) {
-	    this.watchtower = watchtower;
+	public Game (ClientRunnable p1, ClientRunnable p2, Watchtower w) {
+	    this.w = w;
 		this.p1 = p1;
 		this.p2 = p2;
         init();
@@ -121,24 +119,7 @@ public class Game implements Runnable {
 		private String defaultRow = "~~~~~";
 		
 		//Constructor
-		public Gameboard() {
-            resetServerBoard();
-        }
-
-        public void resetServerBoard() {
-            //initialize to default
-            String row = "";
-
-            for (int i = 0; i < defaultRows; i++) {
-                row = row + "~";
-            }
-
-            Gameboard gameboard = new Gameboard();
-            //Server board gets double the normal amount of columns because it consists of both players' boards in one.
-            for (int i = 0; i < defaultCols*2; i++) {
-                gameboard.add(i, row);
-            }
-        }
+		public Gameboard() {}
 
 		//Methods
 		public Gameboard buildClientBoard(int playerNumber, Gameboard serverboard) {
@@ -165,11 +146,21 @@ public class Game implements Runnable {
 		}
 	}
 	
-
+    public ClientRunnable getClientRunnable (String crUsername) {
+        ClientRunnable cr = null;
+        if (crUsername.equals(p1.getUsername())) {
+            cr = p1;
+        } else if (crUsername.equals(p2.getUsername())) {
+            cr = p2;
+        }
+        assert cr!= null;
+        return cr;
+    }
 	
 	protected class Spot {
-		public int x = 0;
-		public int y = 0;
+		private int x = 0;
+		private int y = 0;
+        private char chr = '~';
 		//Constructors
 		public Spot () {};
 		public Spot (int x, int y) {
@@ -581,6 +572,12 @@ public class Game implements Runnable {
 		History history;
 		
 		//Constructor
-		public History () {}
+		public History () {
+			for (int i = 0; i < 5; i++) {
+				for (int j = 0; j < 5; j++) {
+
+				}
+			}
+		}
 	}
 }

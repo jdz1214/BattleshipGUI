@@ -171,7 +171,9 @@ public class Watchtower extends Application {
 	
 	public void newGame (ClientRunnable player1, ClientRunnable player2) {
         Game newGame = new Game(player1, player2, this);
-        gamePool.submit(newGame);
+        Thread gameThread = new Thread(newGame);
+        gameThread.setDaemon(true);
+        gameThread.start();
         System.out.println("Watchtower started newGame.");
     }
 

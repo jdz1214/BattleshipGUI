@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static commoncore.Game.Gamestate.youAreNotUp;
 
 public class Game implements Runnable {
 	private Watchtower w;
@@ -46,7 +45,7 @@ public class Game implements Runnable {
         p2.enterGameMode(this, p1.getUsername(), 2);
     }
 
-	public void determineFirst() {
+	private void determineFirst() {
 		//Choose random player to go first
 		int rand = ThreadLocalRandom.current().nextInt(0, 2);
 		int first = rand + 1;
@@ -80,7 +79,7 @@ public class Game implements Runnable {
 		}
 	}
 	
-	public ClientRunnable determineWinner(int player1HitsRemaining, int player2HitsRemaining) {
+	private ClientRunnable determineWinner(int player1HitsRemaining, int player2HitsRemaining) {
 		winner = null;
 		if (player1HitsRemaining == 0) {
 			gamestate = Gamestate.gameOver;
@@ -93,22 +92,17 @@ public class Game implements Runnable {
 		return winner;
 	}
 
-	public void relayAttack(Attack attack, ClientRunnable attackingPlayer) {
-	    if (attackingPlayer.equals(playerUp)) {
-
-
-
+	public void validateAttack (Attack attack, ClientRunnable attackingPlayer) {
+		if (attackingPlayer == playerUp) {
 
         }
 
     }
 
-	public void notifyPlayers () {
+	private void notifyPlayers() {
 	    ClientRunnable otherPlayer = (playerUp.equals(p1)) ? p2 : p1;
-        try {
-            playerUp.getObjectOutputStream().writeObject(new Transmission(new GameObject(Gamestate.youAreUp)));
-            otherPlayer.getObjectOutputStream().writeObject(new Transmission(new GameObject(youAreNotUp)));
-        } catch (IOException e) {System.out.println("Error writing client 'your turn' transmissions.");}
+        playerUp.notifyUp(true);
+        otherPlayer.notifyUp(false);
     }
 	
 	//Classes
@@ -157,7 +151,7 @@ public class Game implements Runnable {
         return cr;
     }
 	
-	protected class Spot {
+	class Spot {
 		private int x = 0;
 		private int y = 0;
         private char chr = '~';
@@ -327,10 +321,10 @@ public class Game implements Runnable {
 		}
 	}
 	
-	protected class Ship {
-		public int shipLength; //Ship length, in number of Spots. Must be greater than 1 && less than 5.
-		public int hitsRemaining;
-		public ArrayList<Spot> locations = null; //Each ship has the board coordinates it occupies as its location.
+	class Ship {
+		int shipLength; //Ship length, in number of Spots. Must be greater than 1 && less than 5.
+		int hitsRemaining;
+		ArrayList<Spot> locations = null; //Each ship has the board coordinates it occupies as its location.
 		//Constructor
 		public Ship (int shipLength) {
 			this.shipLength = shipLength;
@@ -343,11 +337,11 @@ public class Game implements Runnable {
 			return this.shipLength;
 		}
 		
-		public int getHitsRemaining() {
+		int getHitsRemaining() {
 			return this.hitsRemaining;
 		}
 		
-		public ArrayList<Spot> placeShip(ArrayList<Spot> spotPool) {
+		ArrayList<Spot> placeShip(ArrayList<Spot> spotPool) {
 			ArrayList<Spot> updatedSpotPool = spotPool;
 			String alignment;
 			ArrayList<Spot> tempLocations = new ArrayList<>();

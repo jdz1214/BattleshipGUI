@@ -311,7 +311,24 @@ public class ClientRunnable implements Runnable {
         return history;
     }
 
-    public void endGame() {
+    public void notifyUp(Boolean isUp) {
+        myTurn = isUp;
+        if (myTurn) {
+            try {
+                os.writeObject(new Transmission(new GameObject(Game.Gamestate.youAreUp)));
+                os.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                os.writeObject(new Transmission(new GameObject(Game.Gamestate.youAreNotUp)));
+                os.flush();
+            } catch (IOException e) { e.printStackTrace(); }
+        }
+    }
+
+    private void endGame() {
         try {
             os.writeObject(new Transmission(new GameObject(QUIT, username)));
             os.flush();

@@ -1,7 +1,7 @@
-package gui;
+package client;
 
-import client.Main;
 import commoncore.Game;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -19,10 +19,9 @@ public class GameController implements Initializable {
     @FXML private GridPane gridAttackHistory;
     @FXML private GridPane gridFleet;
     @FXML private Button btnQuit;
+    @FXML private Button btnAttack;
     @FXML private TextArea txtGameChat;
     @FXML private TextField txtInput;
-    @FXML private Main m;
-          private String opponentUsername;
     @FXML private Text gridHistory00;
     @FXML private Text gridHistory01;
     @FXML private Text gridHistory02;
@@ -59,6 +58,8 @@ public class GameController implements Initializable {
     @FXML private Text gridHistory53;
     @FXML private Text gridHistory54;
     @FXML private Text gridHistory55;
+    private Main m;
+    private String opponentUsername;
 
 
     @FXML
@@ -75,10 +76,15 @@ public class GameController implements Initializable {
         this.m = m;
         titledPane.setText("Battleship - Game: " + m.getUsername());
         lblAttackHistory.setText("Attack History vs. " + opponentUsername);
+        btnAttack.setDisable(true);
+    }
+
+    @FXML
+    public void enableAttack() {
+        btnAttack.setDisable(false);
     }
 
     public void updateHistory(Game.History history) {
-        //for (int i = 0; i < )
         //Todo
     }
 
@@ -104,4 +110,7 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {}
+
+    @FXML public void attack(ActionEvent actionEvent) {
+    }
 }

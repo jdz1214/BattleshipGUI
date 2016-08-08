@@ -1,8 +1,6 @@
 package client;
 
 import commoncore.*;
-import gui.GUIController;
-import gui.GameController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
@@ -24,15 +22,12 @@ import static commoncore.GameObject.GameObjectType.QUIT;
 
 
 public class Main extends Application {
-    //Network
-
-    //Graphic
     private Stage stage;
     private Scene guiScene;
     private Scene loginScene;
     private Scene gameScene;
     private LoginController lc;
-    private GUIController gc;
+    private GUIController guiController;
     private GameController gameController;
     private String address;
     private int port;
@@ -46,7 +41,7 @@ public class Main extends Application {
     private int loginAttempts;
     private String username;
     private ObservableList<String> usernameList;
-    public SimpleListProperty<String> slp;
+    SimpleListProperty<String> slp;
 
     public Main() {
         address = "localhost";
@@ -128,7 +123,7 @@ public class Main extends Application {
                                         System.out.println("Received QUIT object.");
                                         if (inGame) {
                                             Platform.runLater(() -> gameController.disableChat());
-                                            Platform.runLater(() -> gameController.updateChat("[" + go.getUserWhoQuit() + "has quit.]"));
+                                            Platform.runLater(() -> gameController.updateChat("[" + go.getUserWhoQuit() + " has quit.]"));
                                         }
                                         endGame();
                                         break;
@@ -152,7 +147,7 @@ public class Main extends Application {
                             case CHATMESSAGE:
                                 String msg = t.getChatMessage();
                                 if (msg.length() > 0) {
-                                    Platform.runLater(() -> gc.updateChat(msg));
+                                    Platform.runLater(() -> guiController.updateChat(msg));
                                 }
                                 break;
                             case LOGINOBJECT:
@@ -221,17 +216,17 @@ public class Main extends Application {
         System.out.println("Started receive thread.");
     }
 
-    public void startGUI() {
+    private void startGUI() {
         Runnable stgui = () -> {
             if (connected && loggedIn) {
                 stage.getScene().getWindow().hide();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/gui.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui.fxml"));
                 Parent root = null;
                 try {
                     root = loader.load();
                 } catch (IOException e) {e.printStackTrace();}
-                gc = loader.getController();
-                gc.init(this);
+                guiController = loader.getController();
+                guiController.init(this);
                 assert root != null;
                 guiScene = new Scene(root);
                 stage.setScene(guiScene);
@@ -241,9 +236,9 @@ public class Main extends Application {
         Platform.runLater(stgui);
     }
 
-    public void showGUI() {
-        Runnable stgui = () -> {
-            gc.updateInfoLabel("");
+    void showGUI() {
+        Runnable shGUI = () -> {
+            guiController.updateInfoLabel("");
             inGame = false;
             try {
                 os.writeObject(new Transmission(new GameObject(QUIT, username)));
@@ -258,7 +253,7 @@ public class Main extends Application {
                 showLogin();
             }
         };
-        Platform.runLater(stgui);
+        Platform.runLater(shGUI);
     }
 
     private void showLogin() {
@@ -274,11 +269,11 @@ public class Main extends Application {
         Platform.runLater(shLogin);
     }
 
-    public void logout() {
+    void logout() {
         try {
             Platform.runLater(() -> {
                 stage.getScene().getWindow().hide();
-                gc.updateChat("[" + username + " logged out]");
+                guiController.updateChat("[" + username + " logged out]");
             });
             LoginObject lo = new LoginObject();
             lo.setType(LoginObject.Type.LOGOUT);
@@ -297,9 +292,7 @@ public class Main extends Application {
     }
 
     private void handleShutdown() {
-        stage.setOnCloseRequest(t -> {
-            Platform.exit();
-        });
+        stage.setOnCloseRequest(t -> Platform.exit());
     }
 
 	private void startGame(String opponentUsername) {
@@ -307,7 +300,7 @@ public class Main extends Application {
 	    Runnable sg = () -> {
 	        if (connected && loggedIn) {
                 stage.getScene().getWindow().hide();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/game.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/game.fxml"));
                 Parent root = null;
                 try {
                     root = loader.load();
@@ -363,29 +356,27 @@ public class Main extends Application {
         }
     }
 
-    public void send(Transmission t) {
+    private void send(Transmission t) {
         try {
             os.writeObject(t);
             os.flush();
         } catch (Exception e) {System.out.println("Error sending transmission object");}
     }
 
-    public void listPlayers() {
+    void listPlayers() {
         send(new Transmission(new ServerRequestObject(ServerRequestObject.ServerRequestObjectType.CLIENTREQUEST)));
     }
 
-    public void gameRequest(String otherPlayerUsername) {
+    void gameRequest(String otherPlayerUsername) {
         try {
             os.writeObject(new Transmission(new GameObject(new GameRequest(otherPlayerUsername))));
             os.flush();
-            Platform.runLater( () -> {
-                gc.updateInfoLabel("Game request sent.");
-            });
+            Platform.runLater( () -> guiController.updateInfoLabel("Game request sent."));
         } catch (IOException e) {e.printStackTrace();}
         System.out.println("Sent gameRequest.");
     }
 
-    public void newGame(String opponentUsername) {
+    void newGame(String opponentUsername) {
         try {
             os.writeObject(new Transmission(new GameObject(opponentUsername)));
             os.flush();
@@ -397,10 +388,10 @@ public class Main extends Application {
 
     }
 
-    public void confirmRequest(String opponentUsername) {
+    private void confirmRequest(String opponentUsername) {
         //TODO
         //Create dialog box that asks for user confirmation of new game, and includes opponent's username.
-        Platform.runLater(() -> gc.confirmRequest(opponentUsername));
+        Platform.runLater(() -> guiController.confirmRequest(opponentUsername));
 
     }
 

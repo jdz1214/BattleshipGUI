@@ -311,7 +311,7 @@ public class ClientRunnable implements Runnable {
         return history;
     }
 
-    public void endGame() {
+    private void endGame() {
         try {
             os.writeObject(new Transmission(new GameObject(QUIT, username)));
             os.flush();

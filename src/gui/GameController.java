@@ -22,7 +22,6 @@ public class GameController implements Initializable {
     @FXML private TextArea txtGameChat;
     @FXML private TextField txtInput;
     @FXML private Main m;
-          private String opponentUsername;
     @FXML private Text gridHistory00;
     @FXML private Text gridHistory01;
     @FXML private Text gridHistory02;
@@ -59,6 +58,7 @@ public class GameController implements Initializable {
     @FXML private Text gridHistory53;
     @FXML private Text gridHistory54;
     @FXML private Text gridHistory55;
+    private String opponentUsername;
 
 
     @FXML
@@ -78,7 +78,6 @@ public class GameController implements Initializable {
     }
 
     public void updateHistory(Game.History history) {
-        //for (int i = 0; i < )
         //Todo
     }
 

@@ -7,9 +7,9 @@ import java.io.Serializable;
 
 public class GameRequest implements Serializable {
     private static final long serialVersionUID = -1L;
-    ClientRunnable client1;
-    ClientRunnable client2;
-    String opponentUsername;
+    private ClientRunnable client1;
+    private ClientRunnable client2;
+    private String opponentUsername;
 
     public GameRequest (String opponentUsername) { //For client side of request
         this.opponentUsername = opponentUsername;

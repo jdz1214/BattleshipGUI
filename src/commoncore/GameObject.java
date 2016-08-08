@@ -6,16 +6,16 @@ import java.io.Serializable;
 
 public class GameObject implements Serializable {
 	private static final long serialVersionUID = -4391807776691961968L;
-	Attack attack;
-	AttackResult attackResult;
-	Gamestate gamestate;
-	Gameboard gameboard;
-	History history;
-	GameRequest gameRequest;
-	GameObjectType gameObjectType;
-    String opponentUsername;
-    String username;
-    String userWhoQuit;
+	private Attack attack;
+	private AttackResult attackResult;
+	private Gamestate gamestate;
+	private Gameboard gameboard;
+	private History history;
+	private GameRequest gameRequest;
+	private GameObjectType gameObjectType;
+    private String opponentUsername;
+    private String username;
+    private String userWhoQuit;
 	public enum GameObjectType {
 		ATTACK, 
 		ATTACKRESULT, 
@@ -32,7 +32,7 @@ public class GameObject implements Serializable {
 
     public GameObject () {}
 
-	public GameObject (Attack attack) {
+	GameObject(Attack attack) {
 		this.attack = attack;
 		this.gameObjectType = GameObjectType.ATTACK;
 	}

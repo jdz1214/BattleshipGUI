@@ -1,6 +1,5 @@
-package gui;
+package client;
 
-import client.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -11,7 +10,11 @@ import java.util.ResourceBundle;
 
 public class GUIController implements Initializable {
 
-	@FXML private Main m;
+    @FXML private Button btnNewGame;
+    @FXML private Button btnSpectate;
+    @FXML private Button btnLogout;
+    @FXML private Button btnAbout;
+    @FXML private Main m;
     @FXML private TitledPane titlePane;
     @FXML private Label lblInfo;
     @FXML private ListView<String> lstUsers;
@@ -19,12 +22,12 @@ public class GUIController implements Initializable {
 	@FXML private TextField chatTextField;
 
 	@FXML
-    public void updateChat(String msg) {
+    void updateChat(String msg) {
         txtChatArea.appendText(msg);
     }
 
     @FXML
-    public void updateInfoLabel(String newText) {
+    void updateInfoLabel(String newText) {
         lblInfo.setText(newText);
     }
 	
@@ -68,7 +71,7 @@ public class GUIController implements Initializable {
     }
 
     @FXML
-    public void confirmRequest(String opponentUsername) {
+    void confirmRequest(String opponentUsername) {
         System.out.println("Opened confirmRequest dialog.");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("New Game Request!");
@@ -82,8 +85,6 @@ public class GUIController implements Initializable {
             m.newGame(opponentUsername);
             System.out.println("Client Main accepted game request from dialog.");
 
-        } else {
-            // ... user chose CANCEL or closed the dialog
         }
     }
 	
@@ -106,16 +107,13 @@ public class GUIController implements Initializable {
         }
     }
 	@FXML
-	public void init(Main m) {
+    void init(Main m) {
 		this.m = m;
         lstUsers.itemsProperty().bind(m.slp);
         titlePane.setText("BATTLESHIP - Lobby: " + m.getUsername());
     }
 	
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void initialize(URL location, ResourceBundle resources) {}
 
 }

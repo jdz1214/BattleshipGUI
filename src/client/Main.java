@@ -1,8 +1,6 @@
 package client;
 
 import commoncore.*;
-import gui.GUIController;
-import gui.GameController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
@@ -222,7 +220,7 @@ public class Main extends Application {
         Runnable stgui = () -> {
             if (connected && loggedIn) {
                 stage.getScene().getWindow().hide();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/gui.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui.fxml"));
                 Parent root = null;
                 try {
                     root = loader.load();
@@ -238,8 +236,8 @@ public class Main extends Application {
         Platform.runLater(stgui);
     }
 
-    public void showGUI() {
-        Runnable stgui = () -> {
+    void showGUI() {
+        Runnable shGUI = () -> {
             guiController.updateInfoLabel("");
             inGame = false;
             try {
@@ -255,7 +253,7 @@ public class Main extends Application {
                 showLogin();
             }
         };
-        Platform.runLater(stgui);
+        Platform.runLater(shGUI);
     }
 
     private void showLogin() {
@@ -302,7 +300,7 @@ public class Main extends Application {
 	    Runnable sg = () -> {
 	        if (connected && loggedIn) {
                 stage.getScene().getWindow().hide();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/game.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/game.fxml"));
                 Parent root = null;
                 try {
                     root = loader.load();

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static commoncore.Game.Gamestate.youAreNotUp;
 
 public class Game implements Runnable {
 	private Watchtower w;
@@ -93,11 +92,8 @@ public class Game implements Runnable {
 		return winner;
 	}
 
-	public void relayAttack(Attack attack, ClientRunnable attackingPlayer) {
-	    if (attackingPlayer.equals(playerUp)) {
-
-
-
+	public void validateAttack (Attack attack, ClientRunnable attackingPlayer) {
+		if (attackingPlayer == playerUp) {
 
         }
 
@@ -105,10 +101,8 @@ public class Game implements Runnable {
 
 	private void notifyPlayers() {
 	    ClientRunnable otherPlayer = (playerUp.equals(p1)) ? p2 : p1;
-        try {
-            playerUp.getObjectOutputStream().writeObject(new Transmission(new GameObject(Gamestate.youAreUp)));
-            otherPlayer.getObjectOutputStream().writeObject(new Transmission(new GameObject(youAreNotUp)));
-        } catch (IOException e) {System.out.println("Error writing client 'your turn' transmissions.");}
+        playerUp.notifyUp(true);
+        otherPlayer.notifyUp(false);
     }
 	
 	//Classes

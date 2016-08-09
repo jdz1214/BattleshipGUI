@@ -419,7 +419,7 @@
             <Label fx:id="lblYourFleet" layoutX="238.0" layoutY="871.0" text="Your Fleet" />
             <TextArea fx:id="txtGameChat" editable="false" focusTraversable="false" layoutX="48.0" layoutY="388.0" prefHeight="109.0" prefWidth="443.0" promptText="Game Chat" />
             <TextField fx:id="txtInput" layoutX="48.0" layoutY="506.0" onAction="#onEnter" prefHeight="27.0" prefWidth="443.0" promptText="Chat Input" />
-            <Button fx:id="btnAttack" contentDisplay="CENTER" layoutX="49.0" layoutY="9.0" mnemonicParsing="false" onAction="#attack" text="Attack" />
+            <Button fx:id="btnAttack" contentDisplay="CENTER" layoutX="49.0" layoutY="11.0" mnemonicParsing="false" onAction="#attack" text="Attack" />
          </children>
       </AnchorPane>
    </content>

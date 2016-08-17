@@ -132,6 +132,7 @@ public class Main extends Application {
                                         switch (gs) {
                                             case youAreUp:
                                                 //TODO set attack board editable
+                                                gameController.
                                                 break;
 
                                             case youAreNotUp:

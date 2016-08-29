@@ -151,7 +151,7 @@ public class Game implements Runnable {
         return cr;
     }
 	
-	class Spot {
+	public static class Spot {
 		private int x = 0;
 		private int y = 0;
         private char chr = '~';

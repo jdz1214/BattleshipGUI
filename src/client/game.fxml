@@ -10,182 +10,182 @@
          <children>
             <GridPane fx:id="gridAttackHistory" alignment="CENTER" focusTraversable="true" gridLinesVisible="true" layoutX="48.0" layoutY="67.0" prefHeight="312.0" prefWidth="443.0">
                <children>
-                  <Button fx:id="gridHistory00" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP">
+                  <Button fx:id="gridHistory00" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory01" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1">
+                  <Button fx:id="gridHistory01" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory02" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2">
+                  <Button fx:id="gridHistory02" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory03" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3">
+                  <Button fx:id="gridHistory03" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory04" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4">
+                  <Button fx:id="gridHistory04" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory05" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5">
+                  <Button fx:id="gridHistory05" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory10" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="1">
+                  <Button fx:id="gridHistory10" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="1">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory11" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Button fx:id="gridHistory11" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory12" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Button fx:id="gridHistory12" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory13" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <Button fx:id="gridHistory13" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory14" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                  <Button fx:id="gridHistory14" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="1">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory15" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                  <Button fx:id="gridHistory15" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="1">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory20" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="2">
+                  <Button fx:id="gridHistory20" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="2">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory21" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button fx:id="gridHistory21" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory22" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <Button fx:id="gridHistory22" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory23" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                  <Button fx:id="gridHistory23" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="2">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory24" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                  <Button fx:id="gridHistory24" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="2">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory25" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                  <Button fx:id="gridHistory25" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="2">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory30" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="3">
+                  <Button fx:id="gridHistory30" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="3">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory31" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <Button fx:id="gridHistory31" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory32" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                  <Button fx:id="gridHistory32" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="3">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory33" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                  <Button fx:id="gridHistory33" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="3">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory34" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                  <Button fx:id="gridHistory34" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="3">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory35" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                  <Button fx:id="gridHistory35" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="3">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory40" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="4">
+                  <Button fx:id="gridHistory40" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="4">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory41" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Button fx:id="gridHistory41" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory42" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                  <Button fx:id="gridHistory42" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="4">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory43" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                  <Button fx:id="gridHistory43" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="4">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory44" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                  <Button fx:id="gridHistory44" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="4">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory45" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                  <Button fx:id="gridHistory45" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="4">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory50" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="5">
+                  <Button fx:id="gridHistory50" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="5">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory51" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <Button fx:id="gridHistory51" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory52" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                  <Button fx:id="gridHistory52" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="5">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory53" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                  <Button fx:id="gridHistory53" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="5">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory54" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="5">
+                  <Button fx:id="gridHistory54" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="5">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Button>
-                  <Button fx:id="gridHistory55" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="5">
+                  <Button fx:id="gridHistory55" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="5">
                      <font>
                         <Font size="26.0" />
                      </font>
@@ -420,6 +420,7 @@
             <TextArea fx:id="txtGameChat" editable="false" focusTraversable="false" layoutX="48.0" layoutY="388.0" prefHeight="109.0" prefWidth="443.0" promptText="Game Chat" />
             <TextField fx:id="txtInput" layoutX="48.0" layoutY="506.0" onAction="#onEnter" prefHeight="27.0" prefWidth="443.0" promptText="Chat Input" />
             <Button fx:id="btnAttack" contentDisplay="CENTER" layoutX="48.0" layoutY="11.0" mnemonicParsing="false" onAction="#attack" text="Attack" />
+            <Label fx:id="lblInfo" alignment="CENTER" layoutX="120.0" layoutY="16.0" prefHeight="17.0" prefWidth="297.0" />
          </children>
       </AnchorPane>
    </content>

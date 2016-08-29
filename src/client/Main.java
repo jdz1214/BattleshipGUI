@@ -132,11 +132,12 @@ public class Main extends Application {
                                         switch (gs) {
                                             case youAreUp:
                                                 //TODO set attack board editable
-                                                gameController.
+                                                Platform.runLater(() -> gameController.youAreUp());
                                                 break;
 
                                             case youAreNotUp:
                                                 //TODO set attack board uneditable
+                                                Platform.runLater(() -> gameController.youAreNotUp());
                                                 break;
                                         }
                                         break;

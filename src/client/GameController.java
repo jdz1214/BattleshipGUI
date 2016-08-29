@@ -1,5 +1,6 @@
 package client;
 
+import commoncore.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,6 +18,7 @@ public class GameController implements Initializable {
     @FXML private TitledPane titledPane;
     @FXML private Label lblAttackHistory;
     @FXML private Label lblYourFleet;
+    @FXML private Label lblInfo;
     @FXML private GridPane gridAttackHistory;
     @FXML private GridPane gridFleet;
     @FXML private TextArea txtGameChat;
@@ -99,12 +101,41 @@ public class GameController implements Initializable {
     @FXML private Text gridFleet55;
     private Main m;
     private String opponentUsername;
+    private String attackSelectionId;
+    private Boolean attackSelected;
 
 
-    @FXML public void youAreUp() {
-        gridAttackHistory.setDisable(false);
+    @FXML
+    public void youAreUp() {
         for (Button b : gridAttackHistoryBtnList) { b.setDisable(false);}
+        btnAttack.setDisable(false);
+        lblInfo.setText("You are up!");
+    }
 
+    @FXML
+    public void youAreNotUp() {
+        for (Button b : gridAttackHistoryBtnList) { b.setDisable(true); }
+        btnAttack.setDisable(true);
+        lblInfo.setText("Awaiting opponent's move.");
+    }
+
+    @FXML
+    private void attackSelection(ActionEvent event) {
+        if (attackSelected == false) {
+            Button thisBtn = (Button) event.getSource();
+            attackSelectionId = thisBtn.getId();
+            System.out.println(thisBtn.getId());
+            gridAttackHistoryBtnList.stream().filter(btn -> btn.getId() != thisBtn.getId()).forEach(btn -> {
+                btn.setDisable(true);
+            });
+            attackSelected = true;
+        } else {
+            attackSelectionId = null;
+            attackSelected = false;
+            for (Button b : gridAttackHistoryBtnList) {
+                b.setDisable(false);
+            }
+        }
     }
 
     @FXML
@@ -126,16 +157,13 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void enableAttack() {
-        btnAttack.setDisable(false);
-    }
-
     public void updateHistory(ActionEvent event) {
         Button btn = (Button) event.getSource();
         String btnName = btn.getId();
         //Todo
     }
 
+    @FXML
     private void sendMessage() {
         String msg = txtInput.getText();
         if (msg.length() > 0) {
@@ -156,11 +184,25 @@ public class GameController implements Initializable {
         txtInput.setDisable(true);
     }
 
-    @FXML public void attack(ActionEvent actionEvent) {
+    @FXML
+    public void attack(ActionEvent actionEvent) {
+        if (attackSelected) {
+            // TODO get x and y
+            char x = attackSelectionId.charAt(12);
+            char y = attackSelectionId.charAt(13);
+            System.out.println("x: " + x + " y: " + y);
+            Game.Spot attackSpot = new Game.Spot();
+        }
+    }
+
+    @FXML
+    public void updateInfo(String infoText) {
+        lblInfo.setText(infoText);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        attackSelected = false;
         gridAttackHistoryBtnList = gridAttackHistory.getChildren().stream().filter(btnNode -> btnNode instanceof Button).map(btnNode -> (Button) btnNode).collect(Collectors.toCollection(ArrayList::new));
         gridFleetBtnList = gridFleet.getChildren().stream().filter(txtNode -> txtNode instanceof Text).map(txtNode -> (Text) txtNode).collect(Collectors.toCollection(ArrayList::new));
         for (Text t : gridFleetBtnList) { t.setDisable(true);}

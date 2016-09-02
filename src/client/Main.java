@@ -127,6 +127,23 @@ public class Main extends Application {
                                         }
                                         endGame();
                                         break;
+                                    case ATTACK:
+                                        //TODO
+
+                                    case ATTACKRESULT:
+                                        AttackResult ar = go.getAttackResult();
+                                        if (ar.getResult()) {
+                                            Platform.runLater(() -> gameController.processHit());
+                                            if (ar.sunkShip()) {
+                                                Platform.runLater(() -> gameController.updateInfo("You sunk their battleship!"));
+                                            } else {
+                                                Platform.runLater(() -> gameController.updateInfo("Your shot hit!"));
+                                            }
+                                        } else {
+                                            Platform.runLater(() -> gameController.processMiss());
+                                        }
+                                        break;
+
                                     case GAMESTATE:
                                         Game.Gamestate gs = go.getGamestate();
                                         switch (gs) {
@@ -138,6 +155,11 @@ public class Main extends Application {
                                             case youAreNotUp:
                                                 //TODO set attack board uneditable
                                                 Platform.runLater(() -> gameController.youAreNotUp());
+                                                break;
+
+                                            case youWon:
+                                                Platform.runLater(() -> gameController.updateInfo("Congratulations, you won!"));
+                                                Platform.runLater(() -> gameController.disableGrid());
                                                 break;
                                         }
                                         break;
@@ -358,7 +380,7 @@ public class Main extends Application {
         }
     }
 
-    private void send(Transmission t) {
+    void send(Transmission t) {
         try {
             os.writeObject(t);
             os.flush();

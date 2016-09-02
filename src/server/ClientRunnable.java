@@ -31,11 +31,10 @@ public class ClientRunnable implements Runnable {
     private ClientRunnable opponent;
     //Game variables
     private Game game;
-    private Game.Gameboard board;
-    private Game.History history;
-    private Game.Fleet fleet;
+    private Gameboard board;
+    private Fleet fleet;
     private int playerNumber;
-    private Game.AttackResult attackResult;
+    private AttackResult attackResult;
     private Boolean myTurn = false;
 
 
@@ -99,7 +98,8 @@ public class ClientRunnable implements Runnable {
                                     GameObject go = t.getGameObject();
                                     switch (go.getGameObjectType()) {
                                         case ATTACK:
-                                            // TODO
+                                                Attack attack = go.getAttack();
+                                                game.validateAttack(attack, this);
                                             break;
                                         case ATTACKRESULT:
                                             // TODO
@@ -120,6 +120,8 @@ public class ClientRunnable implements Runnable {
                                                 case youAreNotUp:
                                                     //TODO set attack board uneditable
                                                     break;
+                                                case gameOver:
+                                                    game.determineWinner();
 
                                             }
                                             break;
@@ -299,16 +301,12 @@ public class ClientRunnable implements Runnable {
         } catch (IOException e) {System.out.println("Error sending client's preGame transmission.");}
     }
 
-    public Game.Fleet getFleet() {
+    public Fleet getFleet() {
         return fleet;
     }
 
     public void setMyTurn(Boolean up) {
         myTurn = up;
-    }
-
-    public Game.History getAttackHistory() {
-        return history;
     }
 
     public void notifyUp(Boolean isUp) {

@@ -1,6 +1,6 @@
 package client;
 
-import commoncore.Game;
+import commoncore.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -102,7 +102,10 @@ public class GameController implements Initializable {
     private Main m;
     private String opponentUsername;
     private String attackSelectionId;
+    private Button attackSelectionBtn;
     private Boolean attackSelected;
+    private Fleet fleet;
+    private ArrayList<Spot> spotPool;
 
 
     @FXML
@@ -123,6 +126,7 @@ public class GameController implements Initializable {
     private void attackSelection(ActionEvent event) {
         if (attackSelected == false) {
             Button thisBtn = (Button) event.getSource();
+            attackSelectionBtn = thisBtn;
             attackSelectionId = thisBtn.getId();
             System.out.println(thisBtn.getId());
             gridAttackHistoryBtnList.stream().filter(btn -> btn.getId() != thisBtn.getId()).forEach(btn -> {
@@ -136,6 +140,30 @@ public class GameController implements Initializable {
                 b.setDisable(false);
             }
         }
+    }
+
+    @FXML
+    public void disableGrid () {
+        gridAttackHistoryBtnList.stream().forEach(btn -> {
+            btn.setDisable(true);
+        });
+    }
+
+    @FXML
+    public void enableGrid () {
+        gridAttackHistoryBtnList.stream().filter(btn -> btn.getText().equals('~')).forEach(btn -> {
+            btn.setDisable(false);
+        });
+    }
+
+    @FXML
+    public void processHit() {
+        attackSelectionBtn.setText("X");
+    }
+
+    @FXML
+    public void processMiss() {
+        attackSelectionBtn.setText("O");
     }
 
     @FXML
@@ -188,16 +216,40 @@ public class GameController implements Initializable {
     public void attack(ActionEvent actionEvent) {
         if (attackSelected) {
             // TODO get x and y
-            char x = attackSelectionId.charAt(12);
-            char y = attackSelectionId.charAt(13);
-            System.out.println("x: " + x + " y: " + y);
-            Game.Spot attackSpot = new Game.Spot();
+            int x = Integer.parseInt((attackSelectionId.substring(11,12)));
+            int y = Integer.parseInt((attackSelectionId.substring(12,13)));
+            String z = attackSelectionBtn.getText().substring(0,1);
+            System.out.println("x: " + x + " y: " + y + " z: " + z);
+            Spot attackSpot = new Spot(x, y, z);
+            Attack attack = new Attack(attackSpot);
+            m.send(new Transmission(new GameObject(attack)));
+            disableGrid();
+            lblInfo.setText("Attack Sent");
         }
     }
 
     @FXML
     public void updateInfo(String infoText) {
         lblInfo.setText(infoText);
+    }
+
+    @FXML
+    public ArrayList<Spot> getSpotPool (ArrayList<Button> buttonList) {
+        ArrayList<Spot> spotList = new ArrayList<>();
+        for (Button b : buttonList) {
+            String id = b.getId();
+            String substring = id.substring(Math.max(id.length() - 2, 0));
+            int x = substring.charAt(0);
+            int y = substring.charAt(1);
+            String txt = b.getText();
+            if (txt.length() != 1) {
+                System.out.println("Button length error.");
+            } else {
+                String z = b.getText().substring(0,1);
+                spotList.add(new Spot(x, y, z));
+            }
+        }
+        return spotList;
     }
 
     @Override

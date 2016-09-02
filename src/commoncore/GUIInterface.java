@@ -1,8 +1,5 @@
 package commoncore;
 
-import commoncore.Game.Attack;
-import commoncore.Game.Gameboard;
-
 import javax.swing.*;
 
 public interface GUIInterface {

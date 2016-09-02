@@ -1,6 +1,6 @@
 package commoncore;
 
-import commoncore.Game.*;
+import commoncore.Game.Gamestate;
 
 import java.io.Serializable;
 
@@ -10,7 +10,6 @@ public class GameObject implements Serializable {
 	private AttackResult attackResult;
 	private Gamestate gamestate;
 	private Gameboard gameboard;
-	private History history;
 	private GameRequest gameRequest;
 	private GameObjectType gameObjectType;
     private String opponentUsername;
@@ -32,7 +31,7 @@ public class GameObject implements Serializable {
 
     public GameObject () {}
 
-	GameObject(Attack attack) {
+	public GameObject(Attack attack) {
 		this.attack = attack;
 		this.gameObjectType = GameObjectType.ATTACK;
 	}
@@ -50,11 +49,6 @@ public class GameObject implements Serializable {
 	public GameObject (GameRequest gameRequest) {
 		this.gameRequest = gameRequest;
 		this.gameObjectType = GameObjectType.GAMEREQUEST;
-	}
-	
-	public GameObject (History history) {
-		this.history = history;
-		this.gameObjectType = GameObjectType.HISTORY;
 	}
 	
 	public GameObject (Gameboard gameboard) {
@@ -82,10 +76,6 @@ public class GameObject implements Serializable {
 
 	public Gamestate getGamestate() {
 		return gamestate;
-	}
-
-	public History getHistory() {
-		return history;
 	}
 
 	public GameRequest getGameRequest() {
@@ -121,10 +111,6 @@ public class GameObject implements Serializable {
 
 	public void setGamestate(Gamestate gamestate) {
 		this.gamestate = gamestate;
-	}
-
-	public void setHistory(History history) {
-		this.history = history;
 	}
 
 	public void setGameRequest(GameRequest gameRequest) {

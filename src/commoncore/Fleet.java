@@ -1,64 +1,48 @@
 package commoncore;
 
+import commoncore.Ship.shipName;
+
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Created by jdz on 8/30/16.
  */
-public class Fleet extends ArrayList<Ship> {
+public class Fleet extends ArrayList<Ship> implements Serializable {
     private static final long serialVersionUID = 5959358336090731180L;
     //one fleet per player
-    int numberOfShips = 4; //number of ships in fleet
-    ArrayList<Spot> fleetLocations = new ArrayList<>();
+    int numberOfShips = 5; //number of ships in fleet
     Fleet fleet;
 
     //Constructors
     public Fleet () {}
-    public Fleet (int playerNumber) {
-        generateShips();
-        generateLocations(fleet, playerNumber);
-    }
 
     //Methods
-    public Fleet generateShips() {
-        Fleet fleet = new Fleet();
-        Ship ship1 = new Ship(2);
-        Ship ship2 = new Ship(3);
-        Ship ship3 = new Ship(4);
-        Ship ship4 = new Ship(5);
-        fleet.add(ship1);
-        fleet.add(ship2);
-        fleet.add(ship3);
-        fleet.add(ship4);
-        return fleet;
+    public ArrayList<String> getUnplaceableLocationsString() {
+        ArrayList<String> taken = new ArrayList<>();
+        for (Ship s : this) {
+            taken.addAll(s.locations.stream().map(Spot::getRowColStr).collect(Collectors.toList()));
+        }
+        return taken;
     }
 
-    public void generateLocations(Fleet fleet, int playerNumber) {
-        ArrayList<Spot> spotPool = new ArrayList<>();
-        ArrayList<Spot> fleetLocations = new ArrayList<>();
+    public ArrayList<Spot> getUnplaceableLocations() {
+        ArrayList<Spot> taken = new ArrayList<>();
+        for (Ship s : this) {
+            taken.addAll(s.locations);
+        }
+        return taken;
+    }
 
-        for (int i = 0; i < 5; i++) { //Initialize spotPool
-            for (int j = 0; j < 5; j++) {
-                Spot newSpot = new Spot(i, j, "~");
-                spotPool.add(newSpot);
+    public Ship getShipByName(shipName name) {
+        Ship ship = null;
+        for (Ship s : this) {
+            if (s.getName().equals(name)) {
+                ship = s;
             }
         }
-        for (int i = 0; i < fleet.size(); i++) { //Place each ship on the board
-            Ship ship = fleet.get(i);
-            spotPool = ship.placeShip(spotPool);
-            if (playerNumber == 2) {
-                for (int j = 0; j < ship.locations.size(); j++) {
-                    Spot spot = ship.locations.get(j);
-                    // TODO Deleted a line here, this probably doesn't work.
-                }
-            }
-        }
-        for (int i = 0; i < fleet.size(); i++) { //Aggregate all ship spots into fleetLocations
-            Ship ship = fleet.get(i);
-            for (int j = 0; j < ship.locations.size(); j++) {
-                Spot spot = ship.locations.get(j);
-                fleetLocations.add(spot);
-            }
-        }
+        assert(ship!=null);
+        return ship;
     }
 }

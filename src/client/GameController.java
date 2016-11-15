@@ -267,7 +267,7 @@ public class GameController implements Initializable {
         //Grid 0,0 is top left-most corner.
         //First, place the largest (5) ship locations. Use these locations in a list to instantiate the new ship.
         //Determine orientation (vertical or horizontal).
-        if (!fiveDone) {
+        while (!fiveDone) {
             int orientation = (Math.random() < 0.5) ? 0 : 1;
             System.out.println("Orientation of bigfiver: " + orientation);
             if (orientation == 0) { //Horizontal
@@ -292,7 +292,6 @@ public class GameController implements Initializable {
                         fleet.add(bigFive);
                         fiveDone = true;
                         System.out.println("Bigfiver done.");
-
                     }
                 }
             } else { //Vertical
@@ -324,7 +323,7 @@ public class GameController implements Initializable {
 
         // Fours
 
-        if (!fourDone) {
+        while (!fourDone) {
             int shipLength = 4;
             ArrayList<Spot> unplaceables = fleet.getUnplaceableLocations();
             ArrayList<ArrayList<Spot>> contiguousSections = new ArrayList<>();
@@ -333,10 +332,13 @@ public class GameController implements Initializable {
             int orientation = (Math.random() < 0.5) ? 0 : 1;
             System.out.println("Orientation of FOUR: " + orientation);
 
+            //Horizontal Alignment
             if (orientation == 0) { //Horizontal
+                System.out.println("Ship four will be Horizontal.");
                 Boolean sufficientSpaceInRow = false;
-                while(!sufficientSpaceInRow) {
+                while (!sufficientSpaceInRow) {
                     int chosenRow = randGenerator(0, 5);
+                    System.out.println("Checking for sufficient space in row " + chosenRow + ".");
                     int contiguous = 1; // Must be one because a spot is always at least contiguous with itself, and I check for unplaceable spots.
                     contiguousSections = new ArrayList<>();
                     ArrayList<Spot> chosenRowSpots = new ArrayList<>();
@@ -350,33 +352,44 @@ public class GameController implements Initializable {
                     }
 
                     //Remove any unplaceables from chosenRowSpots.
+                    int counter = 0;
+                    ArrayList<Spot> toRemove = new ArrayList<>();
                     for (Spot spot : chosenRowSpots) {
-                        if (unplaceables.contains(spot)) {
-                            chosenRowSpots.remove(spot);
+                        for (Text t : gridFleetBtnList) {
+                            if (!t.getText().equals("~")) {
+                                if (t.getId().substring(9, 11).contains(spot.getRowColStr())) {
+                                    counter++;
+                                    toRemove.add(spot);
+                                    System.out.println("Marked unplaceable spot for removal. This is removal number " + counter + ". Line 364.");
+                                }
+                            }
                         }
                     }
+                    chosenRowSpots.removeAll(toRemove);
 
                     //Check for contiguous spots
                     String previous = chosenRowSpots.get(0).getRowColStr();
                     ArrayList<Spot> thisSection = new ArrayList<>();
-                    for (int i = 0; i < chosenRowSpots.size(); i++) {
-                        Spot spot = chosenRowSpots.get(i);
-                        String current = spot.getRowColStr();
-                        if (current.equals(previous)) {
-                            if (chosenRowSpots.size() - i <= 0) {
-                                break;
-                            } else {
-                                continue;
-                            }
-                        } else {
+                    System.out.println("About to begin looping through 'chosenRowSpots'. Size: " + chosenRowSpots.size() + ". Line 365.");
+                    if (chosenRowSpots.size() >= shipLength) {
+                        for (int i = 1; i < chosenRowSpots.size(); i++) {
+                            Spot spot = chosenRowSpots.get(i);
+                            String current = spot.getRowColStr();
+
+                            System.out.println("Current: " + current + " and previous: " + previous);
+                            System.out.println("Equation should be equal to 1 if contiguous: " + (Math.abs((((Integer.parseInt(current) - Integer.parseInt(previous)))))));
                             if (Math.abs((((Integer.parseInt(current) - Integer.parseInt(previous))))) == 1) {
+                                System.out.println("Contiguous spot added to 'thisSection'.");
                                 contiguous += 1;
                                 thisSection.add(spot);
                                 previous = current;
-                            } else {
-                                if (contiguous >= shipLength) {
+
+                                System.out.println("Determining whether segment thus far is sufficient to hold ship...");
+                                if (thisSection.size() >= shipLength) {
+                                    System.out.println("Segment is of sufficient size to hold ship. Adding this segment as a contiguous segment. Confirm: shiplength=" + shipLength + ", thisSection=" + thisSection.size());
                                     contiguousSections.add(thisSection);
-                                    System.out.println("Added contiguous section near line 361 in GameController.");
+                                    sufficientSpaceInRow = true;
+                                    System.out.println("Added contiguous section near line 361 in GameController. Confirm: contiguousSections size=" + contiguousSections.size());
                                     thisSection = new ArrayList<>();
                                     contiguous = 1;
                                     if ((chosenRowSpots.size() - i) >= shipLength) {
@@ -385,105 +398,147 @@ public class GameController implements Initializable {
                                     } else {
                                         break;
                                     }
-                                } else {
-                                    thisSection = new ArrayList<>();
-                                    contiguous = 1;
-                                    previous = current;
                                 }
+                            } else {
+                                System.out.println("Section was insufficient to hold ship. Resetting section list, contiguous count, and the 'previous' variable.");
+                                thisSection = new ArrayList<>();
+                                contiguous = 1;
+                                previous = current;
                             }
                         }
+                    } else {
+                        System.out.println("Skipped looping through chosenRowSpots because the number of available spots was less than the ship's length. Confirm: avail=" + chosenRowSpots.size() + " and shipLength=" + shipLength);
+                        System.out.println("Done looping through 'chosenRowSpots'. Line 403.");
+                        System.out.println("contiguousSections size: " + contiguousSections.size());
+                        if (contiguousSections.size() > 0) {
+                            System.out.println("Sufficient space exists in row for ship. Row selection for this ship is complete.");
+                            sufficientSpaceInRow = true;
+                        }
                     }
-                    if (contiguousSections.size() > 0) {
-                        sufficientSpaceInRow = true;
-                    }
-                }
-                //Place ship somewhere in available space
-                System.out.println("About to place FOUR ship at line 401.");
-                ArrayList<Spot> csec = new ArrayList<>();
-                if (contiguousSections.size() > 1) {
-                    csec = contiguousSections.get(randGenerator(0, contiguousSections.size()));
-                } else if (contiguousSections.size() == 1) {
+                    //Place ship somewhere in available space
+                    System.out.println("Place ship FOUR at line 410.");
+                    ArrayList<Spot> csec = new ArrayList<>();
+                    if (contiguousSections.size() > 1) {
+                        csec = contiguousSections.get(randGenerator(0, contiguousSections.size()));
+                    } else if (contiguousSections.size() == 1) {
                         csec = contiguousSections.get(0);
-                } else { System.out.println("Error setting up ship placement: wrong contiguousSection size. Line 402 of GameController."); }
+                    } else {
+                        System.out.println("Error setting up ship placement: wrong contiguousSection size. Line 402 of GameController.");
+                    }
 
-                if (csec.size() == shipLength) {
+                    assert csec.size() == shipLength;
+
                     Ship ship = new Ship(FOUR, 4);
                     ship.setOrientation(orientation);
                     ship.setLocations(csec);
                     fleet.add(ship);
-                    fourDone = true;
-                } else { //Choose leftmost spot from possible frame (uppermost for vertical implementation)
-                    int startingSpotNum = randGenerator(0, csec.size()-shipLength);
-                    ArrayList<Spot> locations = new ArrayList<>();
-                    for (int i = 0; i < shipLength; i++) {
-                        locations.add(csec.get(startingSpotNum + i));
-                    }
-                    assert locations.size() == shipLength;
-                    Ship ship = new Ship(FOUR, 4);
-                    ship.setOrientation(orientation);
-                    ship.setLocations(locations);
-                    fleet.add(ship);
-                    fourDone = true;
-                }
-                for (Text txt : gridFleetBtnList) {
-                    if (fleet.getShipByName(FOUR).getShipLocations().contains(txt)) {
-                        txt.setText("4");
+
+                    for (Spot s : csec) {
+                        for (Text txt : gridFleetBtnList) {
+                            if (txt.getId().substring(9,11).equals(s.getRowColStr())) {
+                                System.out.println("Compare txt.getId():" + txt.getId() + " with s.getRowColStr(): " + s.getRowColStr());
+                                txt.setText("4");
+                                System.out.println("Set 'text' " + txt.getId() + " to 4. Line 441.");
+                            }
+                        }
+                        fourDone = true;
                     }
                 }
-            } else { //Vertical
-                System.out.println("Vertical orientation of FOUR (line 434)");
-                Boolean sufficientSpaceInCol = false;
-                while(!sufficientSpaceInCol) {
-                    System.out.println("calculating column (line 437).");
-                    int chosenCol = randGenerator(0, 5);
-                    int contiguous = 1; // Must be one because a spot is always at least contiguous with itself, and I check for unplaceable spots.
-                    contiguousSections = new ArrayList<>();
-                    ArrayList<Spot> chosenColSpots = new ArrayList<>();
-                    for (int i = 0; i < 5; i++) { // Populate chosenRowSpots with all spots in the chosen row.
+            }
+                //Vertical Alignment
+            else {
+                    System.out.println("Vertical orientation of FOUR (line 434)");
+                    Boolean sufficientSpaceInCol = false;
+                    while (!sufficientSpaceInCol) {
+                        System.out.println("calculating column (line 437).");
+                        int chosenCol = randGenerator(0, 5);
+                        System.out.println("Chosen column: " + chosenCol);
+                        int contiguous = 1; // Must be one because a spot is always at least contiguous with itself, and I check for unplaceable spots.
+                        contiguousSections = new ArrayList<>();
+                        ArrayList<Spot> chosenColSpots = new ArrayList<>();
+
+                        // Populate chosenColSpots with all spots in the chosen column.
                         for (Text text : gridFleetBtnList) {
                             Spot spot = new Spot(text);
-                            if (spot.getCol() == chosenCol && spot.getRow() == i) {
+                            if (spot.getCol() == chosenCol) {
                                 chosenColSpots.add(spot);
-                            }
-                        }
-                    }
-                    System.out.println("Line 450.");
-                    //Remove any unplaceables from chosenRowSpots.
-                    for (Spot spot : chosenColSpots) {
-                        if (unplaceables.contains(spot)) {
-                            chosenColSpots.remove(spot);
-                        }
-                    }
-                    System.out.println("Line 457.");
-                    //Check for contiguous spots
-                    String previous = chosenColSpots.get(0).getRowColStr();
-                    ArrayList<Spot> thisSection = new ArrayList<>();
-                    for (int i = 0; i < chosenColSpots.size(); i++) {
-                        System.out.println("Chosen spot " + i);
-                        Spot spot = chosenColSpots.get(i);
-                        String current = spot.getRowColStr();
-                        if (current.equals(previous)) {
-                            if (chosenColSpots.size() - i <= 0) {
-                                break;
+                                System.out.println("chosencol: " + chosenCol + " spot added: " + spot.getRowColStr() + " at line 448");
+                                System.out.println("chosenColSpots size: " + chosenColSpots.size());
                             } else {
-                                continue;
+                                System.out.println("chosencol: " + chosenCol + " spot skipped: " + spot.getRowColStr());
                             }
-                        } else {
-                            System.out.println("Line 472.");
+                        }
+
+                        System.out.println("Line 450. chosenColSpot construction is finished. Size = " + chosenColSpots.size());
+                        //Remove any unplaceables from chosenRowSpots.
+                        System.out.println("Removing unplaceable spots from chosenColSpots to determine continuity of emtpy spaces.");
+                        int counter = 0;
+                        ArrayList<Spot> toRemove = new ArrayList<>();
+                        for (Spot spot : chosenColSpots) {
+                            for (Text t : gridFleetBtnList) {
+                                if (!t.getText().equals("~")) {
+                                    if (t.getId().substring(9, 11).contains(spot.getRowColStr())) {
+                                        counter++;
+                                        toRemove.add(spot);
+                                        System.out.println("Marked unplaceable spot for removal. This is removal number " + counter + ". Line 482.");
+                                    }
+                                }
+                            }
+                        }
+                        chosenColSpots.removeAll(toRemove);
+                        System.out.println("Removal of unplaceable spots is complete. " + counter + " spots were removed. Size check: " + chosenColSpots.size() + ". Line 457.");
+                        System.out.println("Comparing size of group to size of ship for potential preliminary elimination. Ship size: " + shipLength + " vs column available size: " + chosenColSpots.size());
+                        if (chosenColSpots.size() == 6) {
+                            System.out.println("Consider accelerating ship placement because target column is empty. Line 471.");
+                            sufficientSpaceInCol = true;
+                        }
+
+                        if (chosenColSpots.size() < shipLength) {
+                            System.out.println("Skipping continuous spot checking because this column has too few open spots.");
+                            continue;
+                        }
+
+                        for (int i = 0; i < chosenColSpots.size(); i++) {
+                            System.out.print("array position: " + i + " " + chosenColSpots.get(i).getRowColStr() + " ");
+                        }
+
+                        //Check for contiguous spots
+                        System.out.println("Checking for contiguous spots...");
+                        String previous = chosenColSpots.get(0).getRowColStr();
+                        ArrayList<Spot> thisSection = new ArrayList<>();
+                        for (int i = 1; i < chosenColSpots.size(); i++) {
+                            Spot spot = chosenColSpots.get(i);
+                            System.out.println("chosenColSpots size: " + chosenColSpots.size() + " Chosen spot: " + spot.getRowColStr() + " Previous spot: " + previous);
+                            String current = spot.getRowColStr();
+
+                            System.out.println("Going into math and absolute value equations to determine continuity. Line 489.");
+                            System.out.print("Calculating: Abs of Integer.parseInt(current): " + Integer.parseInt(current) + " - Integer.parseInt(previous)" + Integer.parseInt(previous));
+                            System.out.print(" = " + Math.abs((((Integer.parseInt(current) - Integer.parseInt(previous))))));
+                            System.out.println();
                             if (Math.abs((((Integer.parseInt(current) - Integer.parseInt(previous))))) == 10) { // 10 Because of row digit changing
-                                contiguous += 1;
                                 thisSection.add(spot);
                                 previous = current;
+                                if (thisSection.size() >= shipLength) {
+                                    sufficientSpaceInCol = true;
+                                    if (thisSection.size() > shipLength) {
+                                        ArrayList<Spot> toRemove2 = new ArrayList<>();
+                                        toRemove2.add(thisSection.get(0));
+                                        thisSection.removeAll(toRemove2);
+                                        contiguousSections.add(thisSection);
+                                        System.out.println("Added a new section by fabricating it from an extended previous segment because there are more contiguous spaces than the shipLength requires. Line 507.");
+                                    } else if (thisSection.size() == shipLength) {
+                                        contiguousSections.add(thisSection);
+                                        System.out.println("Added a contiguous section normally. Line 510.");
+                                    }
+                                }
                             } else {
                                 if (contiguous >= shipLength) {
                                     contiguousSections.add(thisSection);
-                                    System.out.println("Added contiguous section near line 436 in GameController.");
+                                    sufficientSpaceInCol = true;
+                                    System.out.println("Added contiguous section near line 519 in GameController.");
                                     thisSection = new ArrayList<>();
                                     contiguous = 1;
-                                    if ((chosenColSpots.size() - i) >= shipLength) {
-                                        previous = chosenColSpots.get(i + 1).getRowColStr();
-                                        i++;
-                                    } else {
+                                    if (chosenColSpots.size() - i < shipLength) {
                                         break;
                                     }
                                 } else {
@@ -493,49 +548,42 @@ public class GameController implements Initializable {
                                 }
                             }
                         }
-                    }
-                    System.out.println(contiguousSections.size());
-                    if (contiguousSections.size() > 0) {
-                        sufficientSpaceInCol = true;
-                    }
-                }
-                //Place ship somewhere in available space
-                ArrayList<Spot> csec = new ArrayList<>();
-                if (contiguousSections.size() > 1) {
-                    csec = contiguousSections.get(randGenerator(0, contiguousSections.size()));
-                } else if (contiguousSections.size() == 1) {
-                    csec = contiguousSections.get(0);
-                } else { System.out.println("Error setting up ship placement: wrong contiguousSection size. Line 402 of GameController."); }
+                        System.out.println("ContiguousSection size: " + contiguousSections.size() + ". Line 522.");
+                        if (contiguousSections.size() > 0) {
+                            sufficientSpaceInCol = true;
+                        }
 
-                if (csec.size() == shipLength) {
-                    Ship ship = new Ship(FOUR, 4);
-                    ship.setOrientation(orientation);
-                    ship.setLocations(csec);
-                    fleet.add(ship);
-                    fourDone = true;
-                } else { //Choose leftmost spot from possible frame (uppermost for vertical implementation)
-                    int startingSpotNum = randGenerator(0, csec.size()-shipLength);
-                    ArrayList<Spot> locations = new ArrayList<>();
-                    for (int i = 0; i < shipLength; i++) {
-                        locations.add(csec.get(startingSpotNum + i));
-                    }
-                    assert locations.size() == shipLength;
-                    Ship ship = new Ship(FOUR, 4);
-                    ship.setOrientation(orientation);
-                    ship.setLocations(locations);
-                    fleet.add(ship);
-                    fourDone = true;
+                        //Place ship somewhere in available space
+                        System.out.println("Placing ship somewhere in the available space. Line 540.");
+                        ArrayList<Spot> csec = new ArrayList<>();
+                        if (contiguousSections.size() > 1) {
+                            csec = contiguousSections.get(randGenerator(0, contiguousSections.size() - 1));
+                        } else if (contiguousSections.size() == 1) {
+                            csec = contiguousSections.get(0);
+                        } else {
+                            System.out.println("Error setting up ship placement: wrong contiguousSection size. Line 535 of GameController.");
+                        }
 
-                }
-                for (Text text : gridFleetBtnList) {
-                    Spot spot = new Spot(text);
-                    if (fleet.getShipByName(FOUR).getShipLocations().contains(spot)) {
-                        getTextFromSpot(spot).setText("4");
+
+                        Ship ship = new Ship(FOUR, 4);
+                        ship.setOrientation(orientation);
+                        ship.setLocations(csec);
+                        fleet.add(ship);
+
+                        for (Spot s : csec) {
+                            for (Text txt : gridFleetBtnList) {
+                                if (txt.getId().substring(9,11).equals(s.getRowColStr())) {
+                                    System.out.println("Compare txt.getId():" + txt.getId() + " with s.getRowColStr(): " + s.getRowColStr());
+                                    txt.setText("4");
+                                    System.out.println("Set 'text' " + txt.getId() + " to 4. Line 564.");
+                                }
+                            }
+                        }
                     }
                 }
+                fourDone = true;
             }
         }
-    }
 
     public Text getTextFromSpot(Spot spot) {
         Text txt = null;

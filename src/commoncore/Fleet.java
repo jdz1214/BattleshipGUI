@@ -11,9 +11,6 @@ import java.util.stream.Collectors;
  */
 public class Fleet extends ArrayList<Ship> implements Serializable {
     private static final long serialVersionUID = 5959358336090731180L;
-    //one fleet per player
-    int numberOfShips = 5; //number of ships in fleet
-    Fleet fleet;
 
     //Constructors
     public Fleet () {}
@@ -30,19 +27,34 @@ public class Fleet extends ArrayList<Ship> implements Serializable {
     public ArrayList<Spot> getUnplaceableLocations() {
         ArrayList<Spot> taken = new ArrayList<>();
         for (Ship s : this) {
-            taken.addAll(s.locations);
+            taken.addAll(s.getShipLocations());
         }
         return taken;
     }
 
-    public Ship getShipByName(shipName name) {
+    public Ship getShipByName (shipName name) { // Overloaded. See String variant.
         Ship ship = null;
         for (Ship s : this) {
-            if (s.getName().equals(name)) {
+            if (s.getNameEnum().equals(name)) {
                 ship = s;
+                break;
             }
         }
         assert(ship!=null);
         return ship;
     }
+
+    public Ship getShipByName (String name) { // Overloaded. See Enum variant.
+        Ship ship = null;
+        for (Ship s : this) {
+            if (s.getNameString().equals(name)) {
+                ship = s;
+                break;
+            }
+        }
+        assert(ship!=null);
+        return ship;
+    }
+
+    public void updateGrid() {this.forEach(Ship::updateGrid);}
 }

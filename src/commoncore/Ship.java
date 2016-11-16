@@ -46,7 +46,7 @@ public class Ship implements Serializable {
 
     public ArrayList<Spot> getShipLocations() { return this.locations; }
 
-    public shipName getName() { return this.name; }
+    public shipName getNameEnum() { return this.name; }
 
     public String getNameString() { return this.name.toString(); }
 
@@ -54,5 +54,9 @@ public class Ship implements Serializable {
 
     public void setLocations (ArrayList<Spot> shipLocations) {
         this.locations = shipLocations;
+    }
+
+    public void updateGrid() {
+        locations.forEach(Spot::updateGrid);
     }
 }

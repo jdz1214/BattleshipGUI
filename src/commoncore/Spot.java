@@ -1,5 +1,6 @@
 package commoncore;
 
+import javafx.application.Platform;
 import javafx.scene.text.Text;
 
 import java.io.Serializable;
@@ -8,18 +9,21 @@ public class Spot implements Serializable {
     private int row;
     private int col;
     private String text;
+    private Text txt;
     //Constructors
 
     public Spot(){}
 
     public Spot(Text txt) {
-        this.row = Integer.parseInt(txt.getId().substring(9,10));
-        this.col = Integer.parseInt(txt.getId().substring(10,11));
+        String id = txt.getId();
+        this.row = Integer.parseInt(id.substring(9,10));
+        this.col = Integer.parseInt(id.substring(10,11));
         this.text = txt.getText();
+        this.txt = txt;
     }
 
-
     public Spot (int row, int col, String text) {
+        assert row >= 0 && row < 6;
         this.row = row;
         this.col = col;
         this.text = text;
@@ -36,7 +40,10 @@ public class Spot implements Serializable {
     public void printMe() {
         System.out.println("row: " + this.row + ", col: " + this.col + ", text: " + this.text);
     }
-    public void setRow(int row) { this.row = row; }
-    public void setCol(int col) { this.col = col; }
     public void setText(String txt) {this.text = txt; }
+    public void updateGrid() {Platform.runLater(() -> txt.setText(this.text));}
+    public String getGridText() {
+        return this.txt.getText(); // Let us hope this works without Platform.runLater()...
+    }
+
 }

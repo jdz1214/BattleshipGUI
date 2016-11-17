@@ -2,6 +2,8 @@ package commoncore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 /**
  * Created by jdz on 8/29/16.
@@ -20,18 +22,45 @@ public class Ship implements Serializable {
         THREETHREE,
         TWOONE,
         TWOTWO,
-        TWOTHREE
+        TWOTHREE;
+        public static Stream<shipName> stream() {
+            return Arrays.stream(shipName.values());
+        }
     }
 
     //Constructor
-    public Ship (shipName name, int shipLength) {
+    public Ship(shipName name) {
         this.name = name;
-        this.shipLength = shipLength;
+        this.shipLength = inferShipLength(name);
         this.hitsRemaining = shipLength;
         locations = new ArrayList<Spot>(shipLength);
     }
 
     //Methods
+    private int inferShipLength(shipName name) {
+        int digit = 0;
+        switch (name) {
+            case BIGFIVER:
+                digit = 5;
+                break;
+            case FOUR:
+                digit = 4;
+                break;
+            case THREEONE:
+            case THREETWO:
+            case THREETHREE:
+                digit = 3;
+                break;
+            case TWOONE:
+            case TWOTWO:
+            case TWOTHREE:
+                digit = 2;
+                break;
+        }
+        assert digit > 0;
+        return digit;
+    }
+
     public int getShipLength() {
         return this.shipLength;
     }

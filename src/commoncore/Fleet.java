@@ -13,7 +13,9 @@ public class Fleet extends ArrayList<Ship> implements Serializable {
     private static final long serialVersionUID = 5959358336090731180L;
 
     //Constructors
-    public Fleet () {}
+    public Fleet () {
+        shipName.stream().forEach(s -> this.add(new Ship(s)));
+    }
 
     //Methods
     public ArrayList<String> getUnplaceableLocationsString() {
@@ -32,7 +34,7 @@ public class Fleet extends ArrayList<Ship> implements Serializable {
         return taken;
     }
 
-    public Ship getShipByName (shipName name) { // Overloaded. See String variant.
+    public Ship getShip (shipName name) { // Overloaded. See String variant.
         Ship ship = null;
         for (Ship s : this) {
             if (s.getNameEnum().equals(name)) {
@@ -44,7 +46,7 @@ public class Fleet extends ArrayList<Ship> implements Serializable {
         return ship;
     }
 
-    public Ship getShipByName (String name) { // Overloaded. See Enum variant.
+    public Ship getShip (String name) { // Overloaded. See Enum variant.
         Ship ship = null;
         for (Ship s : this) {
             if (s.getNameString().equals(name)) {

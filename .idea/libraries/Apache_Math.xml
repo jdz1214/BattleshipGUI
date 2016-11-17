@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Apache Math">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../ApacheMath/commons-math3-3.6.1/commons-math3-3.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ApacheMath/commons-math3-3.6.1/commons-math3-3.6.1-tests.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ApacheMath/commons-math3-3.6.1/commons-math3-3.6.1-tools.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/lib/apidocs" />
+      <root url="jar://$PROJECT_DIR$/../ApacheMath/commons-math3-3.6.1/commons-math3-3.6.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../ApacheMath/commons-math3-3.6.1/commons-math3-3.6.1-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ApacheMath/commons-math3-3.6.1/commons-math3-3.6.1-test-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -8,12 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.net.URL;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import static commoncore.Ship.shipName.FOUR;
 
 public class GameController implements Initializable {
     @FXML private TitledPane titledPane;
@@ -253,6 +250,12 @@ public class GameController implements Initializable {
         return spotList;
     }
 
+    private int randGenerator(int min, int max) {
+        Random rand = new Random();
+        int nextRand = rand.nextInt((max-min) +1) + min;
+        return nextRand;
+    }
+
     //Generate ship locations
     @FXML
     public void placeShips(Fleet fleet) {
@@ -263,74 +266,26 @@ public class GameController implements Initializable {
             int gridRowLength = 5; //5 because it's 0-5, so 6 total.
             int gridColLength = 5;
             int shipLength = s.getShipLength();
-            ArrayList<ArrayList<Spot>> contiguousSections = new ArrayList<>();
-
-            int orientation = (Math.random() < 0.5) ? 0 : 1;
-            System.out.println("Orientation of " + s.getNameString() + ": " + orientation);
-
-
-
-            //Horizontal Alignment
-
-            int chosenRow = randGenerator(0, gridColLength); //The height of the column determines the number of rows.
-            System.out.println("Checking for sufficient space in row " + chosenRow + ".");
-            int contiguous = 1; // Must be one because a spot is always at least contiguous with itself, and I check for unplaceable spots.
-            contiguousSections = new ArrayList<>();
-
-            List<Spot> chosenRowSpots = gridFleetBtnList.stream()
-                    .filter(b -> (b.getId().substring(9,10).equals(String.valueOf(chosenRow)) && b.getText().equals("~")))
+            s.setOrientation((Math.random() < 0.5) ? 0 : 1);
+            System.out.println("Orientation of " + s.getNameString() + ": " + s.getOrientation());
+            List<Spot> allSpots = gridFleetBtnList.stream()
                     .map(Spot::new)
-                    .sorted(Comparator.comparing(Spot::getRowColStr))
                     .collect(Collectors.toList());
-            if (chosenRowSpots.size() < shipLength) {
-                System.out.println("Chosen row has insufficient free space for ship " + s.getNameString() + ". Free space: " + chosenRowSpots.size());
-                continue;
-            }
-            //Check for contiguous spots
-            List<Integer> allSections = (chosenRowSpots.stream()
-                    .map((Spot spot) -> Integer.parseInt(spot.getRowColStr()))
-                    .collect(Collectors.toList()));
-            ArrayList<Spot> thisSection = new ArrayList<>();
+            //forEach row/col, loop the number of segments based on calculation from shipLength
+            Map<Integer, List<Spot>> spotsByRow = allSpots.stream()
+                    .collect(Collectors.groupingBy(Spot::getRow));
+            Map<Integer, List<Spot>> spotsByCol = allSpots.stream()
+                    .collect(Collectors.groupingBy(Spot::getCol));
+
+            Set<Set<Spot>> segmentsByRow = spotsByRow.values().stream().sorted().collect(Collectors.groupingBy());
 
 
-            Ship ship = new Ship(FOUR);
-            ship.setOrientation(orientation);
-            ship.setLocations(csec);
+            s.setLocations(csec);
             fleet.add(ship);
-
-            for (Spot s : csec) {
-                for (Text txt : gridFleetBtnList) {
-                    if (txt.getId().substring(9,11).equals(s.getRowColStr())) {
-                        System.out.println("Compare txt.getId():" + txt.getId() + " with s.getRowColStr(): " + s.getRowColStr());
-                        txt.setText("4");
-                        System.out.println("Set 'text' " + txt.getId() + " to 4. Line 441.");
-                    }
-                }
-                fourDone = true;
-            }
         }
-                //Vertical Alignment
 
 
-
-                        Ship ship = new Ship(FOUR);
-                        ship.setOrientation(orientation);
-                        ship.setLocations(csec);
-                        fleet.add(ship);
-
-                        for (Spot s : csec) {
-                            for (Text txt : gridFleetBtnList) {
-                                if (txt.getId().substring(9,11).equals(s.getRowColStr())) {
-                                    System.out.println("Compare txt.getId():" + txt.getId() + " with s.getRowColStr(): " + s.getRowColStr());
-                                    txt.setText("4");
-                                    System.out.println("Set 'text' " + txt.getId() + " to 4. Line 564.");
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    }
 
     public Text getTextFromSpot(Spot spot) {
         Text txt = null;
@@ -344,11 +299,7 @@ public class GameController implements Initializable {
         return txt;
     }
 
-    private int randGenerator(int min, int max) {
-        Random rand = new Random();
-        int nextRand = rand.nextInt((max-min) +1) + min;
-        return nextRand;
-    }
+
 
 
     @Override

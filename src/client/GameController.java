@@ -150,30 +150,29 @@ public class GameController implements Initializable {
 
     @FXML
     public void youAreUp() {
-        for (Button b : gridAttackHistoryBtnList) { b.setDisable(false);}
-        btnAttack.setDisable(false);
+        enableGrid();
+
         lblInfo.setText("You are up!");
     }
 
     @FXML
     public void youAreNotUp() {
         disableGrid();
-        btnAttack.setDisable(true);
-        lblInfo.setText(lblInfo.getText() + " :: Awaiting opponent's move.");
+        lblInfo.setText("Awaiting opponent's move.");
     }
 
     @FXML
     private void attackSelection(ActionEvent event) {
-        if (attackSelected) {
-            attackSelectionId = null;
-            attackSelected = false;
-            enableGrid();
-        } else {
+        if (!attackSelected) {
             attackSelectionBtn = (Button) event.getSource();
             attackSelectionId = attackSelectionBtn.getId();
             System.out.println("Attack selection ID: " + attackSelectionId);
             attackSelected = true;
             disableGrid(attackSelectionId);
+        } else {
+            attackSelectionId = null;
+            attackSelected = false;
+            enableGrid();
         }
     }
 
@@ -182,28 +181,33 @@ public class GameController implements Initializable {
         gridAttackHistoryBtnList.stream().forEach(btn -> {
             btn.setDisable(true);
         });
+        btnAttack.setDisable(true);
     }
 
     @FXML
     public void disableGrid (String disableAllExceptThisBtnID) {
         gridAttackHistoryBtnList.stream()
-                .filter(btn -> btn.getId() != disableAllExceptThisBtnID)
+                .filter(btn -> !btn.getId().equals(disableAllExceptThisBtnID))
                 .forEach(btn -> btn.setDisable(true));
+        btnAttack.setDisable(false);
     }
 
     @FXML
     public void enableGrid () {
-        gridAttackHistoryBtnList.stream().filter(btn -> btn.getText().equals("~"))
+        gridAttackHistoryBtnList.stream()
+                .filter(btn -> btn.getText().equals("~"))
                 .forEach(btn -> btn.setDisable(false));
+        btnAttack.setDisable(true);
     }
 
     @FXML
     public void processAttackResult(AttackResult attackResult) {
-        System.out.println("In gameController method handling attackResult.");
         gridAttackHistoryBtnList.stream()
                 .filter(btn -> btn.getId().substring(11,13).equals(attackResult.getSpotRowCol()))
-                .map(btn -> {if (attackResult.wasHit()) { btn.setText("X");} else {btn.setText("O");} return btn;});
-        updateInfo(attackResult.wasHit() ? attackResult.sunkShip() ? ("You sunk their battleship!") : ("Your shot hit!") : ("Your shot missed!"));
+                .forEach(btn -> btn.setText(attackResult.wasHit() ? "X" : "O"));
+
+        updateInfo(attackResult.wasHit() ? attackResult.sunkShip() ? ("You sunk their battleship! Your opponent is up.") : ("Your shot hit! Your opponent is up.") : ("Your shot missed! Your opponent is up."));
+
     }
 
     @FXML
@@ -252,7 +256,17 @@ public class GameController implements Initializable {
 
     @FXML
     public AttackResult evaluateAttackReceived(Attack attackReceived) {
-        return fleet.evaluateAttackReceived(attackReceived);
+        AttackResult ar = fleet.evaluateAttackReceived(attackReceived);
+            gridFleetBtnList.stream()
+                    .filter(btn -> btn.getId().substring(9,11).equals(attackReceived.getAttackSpotRowColStr()))
+                    .forEach(btn -> btn.setText(ar.wasHit() ? "X" : "O"));
+        if (ar.sunkShip()) {
+            if (fleet.getTotalRemainingHits() == 0) {
+                //I lose
+                announceWinner(opponentUsername, m.getUsername());
+            }
+        }
+        return ar;
     }
 
     @FXML
@@ -318,6 +332,18 @@ public class GameController implements Initializable {
         }
     }
 
+    @FXML
+    public void iWon() {
+        updateInfo("Congratulations, you won!");
+        disableGrid();
+    }
+
+    @FXML
+    public void iLost() {
+        updateInfo("Game over. You have lost.");
+        disableGrid();
+    }
+
     private List<Set<Spot>> spotSetGenerator(Map<Integer, List<Spot>> spotsMap, Ship ship) {
         List<Set<Spot>> returnList = new ArrayList<>();
         //We are going to receive a row or col of spots, create sets, add the sets to the list, and return the list.
@@ -345,6 +371,10 @@ public class GameController implements Initializable {
         Random rand = new Random();
         int nextRand = rand.nextInt((max-min) +1) + min;
         return nextRand;
+    }
+
+    private void announceWinner(String winnerUsername, String loserUsername) {
+        m.send(new Transmission(new GameObject(new GameOver(opponentUsername, m.getUsername()))));
     }
 
     @Override

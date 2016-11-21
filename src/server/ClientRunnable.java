@@ -101,26 +101,29 @@ public class ClientRunnable implements Runnable {
                                                 game.validateAttack(attack, this);
                                             break;
                                         case ATTACKRESULT:
-                                            relay(go.getAttackResult());
+                                            opponent.getObjectOutputStream().writeObject(new Transmission(new GameObject(go.getAttackResult())));
+                                            opponent.getObjectOutputStream().flush();
                                             break;
                                         case BOARD:
-                                            // TODO
                                             break;
                                         case HISTORY:
-                                            // TODO
+                                            break;
+                                        case GAMEOVER:
+                                            opponent.getObjectOutputStream().writeObject(new Transmission(new GameObject(go.getGameOver())));
+                                            opponent.getObjectOutputStream().flush();
+                                            game.setGamestate(Game.Gamestate.gameOver);
                                             break;
                                         case GAMESTATE:
                                             Game.Gamestate gs = go.getGamestate();
                                             switch (gs) {
                                                 case youAreUp:
-                                                    //TODO set attack board editable
                                                     break;
 
                                                 case youAreNotUp:
-                                                    //TODO set attack board uneditable
                                                     break;
+
                                                 case gameOver:
-                                                    game.determineWinner();
+                                                    break;
 
                                             }
                                             break;
@@ -258,10 +261,6 @@ public class ClientRunnable implements Runnable {
         System.out.println("ClientRunnable Started receive thread.");
     }
 
-    private <T extends Transmission> void relay(<T> t) {
-
-    }
-
     void logout() {
         Platform.runLater(() -> {
             w.clientOs.remove(os);
@@ -329,6 +328,14 @@ public class ClientRunnable implements Runnable {
         }
     }
 
+    public void notifyGameOver(Game.Gamestate gamestate) {
+        try {
+            os.writeObject(new Transmission(new GameObject(gamestate)));
+            os.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void endGame() {
         try {
             os.writeObject(new Transmission(new GameObject(QUIT, username)));

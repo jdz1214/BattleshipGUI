@@ -38,6 +38,12 @@ public class Spot implements Serializable {
         Platform.runLater(() -> this.txt.setText(text));
     }
 
+    public void becomesMissed() {
+        hasBeenHit = true;
+        this.text = "O";
+        Platform.runLater(() -> this.txt.setText(text));
+    }
+
     //Methods
     public Integer getRow() {
         return row;

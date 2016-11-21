@@ -75,6 +75,12 @@ public class Fleet extends ArrayList<Ship> implements Serializable {
                 return ar;
             }
         }
+
         return new AttackResult(false, false, attackReceived.getAttackSpotRowColStr());
+    }
+
+    public Integer getTotalRemainingHits() {
+        return this.stream()
+                .collect(Collectors.summingInt(ship -> ship.getHitsRemaining()));
     }
 }

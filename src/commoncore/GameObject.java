@@ -11,6 +11,7 @@ public class GameObject implements Serializable {
 	private Gamestate gamestate;
 	private Gameboard gameboard;
 	private GameRequest gameRequest;
+	private GameOver gameOver;
 	private GameObjectType gameObjectType;
     private String opponentUsername;
     private String username;
@@ -23,6 +24,7 @@ public class GameObject implements Serializable {
 		GAMESTATE,
 		GAMEREQUEST,
 		GAMEBOARD,
+		GAMEOVER,
 		NEWGAME,
 		QUIT
 	}
@@ -50,12 +52,12 @@ public class GameObject implements Serializable {
 		this.gameRequest = gameRequest;
 		this.gameObjectType = GameObjectType.GAMEREQUEST;
 	}
-	
-	public GameObject (Gameboard gameboard) {
-		this.gameboard = gameboard;
-		this.gameObjectType = GameObjectType.GAMEBOARD;
-	}
 
+	public GameObject (GameOver gameOver) {
+		this.gameOver = gameOver;
+		this.gameObjectType = GameObjectType.GAMEOVER;
+	}
+	
 	public GameObject (String opponentUsername) {
         this.opponentUsername = opponentUsername;
 	    this.gameObjectType = GameObjectType.NEWGAME;
@@ -82,6 +84,8 @@ public class GameObject implements Serializable {
 		return gameRequest;
 	}
 
+	public GameOver getGameOver() { return gameOver; }
+
 	public Gameboard getGameboard() {
 		return gameboard;
 	}
@@ -101,29 +105,6 @@ public class GameObject implements Serializable {
     public String getUserWhoQuit() { return userWhoQuit; }
 
 	//Setters
-	public void setAttack(Attack attack) {
-		this.attack = attack;
-	}
-
-	public void setAttackResult(AttackResult attackResult) {
-		this.attackResult = attackResult;
-	}
-
-	public void setGamestate(Gamestate gamestate) {
-		this.gamestate = gamestate;
-	}
-
-	public void setGameRequest(GameRequest gameRequest) {
-		this.gameRequest = gameRequest;
-	}
-
-	public void setGameBoard (Gameboard gameboard) {
-		this.gameboard = gameboard;
-	}
 
 	public void setOpponentUsername (String opponentUsername) {this.opponentUsername = opponentUsername;}
-	
-	public void setGameObjectType(GameObjectType gameObjectType) {
-		this.gameObjectType = gameObjectType;
-	}
 }

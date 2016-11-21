@@ -3,6 +3,7 @@
     <properties maven-id="one.util:streamex:0.6.3" />
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/streamex-0.6.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/streamex-0.6.3.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

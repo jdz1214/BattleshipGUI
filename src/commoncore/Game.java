@@ -6,19 +6,18 @@ import server.Watchtower;
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static commoncore.Game.Gamestate.youWon;
+import static commoncore.Game.Gamestate.gameOn;
 
 
 public class Game implements Runnable {
 	private Watchtower w;
 	private ClientRunnable p1;
 	private ClientRunnable p2;
-	private ClientRunnable winner;
-	private Boolean gameOver;
 	private ClientRunnable playerUp;
-	private Gameboard gameboard;
+    private ClientRunnable winner;
+    private ClientRunnable loser;
 	private Gamestate gamestate;
-	public enum Gamestate { gameOn, gameOver, youAreUp, youAreNotUp, preGame, youWon }
+	public enum Gamestate { gameOn, gameOver, youAreUp, youAreNotUp, preGame, youWon, youLost }
 	
 	//Constructors
 	public Game (ClientRunnable p1, ClientRunnable p2, Watchtower w) {
@@ -26,11 +25,10 @@ public class Game implements Runnable {
 		this.p1 = p1;
 		this.p2 = p2;
         init();
-		gameOver = false;
         //TODO gameboard development in progress.
 		//gameboard = new Gameboard();
         determineFirst();
-		gamestate = Gamestate.gameOn;
+		gamestate = gameOn;
 		run();
 	}
 	
@@ -56,15 +54,6 @@ public class Game implements Runnable {
         }
 	}
 
-	public void determineWinner() {
-		winner = (playerUp.equals(p1)) ? p2 : p1;
-        try {
-            winner.getObjectOutputStream().writeObject(new Transmission(new GameObject(youWon)));
-            winner.getObjectOutputStream().flush();
-        } catch (IOException e) {e.printStackTrace();}
-
-    }
-
 	public void validateAttack (Attack attack, ClientRunnable attackingPlayer) {
 		if (attackingPlayer == playerUp) {
 			if (playerUp.equals(p1)) {
@@ -88,9 +77,28 @@ public class Game implements Runnable {
     }
 
 	private void notifyPlayers() {
-	    ClientRunnable otherPlayer = (playerUp.equals(p1)) ? p2 : p1;
-        playerUp.notifyUp(true);
-        otherPlayer.notifyUp(false);
+        if (this.gamestate == Gamestate.gameOn) {
+            ClientRunnable otherPlayer = (playerUp.equals(p1)) ? p2 : p1;
+            playerUp.notifyUp(true);
+            otherPlayer.notifyUp(false);
+        } else if (this.gamestate == Gamestate.gameOver) {
+            p1.notifyGameOver(winner==p1?Gamestate.youWon : Gamestate.youLost);
+            p2.notifyGameOver(winner==p2?Gamestate.youWon : Gamestate.youLost);
+        }
+    }
+
+    public void setGamestate (Game.Gamestate gamestate) {
+        this.gamestate = gamestate;
+    }
+
+    public void setWinnerAndLoser (String winnerUsername) {
+        if (p1.getUsername().equals(winnerUsername)) {
+            winner = p1;
+            loser = p2;
+        } else {
+            winner = p2;
+            loser = p1;
+        }
     }
 	
 	//Classes
@@ -104,6 +112,4 @@ public class Game implements Runnable {
         assert cr!= null;
         return cr;
     }
-
-
 }

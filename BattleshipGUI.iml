@@ -19,5 +19,6 @@
     <orderEntry type="library" name="mysql-connector-java-5.1.39-bin" level="project" />
     <orderEntry type="library" name="IntelliJ Libraries" level="application" />
     <orderEntry type="library" name="one.util:streamex:0.6.3" level="project" />
+    <orderEntry type="library" name="IntelliJ Library" level="application" />
   </component>
 </module>

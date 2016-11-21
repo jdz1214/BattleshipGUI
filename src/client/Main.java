@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -23,8 +25,11 @@ import static commoncore.GameObject.GameObjectType.QUIT;
 
 public class Main extends Application {
     private Stage stage;
+    @Nullable
     private Scene guiScene;
+    @Nullable
     private Scene loginScene;
+    @Nullable
     private Scene gameScene;
     private LoginController lc;
     private GUIController guiController;
@@ -149,6 +154,20 @@ public class Main extends Application {
                                         case BOARD:
                                             break;
                                         case HISTORY:
+                                            break;
+                                        case GAMEOVER:
+                                            GameOver gameOver = go.getGameOver();
+                                            assert gameOver != null;
+                                            String winnerUserName = gameOver.getWinnerUsername();
+                                            assert winnerUserName != null;
+                                            assert username != null;
+                                            assert username.length() > 0;
+                                            System.out.println(username);
+                                            if (winnerUserName.equals(getUsername())) {
+                                                Platform.runLater(() -> gameController.iWon());
+                                            } else {
+                                                Platform.runLater(() -> gameController.iLost());
+                                            }
                                             break;
                                         case GAMESTATE:
                                             Game.Gamestate gs = go.getGamestate();
@@ -391,7 +410,7 @@ public class Main extends Application {
         Platform.runLater(lgin);
     }
 
-    void send(String msg) {
+    void send(@NotNull String msg) {
         if (msg.length() > 0) {
             try {
                 os.writeObject(new Transmission(username + ": " + msg));

@@ -36,6 +36,7 @@ public class ClientRunnable implements Runnable {
     private int playerNumber;
     private AttackResult attackResult;
     private Boolean myTurn = false;
+    private Transmission t;
 
 
 
@@ -78,13 +79,11 @@ public class ClientRunnable implements Runnable {
             try {
                 os = new ObjectOutputStream (s.getOutputStream());
                 is = new ObjectInputStream (s.getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            } catch (IOException ignored) {}
 
             while(connected) {
                 try {
-                    Transmission t = (Transmission) is.readObject();
+                    t = (Transmission) is.readObject();
                     if (loggedIn) {
                         if (status == Watchtower.Status.INGAME) {
                             switch (t.getTransmissionType()) {
@@ -102,7 +101,7 @@ public class ClientRunnable implements Runnable {
                                                 game.validateAttack(attack, this);
                                             break;
                                         case ATTACKRESULT:
-                                            // TODO
+                                            relay(go.getAttackResult());
                                             break;
                                         case BOARD:
                                             // TODO
@@ -257,6 +256,10 @@ public class ClientRunnable implements Runnable {
         rt.setDaemon(true);
         rt.start();
         System.out.println("ClientRunnable Started receive thread.");
+    }
+
+    private <T extends Transmission> void relay(<T> t) {
+
     }
 
     void logout() {

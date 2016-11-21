@@ -61,7 +61,6 @@ public class Main extends Application {
         stage = primaryStage;
         stage.setTitle("Battleship");
         handleShutdown();
-        inGame = false;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/Login.fxml"));
         Parent root = null;
         try {
@@ -392,7 +391,7 @@ public class Main extends Application {
         Platform.runLater(lgin);
     }
 
-    public void send(String msg) {
+    void send(String msg) {
         if (msg.length() > 0) {
             try {
                 os.writeObject(new Transmission(username + ": " + msg));

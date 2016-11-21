@@ -87,7 +87,7 @@ public class Watchtower extends Application {
                     ClientRunnable cr = new ClientRunnable(ss.accept());
                     cr.init(this);
                     lobby.execute(cr);
-                } catch (Exception e) {System.out.println("Error accepting new clients.");}
+                } catch (Exception e) {System.out.println("Error accepting new client.");}
             }
         };
         Thread st = new Thread(Server);

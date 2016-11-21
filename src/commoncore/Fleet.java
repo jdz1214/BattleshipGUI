@@ -16,7 +16,7 @@ public class Fleet extends ArrayList<Ship> implements Serializable {
     private List<Set<Spot>> fleetLocations;
 
     //Constructors
-    public Fleet () {
+    public Fleet() {
         System.out.println("Adding ships to Fleet in Fleet class.");
         shipName.stream().forEach(s -> this.add(new Ship(s, this)));
         System.out.println("Fleet size: " + this.size());
@@ -40,7 +40,7 @@ public class Fleet extends ArrayList<Ship> implements Serializable {
         return taken;
     }
 
-    public Ship getShip (shipName name) { // Overloaded. See String variant.
+    public Ship getShip(shipName name) { // Overloaded. See String variant.
         Ship ship = null;
         for (Ship s : this) {
             if (s.getNameEnum().equals(name)) {
@@ -48,11 +48,11 @@ public class Fleet extends ArrayList<Ship> implements Serializable {
                 break;
             }
         }
-        assert(ship!=null);
+        assert (ship != null);
         return ship;
     }
 
-    public Ship getShip (String name) { // Overloaded. See Enum variant.
+    public Ship getShip(String name) { // Overloaded. See Enum variant.
         Ship ship = null;
         for (Ship s : this) {
             if (s.getNameString().equals(name)) {
@@ -60,11 +60,21 @@ public class Fleet extends ArrayList<Ship> implements Serializable {
                 break;
             }
         }
-        assert(ship!=null);
+        assert (ship != null);
         return ship;
     }
 
     public List<Set<Spot>> getFleetLocations() {
         return fleetLocations;
+    }
+
+    public AttackResult evaluateAttackReceived(Attack attackReceived) {
+        for (Ship s : this) {
+            AttackResult ar = s.evaluateAttack(attackReceived);
+            if (ar.wasHit()) {
+                return ar;
+            }
+        }
+        return new AttackResult(false, false, attackReceived.getAttackSpotRowColStr());
     }
 }

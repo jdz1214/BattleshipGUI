@@ -103,78 +103,8 @@ public class GameController implements Initializable {
     private Button attackSelectionBtn;
     private Boolean attackSelected;
     private Fleet fleet;
-    private ArrayList<Spot> spotPool;
-    private int gridRowLength; //0 is a spot, so val of 5 means 6 spots. Enables me to iterate directly.
+    private int gridRowLength; //0 is a spot, so val of 5 means 6 spots. This setup enables direct iteration.
     private int gridColLength;
-
-
-    @FXML
-    public void youAreUp() {
-        for (Button b : gridAttackHistoryBtnList) { b.setDisable(false);}
-        btnAttack.setDisable(false);
-        lblInfo.setText("You are up!");
-    }
-
-    @FXML
-    public void youAreNotUp() {
-        for (Button b : gridAttackHistoryBtnList) { b.setDisable(true); }
-        btnAttack.setDisable(true);
-        lblInfo.setText("Awaiting opponent's move.");
-    }
-
-    @FXML
-    private void attackSelection(ActionEvent event) {
-        if (attackSelected == false) {
-            Button thisBtn = (Button) event.getSource();
-            attackSelectionBtn = thisBtn;
-            attackSelectionId = thisBtn.getId();
-            System.out.println(thisBtn.getId());
-            gridAttackHistoryBtnList.stream().filter(btn -> btn.getId() != thisBtn.getId()).forEach(btn -> {
-                btn.setDisable(true);
-            });
-            attackSelected = true;
-        } else {
-            attackSelectionId = null;
-            attackSelected = false;
-            for (Button b : gridAttackHistoryBtnList) {
-                b.setDisable(false);
-            }
-        }
-    }
-
-    @FXML
-    public void disableGrid () {
-        gridAttackHistoryBtnList.stream().forEach(btn -> {
-            btn.setDisable(true);
-        });
-    }
-
-    @FXML
-    public void enableGrid () {
-        gridAttackHistoryBtnList.stream().filter(btn -> btn.getText().equals('~')).forEach(btn -> {
-            btn.setDisable(false);
-        });
-    }
-
-    @FXML
-    public void processHit() {
-        attackSelectionBtn.setText("X");
-    }
-
-    @FXML
-    public void processMiss() {
-        attackSelectionBtn.setText("O");
-    }
-
-    @FXML
-    private void quit() {
-        m.showGUI();
-    }
-
-    @FXML
-    private void onEnter() {
-        sendMessage();
-    }
 
     @FXML
     void init(Main m, String opponentUsername, Fleet fleet) {
@@ -194,7 +124,8 @@ public class GameController implements Initializable {
                     btn.setText("~");
                     return btn;})
                 .collect(Collectors.toCollection(ArrayList::new));
-
+        gridAttackHistoryBtnList.stream()
+                .map(button -> button.getId().substring(11,13));
         gridFleetBtnList = gridFleet.getChildren().stream()
                 .filter(txtNode -> txtNode instanceof Text)
                 .map(txtNode -> (Text) txtNode)
@@ -204,13 +135,85 @@ public class GameController implements Initializable {
                     return t;})
                 .collect(Collectors.toCollection(ArrayList::new));
         placeShips(fleet);
+
+        List<Integer> gridSizes = gridFleetBtnList.stream()
+                .map(t -> t.getId().substring(9,11))
+                .map(w -> Integer.parseInt(w))
+                .collect(Collectors.toList());
+        OptionalInt max = gridSizes.stream()
+                .mapToInt(Integer::intValue).max();
+        gridRowLength = (max.getAsInt()+11) / 10; //Adding 11 so that 55 becomes 66 -> corrects to .size() and .length() results from list positions.
+        System.out.println("Maximum grid row length: " + gridRowLength);
+        gridColLength = (max.getAsInt()+11) % 10;
+        System.out.println("Maximum grid col length: " + gridColLength);
     }
 
     @FXML
-    public void updateHistory(ActionEvent event) {
-        Button btn = (Button) event.getSource();
-        String btnName = btn.getId();
-        //Todo
+    public void youAreUp() {
+        for (Button b : gridAttackHistoryBtnList) { b.setDisable(false);}
+        btnAttack.setDisable(false);
+        lblInfo.setText("You are up!");
+    }
+
+    @FXML
+    public void youAreNotUp() {
+        disableGrid();
+        btnAttack.setDisable(true);
+        lblInfo.setText(lblInfo.getText() + " :: Awaiting opponent's move.");
+    }
+
+    @FXML
+    private void attackSelection(ActionEvent event) {
+        if (attackSelected) {
+            attackSelectionId = null;
+            attackSelected = false;
+            enableGrid();
+        } else {
+            attackSelectionBtn = (Button) event.getSource();
+            attackSelectionId = attackSelectionBtn.getId();
+            System.out.println("Attack selection ID: " + attackSelectionId);
+            attackSelected = true;
+            disableGrid(attackSelectionId);
+        }
+    }
+
+    @FXML
+    public void disableGrid () {
+        gridAttackHistoryBtnList.stream().forEach(btn -> {
+            btn.setDisable(true);
+        });
+    }
+
+    @FXML
+    public void disableGrid (String disableAllExceptThisBtnID) {
+        gridAttackHistoryBtnList.stream()
+                .filter(btn -> btn.getId() != disableAllExceptThisBtnID)
+                .forEach(btn -> btn.setDisable(true));
+    }
+
+    @FXML
+    public void enableGrid () {
+        gridAttackHistoryBtnList.stream().filter(btn -> btn.getText().equals("~"))
+                .forEach(btn -> btn.setDisable(false));
+    }
+
+    @FXML
+    public void processAttackResult(AttackResult attackResult) {
+        System.out.println("In gameController method handling attackResult.");
+        gridAttackHistoryBtnList.stream()
+                .filter(btn -> btn.getId().substring(11,13).equals(attackResult.getSpotRowCol()))
+                .map(btn -> {if (attackResult.wasHit()) { btn.setText("X");} else {btn.setText("O");} return btn;});
+        updateInfo(attackResult.wasHit() ? attackResult.sunkShip() ? ("You sunk their battleship!") : ("Your shot hit!") : ("Your shot missed!"));
+    }
+
+    @FXML
+    private void quit() {
+        m.showGUI();
+    }
+
+    @FXML
+    private void onEnter() {
+        sendMessage();
     }
 
     @FXML
@@ -235,49 +238,26 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void attack(ActionEvent actionEvent) {
+    public void attack(ActionEvent event) {
+        System.out.println("Attack button clicked.");
         if (attackSelected) {
-            // TODO get x and y
-            int x = Integer.parseInt((attackSelectionId.substring(11,12)));
-            int y = Integer.parseInt((attackSelectionId.substring(12,13)));
-            String z = attackSelectionBtn.getText().substring(0,1);
-            System.out.println("x: " + x + " y: " + y + " z: " + z);
-            Spot attackSpot = new Spot(x, y, z);
-            Attack attack = new Attack(attackSpot);
-            m.send(new Transmission(new GameObject(attack)));
+            System.out.println("Attack selected --> transmitting attack.");
+            String attackRowColStr = attackSelectionId.substring(11,13);
+            m.send(new Transmission(new GameObject(new Attack(attackRowColStr))));
             disableGrid();
+            System.out.println("Attack sent.");
             lblInfo.setText("Attack Sent");
         }
     }
 
     @FXML
-    public void updateInfo(String infoText) {
-        lblInfo.setText(infoText);
+    public AttackResult evaluateAttackReceived(Attack attackReceived) {
+        return fleet.evaluateAttackReceived(attackReceived);
     }
 
     @FXML
-    public ArrayList<Spot> getSpotPool (ArrayList<Button> buttonList) {
-        ArrayList<Spot> spotList = new ArrayList<>();
-        for (Button b : buttonList) {
-            String id = b.getId();
-            String substring = id.substring(Math.max(id.length() - 2, 0));
-            int x = substring.charAt(0);
-            int y = substring.charAt(1);
-            String txt = b.getText();
-            if (txt.length() != 1) {
-                System.out.println("Button length error.");
-            } else {
-                String z = b.getText().substring(0,1);
-                spotList.add(new Spot(x, y, z));
-            }
-        }
-        return spotList;
-    }
-
-    private int randGenerator(int min, int max) {
-        Random rand = new Random();
-        int nextRand = rand.nextInt((max-min) +1) + min;
-        return nextRand;
+    public void updateInfo(String infoText) {
+        lblInfo.setText(infoText);
     }
 
     @FXML //Generate ship locations
@@ -361,19 +341,12 @@ public class GameController implements Initializable {
         return returnList;
     }
 
-    public Text getTextFromSpot(Spot spot) {
-        Text txt = null;
-        String id = spot.getRowColStr();
-        for (Text t : gridFleetBtnList) {
-            if (t.getId().substring(9,11).equals(id)) {
-                txt = t;
-            }
-        }
-        assert (txt!=null);
-        return txt;
+    private int randGenerator(int min, int max) {
+        Random rand = new Random();
+        int nextRand = rand.nextInt((max-min) +1) + min;
+        return nextRand;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {}
-
 }

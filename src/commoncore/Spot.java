@@ -10,6 +10,7 @@ public class Spot implements Serializable {
     private int col;
     private String text;
     private Text txt;
+    private Boolean hasBeenHit;
     //Constructors
 
     public Spot(){}
@@ -20,6 +21,7 @@ public class Spot implements Serializable {
         this.col = Integer.parseInt(id.substring(10,11));
         this.text = txt.getText();
         this.txt = txt;
+        hasBeenHit = false;
     }
 
     public Spot (int row, int col, String text) {
@@ -27,6 +29,13 @@ public class Spot implements Serializable {
         this.row = row;
         this.col = col;
         this.text = text;
+        hasBeenHit = false;
+    }
+
+    public void becomesHit() {
+        hasBeenHit = true;
+        this.text = "X";
+        Platform.runLater(() -> this.txt.setText(text));
     }
 
     //Methods
@@ -44,5 +53,8 @@ public class Spot implements Serializable {
     public String getGridText() {
         this.text = txt.getText();
         return this.text; // Let us hope this works without Platform.runLater()...
+    }
+    public Boolean hasBeenHit() {
+        return this.hasBeenHit;
     }
 }

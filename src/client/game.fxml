@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<TitledPane fx:id="titledPane" alignment="CENTER" collapsible="false" minHeight="937.0" minWidth="535.0" prefHeight="937.0" prefWidth="535.0" text="Battleship" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GameController">
+<TitledPane fx:id="titledPane" alignment="CENTER" collapsible="false" contentDisplay="CENTER" minHeight="937.0" minWidth="535.0" prefHeight="937.0" prefWidth="535.0" text="Battleship" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GameController">
    <content>
       <AnchorPane>
          <children>
@@ -415,7 +415,7 @@
                </rowConstraints>
             </GridPane>
             <Button fx:id="btnQuit" layoutX="431.0" layoutY="9.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#quit" prefHeight="27.0" prefWidth="60.0" text="Quit" />
-            <Label fx:id="lblAttackHistory" alignment="CENTER" contentDisplay="CENTER" layoutX="223.0" layoutY="47.0" text="Attack History" />
+            <Label fx:id="lblAttackHistory" alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="47.0" prefHeight="16.0" prefWidth="444.0" text="Attack History" textAlignment="CENTER" />
             <Label fx:id="lblYourFleet" alignment="CENTER" contentDisplay="CENTER" layoutX="238.0" layoutY="871.0" text="Your Fleet" />
             <TextArea fx:id="txtGameChat" editable="false" focusTraversable="false" layoutX="48.0" layoutY="388.0" prefHeight="109.0" prefWidth="443.0" promptText="Game Chat" />
             <TextField fx:id="txtInput" layoutX="48.0" layoutY="506.0" onAction="#onEnter" prefHeight="27.0" prefWidth="443.0" promptText="Chat Input" />

@@ -63,6 +63,7 @@ public class Watchtower extends Application {
     public void start(Stage primaryStage) {
         boot();
         stage = primaryStage;
+        stage.setTitle("Watchtower:Battleship");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/server/watchtower.fxml"));
         Parent parent = null;
         try {

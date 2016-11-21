@@ -59,7 +59,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
         stage = primaryStage;
+        stage.setTitle("Battleship");
         handleShutdown();
+        inGame = false;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/Login.fxml"));
         Parent root = null;
         try {
@@ -71,6 +73,7 @@ public class Main extends Application {
         loginScene = new Scene(root);
         loginScene.getStylesheets().add("/client/application.css");
         stage.setScene(loginScene);
+        stage.setTitle("Login:Battleship");
         stage.show();
         this.fleet = new Fleet();
         getConnection();
@@ -107,126 +110,139 @@ public class Main extends Application {
                             if (lo.getLoginSuccess()) {
                                 loggedIn = true;
                                 username = lo.getUsername();
+                                System.out.println(username + " successfully logged in.");
                                 startGUI();
                             } else {
                                 Platform.runLater(() -> lc.setLblMessage("Login attempt " + loginAttempts + "/5 was unsuccessful."));
                             }
                         }
-                    } else if (inGame) {
-                        switch (t.getTransmissionType()) {
-                            case CHATMESSAGE:
-                                String msg = t.getChatMessage();
-                                Platform.runLater(() -> gameController.updateChat(msg));
-                                break;
-                            case GAMEOBJECT:
-                                GameObject go = t.getGameObject();
-                                switch (go.getGameObjectType()) {
-                                    case QUIT:
-                                        System.out.println("Received QUIT object.");
-                                        if (inGame) {
-                                            Platform.runLater(() -> gameController.disableChat());
-                                            Platform.runLater(() -> gameController.updateChat("[" + go.getUserWhoQuit() + " has quit.]"));
-                                        }
-                                        endGame();
-                                        break;
-                                    case ATTACK:
-                                        //TODO
-
-                                    case ATTACKRESULT:
-                                        AttackResult ar = go.getAttackResult();
-                                        if (ar.getResult()) {
-                                            Platform.runLater(() -> gameController.processHit());
-                                            if (ar.sunkShip()) {
-                                                Platform.runLater(() -> gameController.updateInfo("You sunk their battleship!"));
-                                            } else {
-                                                Platform.runLater(() -> gameController.updateInfo("Your shot hit!"));
+                    } else {
+                        if (inGame) {
+                            switch (t.getTransmissionType()) {
+                                case CHATMESSAGE:
+                                    String msg = t.getChatMessage();
+                                    Platform.runLater(() -> gameController.updateChat(msg));
+                                    break;
+                                case LOGINOBJECT:
+                                    break;
+                                case SERVERREQUESTOBJECT:
+                                    break;
+                                case GAMEOBJECT:
+                                    GameObject go = t.getGameObject();
+                                    switch (go.getGameObjectType()) {
+                                        case QUIT:
+                                            System.out.println("Received QUIT object.");
+                                            if (inGame) {
+                                                Platform.runLater(() -> gameController.disableChat());
+                                                Platform.runLater(() -> gameController.updateChat("[" + go.getUserWhoQuit() + " has quit.]"));
                                             }
-                                        } else {
-                                            Platform.runLater(() -> gameController.processMiss());
-                                        }
-                                        break;
+                                            endGame();
+                                            break;
+                                        case ATTACK:
+                                            System.out.println("Received Attack and transmitted AttackResult.");
+                                            os.writeObject(new Transmission(new GameObject(gameController.evaluateAttackReceived(go.getAttack()))));
+                                            os.flush();
+                                            break;
+                                        case ATTACKRESULT:
+                                            System.out.println("Received AttackResult.");
+                                            Platform.runLater(() -> gameController.processAttackResult(go.getAttackResult()));
+                                            break;
+                                        case BOARD:
+                                            break;
+                                        case HISTORY:
+                                            break;
+                                        case GAMESTATE:
+                                            Game.Gamestate gs = go.getGamestate();
+                                            switch (gs) {
+                                                case youAreUp:
+                                                    //TODO set attack board editable
+                                                    Platform.runLater(() -> gameController.youAreUp());
+                                                    break;
 
-                                    case GAMESTATE:
-                                        Game.Gamestate gs = go.getGamestate();
-                                        switch (gs) {
-                                            case youAreUp:
-                                                //TODO set attack board editable
-                                                Platform.runLater(() -> gameController.youAreUp());
-                                                break;
+                                                case youAreNotUp:
+                                                    //TODO set attack board uneditable
+                                                    Platform.runLater(() -> gameController.youAreNotUp());
+                                                    break;
 
-                                            case youAreNotUp:
-                                                //TODO set attack board uneditable
-                                                Platform.runLater(() -> gameController.youAreNotUp());
-                                                break;
-
-                                            case youWon:
-                                                Platform.runLater(() -> gameController.updateInfo("Congratulations, you won!"));
-                                                Platform.runLater(() -> gameController.disableGrid());
-                                                break;
-                                        }
-                                        break;
-                                }
-                                break;
-                        }
-                    } else { // Lobby activity
-                        switch (t.getTransmissionType()) {
-                            case CHATMESSAGE:
-                                String msg = t.getChatMessage();
-                                if (msg.length() > 0) {
-                                    Platform.runLater(() -> guiController.updateChat(msg));
-                                }
-                                break;
-                            case LOGINOBJECT:
-                                LoginObject lo = t.getLoginObject();
-                                switch (lo.getType()) {
-                                    case LOGOUT:
-                                        logout();
-                                        break;
-                                    case LOGIN:
-                                        System.out.println("Error: Received login obj but already logged in.");
-                                        break;
-                                    case KICK:
-                                        System.out.println("[Kicked from server]");
-                                        logout();
-                                        while(!ready) {
-                                            Thread.sleep(10);
-                                        }
-                                        Platform.runLater(() -> lc.disableLogin());
-                                        for (int i = 30; i > 0; i--) {
-                                            final int iFin = i;
-                                            Platform.runLater(() -> lc.lblMessage.setText("You were kicked. [" + iFin + "]"));
-                                            try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
-                                        }
-                                        Platform.runLater(() -> {
-                                            lc.setLblMessage("");
-                                            lc.enableLogin();
-                                        });
-                                        break;
-                                }
-                                break;
-                            case SERVERREQUESTOBJECT:
-                                ServerRequestObject sro = t.getServerRequestObject();
-                                switch (sro.getServerRequestObjectType()) {
-                                    case LOBBYLIST:
-                                        usernameList = FXCollections.observableArrayList(sro.getLobbyList());
-                                        Platform.runLater(() -> slp.set(usernameList));
-                                }
-                                break;
-                            case GAMEOBJECT:
-                                System.out.println("Main received GameObject.");
-                                GameObject go = t.getGameObject();
-                                GameObject.GameObjectType gto = go.getGameObjectType();
-                                switch (gto) {
-                                    case GAMEREQUEST:
-                                        confirmRequest(go.getGameRequest().getUsername());
-                                        break;
-                                    case GAMESTATE:
-                                        if (go.getGamestate() == Game.Gamestate.preGame) {
-                                            startGame(go.getOpponentUsername());
-                                        }
-                                        break;
-                                }
-                                break;
+                                                case youWon:
+                                                    Platform.runLater(() -> gameController.updateInfo("Congratulations, you won!"));
+                                                    Platform.runLater(() -> gameController.disableGrid());
+                                                    break;
+                                            }
+                                            break;
+                                        case GAMEREQUEST:
+                                            break;
+                                        case GAMEBOARD:
+                                            break;
+                                        case NEWGAME:
+                                            break;
+                                    }
+                                    break;
+                            }
+                        } else { // Lobby activity
+                            switch (t.getTransmissionType()) {
+                                case CHATMESSAGE:
+                                    String msg = t.getChatMessage();
+                                    if (msg.length() > 0) {
+                                        Platform.runLater(() -> guiController.updateChat(msg));
+                                    }
+                                    break;
+                                case LOGINOBJECT:
+                                    LoginObject lo = t.getLoginObject();
+                                    switch (lo.getType()) {
+                                        case LOGOUT:
+                                            logout();
+                                            break;
+                                        case LOGIN:
+                                            System.out.println("Error: Received login obj but already logged in.");
+                                            break;
+                                        case KICK:
+                                            System.out.println("[Kicked from server]");
+                                            logout();
+                                            while (!ready) {
+                                                Thread.sleep(10);
+                                            }
+                                            Platform.runLater(() -> lc.disableLogin());
+                                            for (int i = 30; i > 0; i--) {
+                                                final int iFin = i;
+                                                Platform.runLater(() -> lc.lblMessage.setText("You were kicked. [" + iFin + "]"));
+                                                try {
+                                                    Thread.sleep(1000);
+                                                } catch (InterruptedException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                            Platform.runLater(() -> {
+                                                lc.setLblMessage("");
+                                                lc.enableLogin();
+                                            });
+                                            break;
+                                    }
+                                    break;
+                                case SERVERREQUESTOBJECT:
+                                    ServerRequestObject sro = t.getServerRequestObject();
+                                    switch (sro.getServerRequestObjectType()) {
+                                        case LOBBYLIST:
+                                            usernameList = FXCollections.observableArrayList(sro.getLobbyList());
+                                            Platform.runLater(() -> slp.set(usernameList));
+                                    }
+                                    break;
+                                case GAMEOBJECT:
+                                    System.out.println("Main received GameObject.");
+                                    GameObject go = t.getGameObject();
+                                    GameObject.GameObjectType gto = go.getGameObjectType();
+                                    switch (gto) {
+                                        case GAMEREQUEST:
+                                            confirmRequest(go.getGameRequest().getUsername());
+                                            break;
+                                        case GAMESTATE:
+                                            if (go.getGamestate() == Game.Gamestate.preGame) {
+                                                startGame(go.getOpponentUsername());
+                                            }
+                                            break;
+                                    }
+                                    break;
+                            }
                         }
                     }
                 } catch (SocketException soe) {System.out.println("Client disconnected via closing socket.");}
@@ -256,6 +272,7 @@ public class Main extends Application {
                 assert root != null;
                 guiScene = new Scene(root);
                 stage.setScene(guiScene);
+                stage.setTitle("Game:Battleship");
                 stage.show();
             }
         };
@@ -274,6 +291,7 @@ public class Main extends Application {
 
             if (connected && loggedIn) {
                 stage.setScene(guiScene);
+                stage.setTitle("Game:Battleship");
                 stage.show();
             } else {
                 showLogin();
@@ -290,6 +308,7 @@ public class Main extends Application {
                 lc.enableLogin();
             }
             stage.setScene(loginScene);
+            stage.setTitle("Login:Battleship");
             stage.show();
         };
         Platform.runLater(shLogin);
@@ -323,6 +342,7 @@ public class Main extends Application {
 
 	private void startGame(String opponentUsername) {
         inGame = true;
+        System.out.println("inGame == true.");
 	    Runnable sg = () -> {
 	        if (connected && loggedIn) {
                 stage.getScene().getWindow().hide();

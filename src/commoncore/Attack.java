@@ -1,17 +1,19 @@
 package commoncore;
 
+import java.io.Serializable;
+
 /**
  * Created by jdz on 8/29/16.
  */
-public class Attack {
-    private Spot attackSpot;
+public class Attack implements Serializable {
+    private String attackSpotRowColStr;
     //Constructor
 
-    public Attack (Spot spotToAttack) {
-        this.attackSpot = spotToAttack;
+    public Attack (String attackSpotRowColStr) {
+        this.attackSpotRowColStr = attackSpotRowColStr;
     }
 
-    public Spot getSpot() {
-        return attackSpot;
+    public String getAttackSpotRowColStr() {
+        return attackSpotRowColStr;
     }
 }

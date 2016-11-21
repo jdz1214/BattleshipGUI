@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 public class Ship implements Serializable {
     int shipLength; //Ship length, in number of Spots. Must be greater than 1 && less than 5.
     int hitsRemaining;
+    Boolean sunk;
     private Fleet fleet;
     int orientation; // 0 == Horizontal, 1 == Vertical.
     shipName name;
@@ -33,9 +34,10 @@ public class Ship implements Serializable {
     //Constructor
     public Ship(shipName name, Fleet shipsFleet) {
         this.name = name;
+        this.sunk = false;
         this.shipLength = inferShipLength(name);
         this.hitsRemaining = shipLength;
-        locations = new ArrayList<Spot>(shipLength);
+        locations = new ArrayList<>(shipLength);
         this.fleet=shipsFleet;
     }
 
@@ -62,6 +64,23 @@ public class Ship implements Serializable {
         }
         assert digit > 0;
         return digit;
+    }
+
+    public AttackResult evaluateAttack(Attack attackRecieved) {
+        Boolean wasHit = locations.stream()
+                .anyMatch(l -> l.getRowColStr().equals(attackRecieved.getAttackSpotRowColStr()));
+        if (wasHit) {
+
+            for (Spot spot : locations) {
+                if (attackRecieved.getAttackSpotRowColStr().equals(spot.getRowColStr())) {
+                    spot.becomesHit();
+                    hitsRemaining--;
+                    sunk = hitsRemaining == 0 ? true : false;
+                    break;
+                }
+            }
+        }
+        return new AttackResult(wasHit, sunk, attackRecieved.getAttackSpotRowColStr());
     }
 
     public int getShipLength() {

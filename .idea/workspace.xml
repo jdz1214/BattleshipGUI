@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f23be304-f054-4179-a57a-7ea13cec3457" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/commoncore/GameOver.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/one_util_streamex_0_6_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/one_util_streamex_0_6_3.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BattleshipGUI.iml" afterPath="$PROJECT_DIR$/BattleshipGUI.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/GameController.java" afterPath="$PROJECT_DIR$/src/client/GameController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Main.java" afterPath="$PROJECT_DIR$/src/client/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/Fleet.java" afterPath="$PROJECT_DIR$/src/commoncore/Fleet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/Game.java" afterPath="$PROJECT_DIR$/src/commoncore/Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/GameObject.java" afterPath="$PROJECT_DIR$/src/commoncore/GameObject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/Spot.java" afterPath="$PROJECT_DIR$/src/commoncore/Spot.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/ClientRunnable.java" afterPath="$PROJECT_DIR$/src/server/ClientRunnable.java" />
     </list>
     <ignored path="BattleshipGUI.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1278,7 +1268,7 @@
       <workItem from="1479509036746" duration="669000" />
       <workItem from="1479577734129" duration="2477000" />
       <workItem from="1479580541336" duration="73155000" />
-      <workItem from="1479741618555" duration="11943000" />
+      <workItem from="1479741618555" duration="11966000" />
     </task>
     <task id="LOCAL-00001" summary="creating game controller class">
       <created>1468327704744</created>
@@ -1371,11 +1361,18 @@
       <option name="project" value="LOCAL" />
       <updated>1479722263846</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Network interface and object transmission needs work. Interfaces are bulky and should probably be rewritten to be leaner. Cannot get the top grid button text values to change from ~, most likely because of issues in transmitting the AttackResult objects (and in receiving them, etc.). They aren't registering. Need to address this next.">
+      <created>1479756205956</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1479756205956</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="366398000" />
+    <option name="totallyTimeSpent" value="366421000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">

@@ -59,8 +59,8 @@ public class GameController implements Initializable {
     @FXML private Button gridHistory53;
     @FXML private Button gridHistory54;
     @FXML private Button gridHistory55;
-    @FXML private ArrayList<Button> gridAttackHistoryBtnList;
-    @FXML private ArrayList<Text> gridFleetBtnList;
+    @FXML private List<Button> gridAttackHistoryBtnList;
+    @FXML private List<Text> gridFleetBtnList;
     @FXML private Text gridFleet00;
     @FXML private Text gridFleet01;
     @FXML private Text gridFleet02;
@@ -104,6 +104,8 @@ public class GameController implements Initializable {
     private Boolean attackSelected;
     private Fleet fleet;
     private ArrayList<Spot> spotPool;
+    private int gridRowLength; //0 is a spot, so val of 5 means 6 spots. Enables me to iterate directly.
+    private int gridColLength;
 
 
     @FXML
@@ -175,11 +177,33 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    void init(Main m, String opponentUsername) {
+    void init(Main m, String opponentUsername, Fleet fleet) {
         this.m = m;
         titledPane.setText("Battleship - Game: " + m.getUsername());
         lblAttackHistory.setText("Attack History vs. " + opponentUsername);
         btnAttack.setDisable(true);
+        attackSelected = false;
+        gridRowLength = 5; //5 because it's 0-5, so 6 total.
+        gridColLength = 5;
+        this.fleet = fleet;
+        gridAttackHistoryBtnList = gridAttackHistory.getChildren().stream()
+                .filter(btnNode -> btnNode instanceof Button)
+                .map(btnNode -> (Button) btnNode)
+                .map(btn -> {
+                    btn.setDisable(true);
+                    btn.setText("~");
+                    return btn;})
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        gridFleetBtnList = gridFleet.getChildren().stream()
+                .filter(txtNode -> txtNode instanceof Text)
+                .map(txtNode -> (Text) txtNode)
+                .map(t -> {
+                    t.setText("~");
+                    t.setDisable(true);
+                    return t;})
+                .collect(Collectors.toCollection(ArrayList::new));
+        placeShips(fleet);
     }
 
     @FXML
@@ -256,35 +280,85 @@ public class GameController implements Initializable {
         return nextRand;
     }
 
-    //Generate ship locations
-    @FXML
+    @FXML //Generate ship locations
     public void placeShips(Fleet fleet) {
         //Grid 0,0 is top left-most corner.
         //First, place the largest (5) ship locations. Use these locations in a list to instantiate the new ship.
         //Determine orientation (vertical or horizontal).
+        List<Spot> allSpots = gridFleetBtnList.stream()
+                .map(Spot::new)
+                .collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<String> spotHistory = new ArrayList<>();
+
         for (Ship s : fleet) {
-            int gridRowLength = 5; //5 because it's 0-5, so 6 total.
-            int gridColLength = 5;
-            int shipLength = s.getShipLength();
-            s.setOrientation((Math.random() < 0.5) ? 0 : 1);
-            System.out.println("Orientation of " + s.getNameString() + ": " + s.getOrientation());
-            List<Spot> allSpots = gridFleetBtnList.stream()
-                    .map(Spot::new)
-                    .collect(Collectors.toList());
+            //Building allSpots
+
             //forEach row/col, loop the number of segments based on calculation from shipLength
-            Map<Integer, List<Spot>> spotsByRow = allSpots.stream()
-                    .collect(Collectors.groupingBy(Spot::getRow));
-            Map<Integer, List<Spot>> spotsByCol = allSpots.stream()
-                    .collect(Collectors.groupingBy(Spot::getCol));
+            Map<Integer, List<Spot>> spotsByRow = new TreeMap<>(allSpots.stream().sorted((Spot s1, Spot s2) -> s1.getRow().compareTo(s2.getRow()))
+                    .collect(Collectors.groupingBy(Spot::getRow))); //Return these as TreeMap so that it is sorted!
+            Map<Integer, List<Spot>> spotsByCol = new TreeMap<>(allSpots.stream().sorted((Spot s1, Spot s2) -> s1.getCol().compareTo(s2.getCol()))
+                    .collect(Collectors.groupingBy(Spot::getCol)));
+            //Done building allSpots.
 
-            Set<Set<Spot>> segmentsByRow = spotsByRow.values().stream().sorted().collect(Collectors.groupingBy());
+            //Building allSets
+            List<Set<Spot>> allSets = new ArrayList<>();
+            allSets.addAll(spotSetGenerator(spotsByRow, s));
+            allSets.addAll(spotSetGenerator(spotsByCol, s));
+            //Done building allSets.
+            List<Set<Spot>> toRemove = new ArrayList<>();
+            for (Set<Spot> spotSet : allSets) {
+                for (Spot spot : spotSet) {
+                    for (String rowColHistory : spotHistory) {
+                        if (rowColHistory.equals(spot.getRowColStr())) {
+                            toRemove.add(spotSet);
+                            break;
+                        }
+                    }
+                }
+            }
 
+            if (toRemove.size() > 0) {
+                System.out.println("Removing " + toRemove.size() + " sets from allSpots.");
+                allSets.removeAll(toRemove);
+            }
+            toRemove.clear();
 
-            s.setLocations(csec);
-            fleet.add(ship);
+            System.out.println("Placing ship of length " + s.getShipLength());
+            //Randomly select a set for assignment to the ship's locations and remove it from allSets (no longer available).
+            ArrayList<Spot> chosenLocations = allSets.get(randGenerator(0, allSets.size()-1)).stream()
+                    .collect(Collectors.toCollection(ArrayList::new));
+            assert chosenLocations.size() == s.getShipLength();
+            s.setLocations(chosenLocations);
+            spotHistory.addAll(chosenLocations.stream().map(spot -> spot.getRowColStr()).collect(Collectors.toSet()));
+            //Ship locations are now set.
+
+            //Marking locations with the ship number.
+            s.getShipLocations().stream().forEach(spot -> spot.updateGrid(Integer.toString(s.getShipLength())));
+            //Grid locations are now marked with the length of the ship.
         }
+    }
 
+    private List<Set<Spot>> spotSetGenerator(Map<Integer, List<Spot>> spotsMap, Ship ship) {
+        List<Set<Spot>> returnList = new ArrayList<>();
+        //We are going to receive a row or col of spots, create sets, add the sets to the list, and return the list.
+        //Example with shipLength 5. How do we calculate how many times to iterate? 5 --> 2. Think of the equation.
+        //spotsToOrganize must be sorted in order for this to work. Treemap + sorted in above method should guarantee this.
 
+        for(Map.Entry<Integer, List<Spot>> e : spotsMap.entrySet()) {
+            List<Spot> spotsToOrganizeIntoSets = e.getValue();
+            int numSets = spotsToOrganizeIntoSets.size() + 1 - ship.getShipLength(); //+1 because size will return 6 for 6 spots, and 7-5==2 which is what we need for shipLength of 5..
+            assert numSets > 0;
+
+            for (int i = 0; i < numSets; i++) {
+                Set<Spot> newSet = new HashSet<>();
+                for (int j = i; j < ship.getShipLength() + i; j++) { //This is the key. j=i. Because the spot number we are on dictates the first spot location of the current set.
+                    newSet.add(spotsToOrganizeIntoSets.get(j));
+                }
+                returnList.add(newSet);
+            }
+        }
+        assert returnList.size() != 0;
+        return returnList;
     }
 
     public Text getTextFromSpot(Spot spot) {
@@ -299,18 +373,7 @@ public class GameController implements Initializable {
         return txt;
     }
 
-
-
-
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        attackSelected = false;
-        gridAttackHistoryBtnList = gridAttackHistory.getChildren().stream().filter(btnNode -> btnNode instanceof Button).map(btnNode -> (Button) btnNode).collect(Collectors.toCollection(ArrayList::new));
-        gridFleetBtnList = gridFleet.getChildren().stream().filter(txtNode -> txtNode instanceof Text).map(txtNode -> (Text) txtNode).collect(Collectors.toCollection(ArrayList::new));
-        for (Text t : gridFleetBtnList) { t.setDisable(true);  t.setText("~");}
-        for (Button b : gridAttackHistoryBtnList) { b.setDisable(true); b.setText("~");}
-        System.out.println("About to execute placeShips.");
-        placeShips();
-    }
+    public void initialize(URL location, ResourceBundle resources) {}
 
 }

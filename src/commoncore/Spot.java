@@ -30,20 +30,19 @@ public class Spot implements Serializable {
     }
 
     //Methods
-    public int getRow() {
+    public Integer getRow() {
         return row;
     }
-    public int getCol() {
+    public Integer getCol() {
         return col;
     }
     public String getRowColStr() {return String.valueOf(row) + String.valueOf(col);}
     public void printMe() {
         System.out.println("row: " + this.row + ", col: " + this.col + ", text: " + this.text);
     }
-    public void setText(String txt) {this.text = txt; }
-    public void updateGrid() {Platform.runLater(() -> txt.setText(this.text));}
+    public void updateGrid(String setGridToThis) {this.text = setGridToThis; Platform.runLater(() -> txt.setText(this.text));}
     public String getGridText() {
-        return this.txt.getText(); // Let us hope this works without Platform.runLater()...
+        this.text = txt.getText();
+        return this.text; // Let us hope this works without Platform.runLater()...
     }
-
 }

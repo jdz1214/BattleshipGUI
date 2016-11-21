@@ -42,6 +42,7 @@ public class Main extends Application {
     private String username;
     private ObservableList<String> usernameList;
     SimpleListProperty<String> slp;
+    private Fleet fleet;
 
     public Main() {
         address = "localhost";
@@ -71,6 +72,7 @@ public class Main extends Application {
         loginScene.getStylesheets().add("/client/application.css");
         stage.setScene(loginScene);
         stage.show();
+        this.fleet = new Fleet();
         getConnection();
         receive();
 
@@ -331,7 +333,7 @@ public class Main extends Application {
                     gameScene = new Scene(root);
                 } catch (IOException e) {e.printStackTrace();}
                 gameController = loader.getController();
-                gameController.init(this, opponentUsername);
+                gameController.init(this, opponentUsername, this.fleet);
                 stage.setScene(gameScene);
                 stage.show();
             }

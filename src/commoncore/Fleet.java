@@ -4,6 +4,8 @@ import commoncore.Ship.shipName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -11,10 +13,14 @@ import java.util.stream.Collectors;
  */
 public class Fleet extends ArrayList<Ship> implements Serializable {
     private static final long serialVersionUID = 5959358336090731180L;
+    private List<Set<Spot>> fleetLocations;
 
     //Constructors
     public Fleet () {
-        shipName.stream().forEach(s -> this.add(new Ship(s)));
+        System.out.println("Adding ships to Fleet in Fleet class.");
+        shipName.stream().forEach(s -> this.add(new Ship(s, this)));
+        System.out.println("Fleet size: " + this.size());
+        fleetLocations = new ArrayList<Set<Spot>>();
     }
 
     //Methods
@@ -58,5 +64,7 @@ public class Fleet extends ArrayList<Ship> implements Serializable {
         return ship;
     }
 
-    public void updateGrid() {this.forEach(Ship::updateGrid);}
+    public List<Set<Spot>> getFleetLocations() {
+        return fleetLocations;
+    }
 }

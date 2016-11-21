@@ -3,6 +3,7 @@ package commoncore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 public class Ship implements Serializable {
     int shipLength; //Ship length, in number of Spots. Must be greater than 1 && less than 5.
     int hitsRemaining;
+    private Fleet fleet;
     int orientation; // 0 == Horizontal, 1 == Vertical.
     shipName name;
     ArrayList<Spot> locations; //Each ship has the board coordinates it occupies as its location.
@@ -29,11 +31,12 @@ public class Ship implements Serializable {
     }
 
     //Constructor
-    public Ship(shipName name) {
+    public Ship(shipName name, Fleet shipsFleet) {
         this.name = name;
         this.shipLength = inferShipLength(name);
         this.hitsRemaining = shipLength;
         locations = new ArrayList<Spot>(shipLength);
+        this.fleet=shipsFleet;
     }
 
     //Methods
@@ -83,9 +86,6 @@ public class Ship implements Serializable {
 
     public void setLocations (ArrayList<Spot> shipLocations) {
         this.locations = shipLocations;
-    }
-
-    public void updateGrid() {
-        locations.forEach(Spot::updateGrid);
+        fleet.getFleetLocations().add(shipLocations.stream().collect(Collectors.toSet()));
     }
 }

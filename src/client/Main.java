@@ -74,7 +74,7 @@ public class Main extends Application {
             root = loader.load();
         } catch (IOException e) {e.printStackTrace();}
         lc = loader.getController();
-        lc.init(this);
+        lc.init(Main.this);
         assert root != null;
         loginScene = new Scene(root);
         loginScene.getStylesheets().add("/client/application.css");
@@ -111,11 +111,13 @@ public class Main extends Application {
                 try {
                     t = (Transmission) is.readObject();
                     if (!loggedIn) {
-                        if (t.getTransmissionType() == Transmission.TransmissionType.LOGINOBJECT) {
+                        if (t.getTransmissionType().equals(Transmission.TransmissionType.LOGINOBJECT)) {
                             LoginObject lo = t.getLoginObject();
-                            assert t.getLoginObject().getLoginSuccess() != null;
-                            if (lo.getLoginSuccess()) {
-                                loggedIn = true;
+                            Boolean loginSuccess = lo.getLoginSuccess();
+                            assert loginSuccess != null;
+                            System.out.println(loginSuccess);
+                            if (loginSuccess != null) {
+                                loggedIn = loginSuccess;
                                 username = lo.getUsername();
                                 System.out.println(username + " successfully logged in.");
                                 startGUI();
@@ -391,7 +393,7 @@ public class Main extends Application {
         Platform.runLater(sg);
     }
 
-    void login(String user, String pass) {
+    public void login(String user, String pass) {
         System.out.println("Received call to log in. Attempts = " + loginAttempts);
         if (loginAttempts < 5) {
             LoginObject lo = new LoginObject(true, user, pass);

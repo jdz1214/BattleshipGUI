@@ -254,6 +254,15 @@ public class ClientRunnable implements Runnable {
                 }   catch (SocketException se) {System.out.println("Socket closed."); connected = false; logout(); break; }
                     catch (EOFException a) {
                         System.out.println("Client disconnnected.");
+                        if (game != null) {
+                            try {
+                                opponent.getObjectOutputStream().writeObject(new Transmission(new GameObject(QUIT, username)));
+                                opponent.getObjectOutputStream().flush();
+                            } catch (IOException e) {
+                                System.out.println("Encountered error when attempting to inform lingering opponent of " + username + "'s " +
+                                        "unexpected early demise (He quit).");
+                            }
+                        }
                         logout();
                         connected = false;
                         break;
@@ -285,15 +294,6 @@ public class ClientRunnable implements Runnable {
         } catch (Exception ignored) {}
         System.out.println("Executed logout transmission.");
         System.out.println(username + " logged out at " + sdf.format(new Date()));
-        if (game.getGamestate().equals(Game.Gamestate.gameOn)) {
-            try {
-                opponent.getObjectOutputStream().writeObject(new Transmission(new GameObject(QUIT, username)));
-                opponent.getObjectOutputStream().flush();
-            } catch (IOException e) {
-                System.out.println("Encountered error when attempting to inform lingering opponent of " + username + "'s " +
-                        "unexpected early demise (He quit).");
-            }
-        }
         Thread.currentThread().interrupt();
     }
 

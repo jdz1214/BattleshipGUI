@@ -87,6 +87,8 @@ public class Game implements Runnable {
         }
     }
 
+    public Game.Gamestate getGamestate() { return gamestate; }
+
     public void setGamestate (Game.Gamestate gamestate) {
         this.gamestate = gamestate;
     }

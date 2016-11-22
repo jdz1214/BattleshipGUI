@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
  * Created by jdz on 8/30/16.
  */
 public class Fleet extends ArrayList<Ship> implements Serializable {
-    private static final long serialVersionUID = 5959358336090731180L;
     private List<Set<Spot>> fleetLocations;
 
     //Constructors

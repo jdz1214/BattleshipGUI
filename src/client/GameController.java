@@ -1,6 +1,7 @@
 package client;
 
 import commoncore.*;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -109,6 +110,7 @@ public class GameController implements Initializable {
     @FXML
     void init(Main m, String opponentUsername, Fleet fleet) {
         this.m = m;
+        this.opponentUsername = opponentUsername;
         titledPane.setText("Battleship - Game: " + m.getUsername());
         lblAttackHistory.setText("Attack History vs. " + opponentUsername);
         btnAttack.setDisable(true);
@@ -150,15 +152,19 @@ public class GameController implements Initializable {
 
     @FXML
     public void youAreUp() {
-        enableGrid();
-
-        lblInfo.setText("You are up!");
+        if(!m.getGameOver()) {
+            enableGrid();
+            System.out.println("Executing youAreUp");
+            lblInfo.setText("You are up!");
+        }
     }
 
     @FXML
     public void youAreNotUp() {
-        disableGrid();
-        lblInfo.setText("Awaiting opponent's move.");
+        if(!m.getGameOver()) {
+            disableGrid();
+            lblInfo.setText("Awaiting opponent's move.");
+        }
     }
 
     @FXML
@@ -170,8 +176,6 @@ public class GameController implements Initializable {
             attackSelected = true;
             disableGrid(attackSelectionId);
         } else {
-            attackSelectionId = null;
-            attackSelected = false;
             enableGrid();
         }
     }
@@ -197,6 +201,8 @@ public class GameController implements Initializable {
         gridAttackHistoryBtnList.stream()
                 .filter(btn -> btn.getText().equals("~"))
                 .forEach(btn -> btn.setDisable(false));
+        attackSelectionId = null;
+        attackSelected = false;
         btnAttack.setDisable(true);
     }
 
@@ -261,9 +267,9 @@ public class GameController implements Initializable {
                     .filter(btn -> btn.getId().substring(9,11).equals(attackReceived.getAttackSpotRowColStr()))
                     .forEach(btn -> btn.setText(ar.wasHit() ? "X" : "O"));
         if (ar.sunkShip()) {
-            if (fleet.getTotalRemainingHits() == 0) {
-                //I lose
-                announceWinner(opponentUsername, m.getUsername());
+            if (fleet.getTotalRemainingHits() == 0) { //I lose
+                Platform.runLater(() -> announceWinner(opponentUsername, m.getUsername()));
+                System.out.println("Executed announceWinner.");
             }
         }
         return ar;
@@ -340,7 +346,7 @@ public class GameController implements Initializable {
 
     @FXML
     public void iLost() {
-        updateInfo("Game over. You have lost.");
+        updateInfo("Game over. You have lost. " + opponentUsername + " is the winner.");
         disableGrid();
     }
 
@@ -374,7 +380,12 @@ public class GameController implements Initializable {
     }
 
     private void announceWinner(String winnerUsername, String loserUsername) {
-        m.send(new Transmission(new GameObject(new GameOver(opponentUsername, m.getUsername()))));
+        m.setGameOver(true);
+        System.out.println("winnerUsername: " + winnerUsername + " and loserUsername: " + loserUsername);
+        m.send(new Transmission(new GameObject(new GameOver(winnerUsername, loserUsername))));
+        System.out.println("Sent announceWinner message out.");
+        updateInfo(m.getUsername().equals(winnerUsername) ? "Congratulations, you won!" : "Sorry, you have lost. " + winnerUsername + " is the winner.");
+        disableGrid();
     }
 
     @Override

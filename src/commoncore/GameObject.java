@@ -5,7 +5,6 @@ import commoncore.Game.Gamestate;
 import java.io.Serializable;
 
 public class GameObject implements Serializable {
-	private static final long serialVersionUID = -4391807776691961968L;
 	private Attack attack;
 	private AttackResult attackResult;
 	private Gamestate gamestate;

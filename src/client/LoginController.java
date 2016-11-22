@@ -30,6 +30,7 @@ public class LoginController implements Initializable {
         String p = txtPassword.getText();
         if (u.length() > 0 && p.length() > 0) {
             m.login(u, p);
+            System.out.println("Sent login attempt to Main.");
         }
     }
 

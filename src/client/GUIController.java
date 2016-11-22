@@ -3,6 +3,8 @@ package client;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.Optional;
@@ -20,6 +22,7 @@ public class GUIController implements Initializable {
     @FXML private ListView<String> lstUsers;
 	@FXML private TextArea txtChatArea;
 	@FXML private TextField chatTextField;
+    @FXML private Stage stage;
 
 	@FXML
     void updateChat(String msg) {
@@ -74,6 +77,8 @@ public class GUIController implements Initializable {
     void confirmRequest(String opponentUsername) {
         System.out.println("Opened confirmRequest dialog.");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(this.stage);
         alert.setTitle("New Game Request!");
         alert.setHeaderText(opponentUsername + " has requested to battle you!");
         alert.setContentText("Do you accept this challenge?");
@@ -111,6 +116,7 @@ public class GUIController implements Initializable {
 		this.m = m;
         lstUsers.itemsProperty().bind(m.slp);
         titlePane.setText("BATTLESHIP - Lobby: " + m.getUsername());
+        this.stage = m.getStage();
     }
 	
 	@Override

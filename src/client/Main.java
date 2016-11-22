@@ -43,6 +43,7 @@ public class Main extends Application {
     private Boolean connected;
     private Boolean loggedIn;
     private Boolean inGame;
+    private Boolean gameOver;
     private int loginAttempts;
     private String username;
     private ObservableList<String> usernameList;
@@ -50,11 +51,12 @@ public class Main extends Application {
     private Fleet fleet;
 
     public Main() {
-        address = "localhost";
+        address = "battleship.jdzcode.com";
         port = 1500;
         connected = false;
         loggedIn = false;
         inGame = false;
+        gameOver = false;
         loginAttempts = 0;
         usernameList = FXCollections.observableArrayList();
         slp = new SimpleListProperty<>(usernameList);
@@ -111,6 +113,7 @@ public class Main extends Application {
                     if (!loggedIn) {
                         if (t.getTransmissionType() == Transmission.TransmissionType.LOGINOBJECT) {
                             LoginObject lo = t.getLoginObject();
+                            assert t.getLoginObject().getLoginSuccess() != null;
                             if (lo.getLoginSuccess()) {
                                 loggedIn = true;
                                 username = lo.getUsername();
@@ -133,12 +136,16 @@ public class Main extends Application {
                                     break;
                                 case GAMEOBJECT:
                                     GameObject go = t.getGameObject();
+                                    assert go != null;
                                     switch (go.getGameObjectType()) {
                                         case QUIT:
                                             System.out.println("Received QUIT object.");
                                             if (inGame) {
-                                                Platform.runLater(() -> gameController.disableChat());
-                                                Platform.runLater(() -> gameController.updateChat("[" + go.getUserWhoQuit() + " has quit.]"));
+                                                Platform.runLater(() -> {
+                                                    gameController.disableChat();
+                                                    gameController.disableGrid();
+                                                    gameController.updateChat("[" + go.getUserWhoQuit() + " has quit.]");
+                                                });
                                             }
                                             endGame();
                                             break;
@@ -158,11 +165,13 @@ public class Main extends Application {
                                         case GAMEOVER:
                                             GameOver gameOver = go.getGameOver();
                                             assert gameOver != null;
+                                            assert gameOver != null;
                                             String winnerUserName = gameOver.getWinnerUsername();
                                             assert winnerUserName != null;
                                             assert username != null;
                                             assert username.length() > 0;
                                             System.out.println(username);
+                                            System.out.println(winnerUserName);
                                             if (winnerUserName.equals(getUsername())) {
                                                 Platform.runLater(() -> gameController.iWon());
                                             } else {
@@ -171,20 +180,26 @@ public class Main extends Application {
                                             break;
                                         case GAMESTATE:
                                             Game.Gamestate gs = go.getGamestate();
+                                            assert gs != null;
                                             switch (gs) {
                                                 case youAreUp:
-                                                    //TODO set attack board editable
-                                                    Platform.runLater(() -> gameController.youAreUp());
+                                                    if (this.gameOver==false) {
+                                                        Platform.runLater(() -> gameController.youAreUp());
+                                                    }
                                                     break;
 
                                                 case youAreNotUp:
-                                                    //TODO set attack board uneditable
-                                                    Platform.runLater(() -> gameController.youAreNotUp());
+                                                    if (this.gameOver==false) {
+                                                        Platform.runLater(() -> gameController.youAreNotUp());
+                                                    }
                                                     break;
 
                                                 case youWon:
-                                                    Platform.runLater(() -> gameController.updateInfo("Congratulations, you won!"));
-                                                    Platform.runLater(() -> gameController.disableGrid());
+                                                    Platform.runLater(() -> gameController.iWon());
+                                                    break;
+
+                                                case youLost:
+                                                    Platform.runLater(() -> gameController.iLost());
                                                     break;
                                             }
                                             break;
@@ -263,9 +278,9 @@ public class Main extends Application {
                             }
                         }
                     }
-                } catch (SocketException soe) {System.out.println("Client disconnected via closing socket.");}
+                } catch (SocketException soe) {System.out.println("Client disconnected via closing socket."); break;}
                 catch (EOFException eof) {System.out.println("Disconnected from the server."); logout(); break;}
-                catch (Exception e) {System.out.println("Error receiving transmission."); e.printStackTrace();}
+                catch (Exception e) {System.out.println("Error receiving transmission."); e.printStackTrace(); break;}
             }
         };
 
@@ -278,7 +293,8 @@ public class Main extends Application {
 
     private void startGUI() {
         Runnable stgui = () -> {
-            if (connected && loggedIn) {
+            if (connected && loggedIn) { //Possible issue with connected variable on subsequent login attempts in same session.
+                System.out.println("Starting GUI");
                 stage.getScene().getWindow().hide();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui.fxml"));
                 Parent root = null;
@@ -302,12 +318,13 @@ public class Main extends Application {
             guiController.updateInfoLabel("");
             inGame = false;
             try {
-                os.writeObject(new Transmission(new GameObject(QUIT, username)));
+                os.writeObject(new Transmission(new GameObject(QUIT, getUsername())));
                 os.flush();
             } catch (IOException e) {e.printStackTrace();}
             stage.getScene().getWindow().hide();
 
             if (connected && loggedIn) {
+                listPlayers();
                 stage.setScene(guiScene);
                 stage.setTitle("Game:Battleship");
                 stage.show();
@@ -333,25 +350,20 @@ public class Main extends Application {
     }
 
     void logout() {
-        try {
-            Platform.runLater(() -> {
-                stage.getScene().getWindow().hide();
-                guiController.updateChat("[" + username + " logged out]");
-            });
-            LoginObject lo = new LoginObject();
-            lo.setType(LoginObject.Type.LOGOUT);
+        Platform.runLater(() -> {
+            stage.getScene().getWindow().hide();
+            guiController.updateChat("[" + username + " logged out]");
+        });
+        LoginObject lo = new LoginObject();
+        lo.setType(LoginObject.Type.LOGOUT);
 
+        try {
             os.writeObject(new Transmission(lo));
             os.flush();
-        } catch (IOException e) {e.printStackTrace();}
-        loggedIn = false;
+        } catch (IOException ignored) {}
         username = "";
         loginAttempts = 0;
-        Platform.runLater(() -> {
-            try {
-                showLogin();
-            } catch (Exception e) {System.out.println("Error restarting login gui");}
-        });
+        showLogin();
     }
 
     private void handleShutdown() {
@@ -360,7 +372,7 @@ public class Main extends Application {
 
 	private void startGame(String opponentUsername) {
         inGame = true;
-        System.out.println("inGame == true.");
+        gameOver = false;
 	    Runnable sg = () -> {
 	        if (connected && loggedIn) {
                 stage.getScene().getWindow().hide();
@@ -380,37 +392,35 @@ public class Main extends Application {
     }
 
     void login(String user, String pass) {
-        Runnable lgin = () -> {
-            System.out.println("Received call to log in. Attempts = " + loginAttempts);
-            if (loginAttempts < 5) {
-                LoginObject lo = new LoginObject(true, user, pass);
-                Transmission t = new Transmission(lo);
-                try {
-                    os.writeObject(t);
-                    os.flush();
-                } catch (Exception e) {
-                    System.out.println("Error sending login attempt to server.");
-                }
-                loginAttempts++;
-            } else {
-                System.out.println("You have failed to log in too many times.");
-                lc.disableLogin();
-                connected = false;
-                try {
-                    is.close();
-                    os.close();
-                    s.shutdownInput();
-                    s.shutdownOutput();
-                    s.close();
-                } catch (Exception e) {
-                    System.out.println("Error in shutdown after too many incorrect loginAttempts.");
-                }
+        System.out.println("Received call to log in. Attempts = " + loginAttempts);
+        if (loginAttempts < 5) {
+            LoginObject lo = new LoginObject(true, user, pass);
+            Transmission t = new Transmission(lo);
+            try {
+                os.writeObject(t);
+                os.flush();
+            } catch (Exception e) {
+                System.out.println("Error sending login attempt to server.");
             }
-        };
-        Platform.runLater(lgin);
+            loginAttempts++;
+        } else {
+            System.out.println("You have failed to log in too many times.");
+            Platform.runLater(() -> lc.disableLogin());
+            connected = false;
+            try {
+                is.close();
+                os.close();
+                s.shutdownInput();
+                s.shutdownOutput();
+                s.close();
+            } catch (Exception ignored) {
+                System.out.println("Error in shutdown after too many incorrect loginAttempts.");
+            }
+        }
     }
 
     void send(@NotNull String msg) {
+        assert msg != null;
         if (msg.length() > 0) {
             try {
                 os.writeObject(new Transmission(username + ": " + msg));
@@ -421,6 +431,8 @@ public class Main extends Application {
     }
 
     void send(Transmission t) {
+        assert t != null;
+        System.out.println("Sending transmission through Main's 'send' method.");
         try {
             os.writeObject(t);
             os.flush();
@@ -452,9 +464,11 @@ public class Main extends Application {
 
     }
 
+    Stage getStage() {
+        return stage;
+    }
+
     private void confirmRequest(String opponentUsername) {
-        //TODO
-        //Create dialog box that asks for user confirmation of new game, and includes opponent's username.
         Platform.runLater(() -> guiController.confirmRequest(opponentUsername));
 
     }
@@ -464,6 +478,10 @@ public class Main extends Application {
         inGame = false;
     }
 
+    protected Boolean getGameOver() {
+        return gameOver;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -471,4 +489,8 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+
+    public void setGameOver(boolean b) {
+        this.gameOver = b;
+    }
 }

@@ -11,6 +11,7 @@ public class LoginObject implements Serializable {
 	
 	//Constructors
 	public LoginObject () {}
+	public LoginObject (Boolean loginSuccess, String username) {this.type = Type.LOGIN; this.loginSuccess = loginSuccess; this.username = username;}
 	public LoginObject (Boolean requestingLogin, String username, String password) {
 		super();
 		if (requestingLogin) {this.type = Type.LOGIN;}
@@ -34,15 +35,17 @@ public class LoginObject implements Serializable {
     }
 
 	public String getUsername() {
+        assert username != null;
 		return username;
 	}
 	
 	public String getPassword() {
-		return password;
+		assert password != null; return password;
 	}
 	
 	public Boolean getLoginSuccess() {
-		return loginSuccess;
+		assert loginSuccess != null;
+        return loginSuccess;
 	}
 	
 	public void setLoginSuccess(Boolean wasLoginSuccessful) {

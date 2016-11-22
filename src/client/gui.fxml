@@ -2,16 +2,16 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<TitledPane fx:id="titlePane" alignment="CENTER" animated="false" collapsible="false" prefHeight="450.0" prefWidth="750.0" text="BATTLESHIP - Lobby" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUIController">
+<TitledPane fx:id="titlePane" alignment="CENTER" animated="false" collapsible="false" prefHeight="450.0" prefWidth="750.0" text="BATTLESHIP - Lobby" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GUIController">
    <content>
       <SplitPane dividerPositions="0.9166666666666666, 0.5" layoutX="199.0" layoutY="55.0" orientation="VERTICAL" prefHeight="371.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
-                <Button fx:id="btnNewGame" mnemonicParsing="false" onAction="#startNewGame" text="New Game" />
-                  <Button fx:id="btnSpectate" mnemonicParsing="false" onAction="#startSpectate" text="Spectate" />
-                  <Button fx:id="btnLogout" layoutX="188.0" layoutY="11.0" mnemonicParsing="false" onAction="#logoutActionEvent" text="Log Out" />
-                  <Button fx:id="btnAbout" layoutX="99.0" layoutY="11.0" mnemonicParsing="false" onAction="#aboutClick" text="About" />
+                <Button fx:id="btnNewGame" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#startNewGame" text="New Game" textAlignment="CENTER" />
+                  <Button fx:id="btnSpectate" alignment="CENTER" contentDisplay="CENTER" disable="true" mnemonicParsing="false" onAction="#startSpectate" text="Spectate" textAlignment="CENTER" />
+                  <Button fx:id="btnLogout" alignment="CENTER" contentDisplay="CENTER" layoutX="188.0" layoutY="11.0" mnemonicParsing="false" onAction="#logoutActionEvent" text="Log Out" textAlignment="CENTER" />
+                  <Button fx:id="btnAbout" alignment="CENTER" contentDisplay="CENTER" layoutX="99.0" layoutY="11.0" mnemonicParsing="false" onAction="#aboutClick" text="About" textAlignment="CENTER" />
                   <Label fx:id="lblInfo" alignment="CENTER" focusTraversable="false" prefHeight="17.0" prefWidth="405.0" textFill="#2200ff" />
               </items>
             </ToolBar>

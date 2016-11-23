@@ -3,25 +3,18 @@ package commoncore;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@SuppressWarnings("unused")
 public class ServerRequestObject implements Serializable {
-
-	private static final long serialVersionUID = -3360166450589642180L;
 	private GameRequest gameRequest;
 	private String serverRequest;
 	private ArrayList<String> lobbyList;
 	private ServerRequestObjectType serverRequestObjectType;
 	public enum ServerRequestObjectType {
-		GAMEREQUEST,
 		CLIENTREQUEST,
 		LOBBYLIST
 	}
-	
-	public ServerRequestObject (GameRequest gameRequest) {
-		this.gameRequest = gameRequest;
-		serverRequestObjectType = ServerRequestObjectType.GAMEREQUEST;
-	}
-	
-	public ServerRequestObject (ServerRequestObjectType type) {
+
+	public ServerRequestObject() {
 		// Pass string "LOBBYLIST" to request a client list.
 		serverRequestObjectType = ServerRequestObjectType.CLIENTREQUEST;
 	}
@@ -30,12 +23,12 @@ public class ServerRequestObject implements Serializable {
 	    this.lobbyList = new ArrayList<>(lobbyList);
 		serverRequestObjectType = ServerRequestObjectType.LOBBYLIST;
 	}
-	
+
 	// Getters
 	public GameRequest getGameRequest () {
 		return gameRequest;
 	}
-	
+
 	public String getServerRequest () {
 		return serverRequest;
 	}

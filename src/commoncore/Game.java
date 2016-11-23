@@ -1,7 +1,6 @@
 package commoncore;
 
 import server.ClientRunnable;
-import server.Watchtower;
 
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
@@ -10,18 +9,15 @@ import static commoncore.Game.Gamestate.gameOn;
 
 
 public class Game implements Runnable {
-	private Watchtower w;
-	private ClientRunnable p1;
+    private ClientRunnable p1;
 	private ClientRunnable p2;
 	private ClientRunnable playerUp;
     private ClientRunnable winner;
-    private ClientRunnable loser;
-	private Gamestate gamestate;
+    private Gamestate gamestate;
 	public enum Gamestate { gameOn, gameOver, youAreUp, youAreNotUp, preGame, youWon, youLost }
 	
 	//Constructors
-	public Game (ClientRunnable p1, ClientRunnable p2, Watchtower w) {
-	    this.w = w;
+	public Game (ClientRunnable p1, ClientRunnable p2) {
 		this.p1 = p1;
 		this.p2 = p2;
         init();
@@ -39,8 +35,8 @@ public class Game implements Runnable {
 	}
 
 	private void init() {
-	    p1.enterGameMode(this, p2.getUsername(), 1);
-        p2.enterGameMode(this, p1.getUsername(), 2);
+	    p1.enterGameMode(this, p2.getUsername());
+        p2.enterGameMode(this, p1.getUsername());
     }
 
 	private void determineFirst() {
@@ -87,23 +83,14 @@ public class Game implements Runnable {
         }
     }
 
-    public Game.Gamestate getGamestate() { return gamestate; }
-
-    public void setGamestate (Game.Gamestate gamestate) {
-        this.gamestate = gamestate;
+    public void setGamestate() {
+        this.gamestate = Gamestate.gameOver;
     }
 
     public void setWinnerAndLoser (String winnerUsername) {
-        if (p1.getUsername().equals(winnerUsername)) {
-            winner = p1;
-            loser = p2;
-        } else {
-            winner = p2;
-            loser = p1;
-        }
+        winner = p1.getUsername().equals(winnerUsername) ? p1 : p2;
     }
 	
-	//Classes
     public ClientRunnable getClientRunnable (String crUsername) {
         ClientRunnable cr = null;
         if (crUsername.equals(p1.getUsername())) {

@@ -24,7 +24,15 @@ public class GUIController implements Initializable {
 	@FXML private TextField chatTextField;
     @FXML private Stage stage;
 
-	@FXML
+    public GUIController() {
+        lblInfo = new Label();
+        lstUsers = new ListView<>();
+        txtChatArea = new TextArea();
+        chatTextField = new TextField();
+        titlePane = new TitledPane();
+    }
+
+    @FXML
     void updateChat(String msg) {
         txtChatArea.appendText(msg);
     }
@@ -54,15 +62,11 @@ public class GUIController implements Initializable {
         }
 	}
 
-	@FXML
+	@SuppressWarnings("EmptyMethod")
+    @FXML
     public void startSpectate() {
 	    //TODO
     }
-
-	@FXML
-	public void listPlayersActionEvent() {
-		m.listPlayers();
-	}
 
     @FXML
     private void sendMessage() {
@@ -84,12 +88,9 @@ public class GUIController implements Initializable {
         alert.setContentText("Do you accept this challenge?");
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            // ... user chose OK
-            // /// TODO: 8/2/16
+        if (result.isPresent() && result.get() == ButtonType.OK){
             m.newGame(opponentUsername);
             System.out.println("Client Main accepted game request from dialog.");
-
         }
     }
 	

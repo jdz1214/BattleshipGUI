@@ -4,10 +4,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,15 +13,17 @@ public class LoginController implements Initializable {
 
 	@FXML public Label lblMessage;
 	@FXML private TextField txtUsername;
-	@FXML private PasswordField txtPassword;
+    @FXML private TextField txtPassword;
 	@FXML private Button btnLogin;
 	@FXML private Main m;
+
+
+
+    @FXML
+	public void btnLoginAction() {attemptLogin();}
 	
 	@FXML
-	public void btnLoginAction() throws ClassNotFoundException, IOException {attemptLogin();}
-	
-	@FXML
-	public void onEnter() throws ClassNotFoundException, IOException {attemptLogin();}
+	public void onEnter() {attemptLogin();}
 
     private void attemptLogin() {
         String u = txtUsername.getText();

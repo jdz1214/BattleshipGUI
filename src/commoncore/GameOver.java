@@ -7,14 +7,11 @@ import java.io.Serializable;
  */
 public class GameOver implements Serializable {
     private String winnerUsername;
-    private String loserUsername;
 
-    public GameOver(String winnerUsername, String loserUsername) {
+    public GameOver(String winnerUsername) {
         this.winnerUsername = winnerUsername;
-        this.loserUsername = loserUsername;
     }
 
     public String getWinnerUsername() {return winnerUsername;}
 
-    public String getLoserUsername() {return loserUsername;}
 }

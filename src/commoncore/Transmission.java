@@ -4,12 +4,9 @@ import java.io.Serializable;
 
 
 public class Transmission implements Serializable {
-	
-	private static final long serialVersionUID = 4852737544034013158L;
     private TransmissionType transmissionType;
     private String chatMessage;
     private LoginObject loginObject;
-	public Boolean iAmUp;
     private GameObject gameObject;
 	private ServerRequestObject serverRequestObject;
 	public enum TransmissionType {
@@ -71,17 +68,5 @@ public class Transmission implements Serializable {
 		else {System.out.println("Transmission type was incorrect for " + this.toString());}
 		return loginObject;
 	}
-	
-	public void setTransmissionType(TransmissionType transmissionType) {
-		this.transmissionType = transmissionType;
-	}
-	
-	public void setChatMessage(String chatMessage) {
-		this.chatMessage = chatMessage;
-		this.transmissionType = TransmissionType.CHATMESSAGE;
-	}
 
-	public void setLoginObject(LoginObject loginObject) {
-		this.loginObject = loginObject;
-	}
 }

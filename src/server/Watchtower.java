@@ -1,6 +1,6 @@
 package server;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import com.mysql.cj.jdbc.MysqlDataSource;
 import commoncore.Game;
 import commoncore.LoginObject;
 import commoncore.Transmission;
@@ -72,6 +72,7 @@ public class Watchtower extends Application {
         sc = loader.getController();
         sc.init(this);
         sc.clientList.itemsProperty().bind(lp);
+        assert parent != null;
         Scene scene = new Scene(parent);
         stage.setScene(scene);
         stage.show();
@@ -117,7 +118,7 @@ public class Watchtower extends Application {
     }
 
     Boolean trySql(String username, String password) {
-        Boolean success = false;
+        System.out.println("Querying SQL database for login.");
         try {
             Statement stmt = connect.createStatement();
             String query = "SELECT * from Battleship.login WHERE username = '" + username + "';";
@@ -130,12 +131,11 @@ public class Watchtower extends Application {
 
                 if (username.equals(queryUsername) && password.equals(queryPassword)) {
                     System.out.println(username + " logged in at " + sdf.format(new Date()));
-                    success = true;
-                    break;
+                    return true;
                 }
             }
         } catch (SQLException e) {e.printStackTrace(); System.out.println("Error in SQL querying.");} //Put SQL reconnection script in catch block
-        return success;
+        return false;
     }
 
     void broadcast(String msg) {
@@ -156,29 +156,26 @@ public class Watchtower extends Application {
 	}
 
     void kick(String uname) {
-        for (int i = clientList.size(); --i >= 0;) {
-            if (clientList.get(i).getUsername().equals(uname)) {
-                try {
-                    LoginObject lo = new LoginObject();
-                    lo.setType(LoginObject.Type.KICK);
-                    clientList.get(i).getObjectOutputStream().writeObject(new Transmission(lo));
-                    clientList.get(i).getObjectOutputStream().flush();
-                    clientList.get(i).logout();
-                    broadcast("[" + clientList.get(i).getUsername() + " was kicked]");
-                } catch (IOException e) { System.out.println("Problem handling kick logout action near line 169."); }
-            }
-        }
+        clientList.stream()
+                .filter(cr -> cr.getUsername().equals(uname))
+                .findFirst().ifPresent(cr -> { try {
+            cr.getObjectOutputStream().writeObject(new Transmission(new LoginObject(LoginObject.Type.KICK)));
+            cr.getObjectOutputStream().flush();
+            cr.logout();
+            broadcast("[" + cr.getUsername() + " was kicked]");
+        } catch (IOException e) { System.out.println("Problem handling kick logout action in Watchtower."); }
+        });
     }
 	
-	public void newGame (ClientRunnable player1, ClientRunnable player2) {
-        Game newGame = new Game(player1, player2, this);
+	void newGame(ClientRunnable player1, ClientRunnable player2) {
+        Game newGame = new Game(player1, player2);
         Thread gameThread = new Thread(newGame);
         gameThread.setDaemon(true);
         gameThread.start();
         System.out.println("Watchtower started newGame.");
     }
 
-    public ClientRunnable getClientRunnable(String username) {
+    ClientRunnable getClientRunnable(String username) {
         ClientRunnable retCr = null;
         for (ClientRunnable cr : clientList) {
             if (cr.getUsername().equals(username)) {
@@ -188,6 +185,5 @@ public class Watchtower extends Application {
         return retCr;
     }
 
-
-    enum Status {INGAME, SPECTATING, AVAILABLE, UNAVAILABLE}
+    enum Status {INGAME, @SuppressWarnings("unused")SPECTATING, AVAILABLE, UNAVAILABLE}
 }

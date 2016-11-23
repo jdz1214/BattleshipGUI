@@ -3,29 +3,28 @@ package commoncore;
 import java.io.Serializable;
 
 public class LoginObject implements Serializable {
-	private static final long serialVersionUID = -8422066942231726832L;
 	private String username;
 	private String password;
 	private Boolean loginSuccess;
-    private Type type;
+    private  Type type;
 	
 	//Constructors
 	public LoginObject () {}
-	public LoginObject (Boolean loginSuccess, String username) {this.type = Type.LOGIN; this.loginSuccess = loginSuccess; this.username = username;}
-	public LoginObject (Boolean requestingLogin, String username, String password) {
-		super();
-		if (requestingLogin) {this.type = Type.LOGIN;}
+	public LoginObject (Boolean loginSuccess, String username) {this.type = Type.LOGINRESULT; this.loginSuccess = loginSuccess; this.username = username;}
+	public LoginObject (String username, String password) {
+        assert username.length() > 0 && password.length() > 0;
+		this.type = Type.LOGINREQUEST;
 		this.username = username;
 		this.password = password;
 	}
-	public LoginObject (Type t) {
-	    super();
-        this.type = t;
+	public LoginObject (Type type) {
+        this.type = type;
     }
 
 	public enum Type {
-		LOGIN,
-		LOGOUT,
+		LOGINREQUEST,
+        LOGINRESULT,
+        LOGOUTREQUEST,
 		KICK
 	}
 	
@@ -48,12 +47,8 @@ public class LoginObject implements Serializable {
         return loginSuccess;
 	}
 	
-	public void setLoginSuccess(Boolean wasLoginSuccessful) {
-		loginSuccess = wasLoginSuccessful;
-	}
-
-	public void setType(Type type) {
-        this.type = type;
+	public void setType() {
+        this.type = Type.LOGOUTREQUEST;
     }
 
 }

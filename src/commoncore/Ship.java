@@ -10,13 +10,11 @@ import java.util.stream.Stream;
  * Created by jdz on 8/29/16.
  */
 public class Ship implements Serializable {
-    int shipLength; //Ship length, in number of Spots. Must be greater than 1 && less than 5.
-    int hitsRemaining;
-    Boolean sunk;
+    private int shipLength; //Ship length, in number of Spots. Must be greater than 1 && less than 5.
+    private int hitsRemaining;
+    private Boolean sunk;
     private Fleet fleet;
-    int orientation; // 0 == Horizontal, 1 == Vertical.
-    shipName name;
-    ArrayList<Spot> locations; //Each ship has the board coordinates it occupies as its location.
+    private ArrayList<Spot> locations; //Each ship has the board coordinates it occupies as its location.
     public enum shipName { //Names must be consistent.
         BIGFIVER,
         FOUR,
@@ -33,7 +31,6 @@ public class Ship implements Serializable {
 
     //Constructor
     public Ship(shipName name, Fleet shipsFleet) {
-        this.name = name;
         this.sunk = false;
         this.shipLength = inferShipLength(name);
         this.hitsRemaining = shipLength;
@@ -62,7 +59,6 @@ public class Ship implements Serializable {
                 digit = 2;
                 break;
         }
-        assert digit > 0;
         return digit;
     }
 
@@ -75,7 +71,7 @@ public class Ship implements Serializable {
                 if (attackRecieved.getAttackSpotRowColStr().equals(spot.getRowColStr())) {
                     spot.becomesHit();
                     hitsRemaining--;
-                    sunk = hitsRemaining == 0 ? true : false;
+                    sunk = hitsRemaining == 0;
                     break;
                 }
             }
@@ -91,17 +87,7 @@ public class Ship implements Serializable {
         return this.hitsRemaining;
     }
 
-    public int getOrientation() { return this.orientation; }
-
-    public void setName (shipName name) { this.name = name; }
-
     public ArrayList<Spot> getShipLocations() { return this.locations; }
-
-    public shipName getNameEnum() { return this.name; }
-
-    public String getNameString() { return this.name.toString(); }
-
-    public void setOrientation(int orientation) { this.orientation = orientation; }
 
     public void setLocations (ArrayList<Spot> shipLocations) {
         this.locations = shipLocations;

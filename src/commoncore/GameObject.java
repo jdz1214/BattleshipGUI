@@ -8,13 +8,12 @@ public class GameObject implements Serializable {
 	private Attack attack;
 	private AttackResult attackResult;
 	private Gamestate gamestate;
-	private Gameboard gameboard;
 	private GameRequest gameRequest;
 	private GameOver gameOver;
 	private GameObjectType gameObjectType;
     private String opponentUsername;
-    private String username;
     private String userWhoQuit;
+    private Boolean newgameInviteAcceptance;
 	public enum GameObjectType {
 		ATTACK, 
 		ATTACKRESULT, 
@@ -29,8 +28,6 @@ public class GameObject implements Serializable {
 	}
 	
 	// Constructors
-
-    public GameObject () {}
 
 	public GameObject(Attack attack) {
 		this.attack = attack;
@@ -56,14 +53,15 @@ public class GameObject implements Serializable {
 		this.gameOver = gameOver;
 		this.gameObjectType = GameObjectType.GAMEOVER;
 	}
-	
-	public GameObject (String opponentUsername) {
-        this.opponentUsername = opponentUsername;
-	    this.gameObjectType = GameObjectType.NEWGAME;
-    }
 
-    public GameObject (GameObjectType QUIT, String userWhoQuit) {
-        this.gameObjectType = QUIT;
+	public GameObject (Boolean acceptingNewGameInvite, String opponentUsername) {
+		this.gameObjectType = GameObjectType.NEWGAME;
+        this.opponentUsername = opponentUsername;
+        newgameInviteAcceptance = acceptingNewGameInvite;
+	}
+
+	public GameObject(String userWhoQuit) {
+        this.gameObjectType = GameObjectType.QUIT;
         this.userWhoQuit = userWhoQuit;
     }
 	// Getters
@@ -85,10 +83,6 @@ public class GameObject implements Serializable {
 
 	public GameOver getGameOver() { return gameOver; }
 
-	public Gameboard getGameboard() {
-		return gameboard;
-	}
-	
 	public GameObjectType getGameObjectType() {
 		return gameObjectType;
 	}
@@ -97,11 +91,9 @@ public class GameObject implements Serializable {
 	    return opponentUsername;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public String getUserWhoQuit() { return userWhoQuit; }
+
+    public Boolean getNewgameInviteAcceptance() { return newgameInviteAcceptance; }
 
 	//Setters
 

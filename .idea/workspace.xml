@@ -2,16 +2,76 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="BattleshipGUI:jar" />
+      <artifact name="BattleshipGUI" />
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f23be304-f054-4179-a57a-7ea13cec3457" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/BattleshipGUI_jar.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/BattleshipGUI.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/mysql_mysql_connector_java_6_0_5.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/artifacts/BattleshipGUI_jar.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_5_1_39_bin.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/battleshipDB.sql" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/client/Client.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/client/ClientDemo$Console.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/client/ClientDemo.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/client/Login.fxml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/client/LoginController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/client/Main.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/client/application.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/GUIInterface.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Game$Attack.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Game$AttackResult.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Game$Fleet.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Game$GameRequest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Game$Gameboard.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Game$Gamechat.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Game$Gamestate.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Game$History.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Game$Player.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Game$Ship.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Game$Spot.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Game.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/GameObject$GameObjectType.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/GameObject.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/LoginObject.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/ServerRequestObject$ServerRequestObjectType.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/ServerRequestObject.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Transmission$TransmissionType.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/commoncore/Transmission.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/gui/GUI.fxml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/gui/GUIController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/mysql-connector-java-5.1.39-bin.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/server/Watchtower$ClientLookout.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/server/Watchtower$ClientRunnable.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/server/Watchtower$Console.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/server/Watchtower.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/mysql-connector-java-5.1.39-bin.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/commoncore/GUIInterface.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/commoncore/Gameboard.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BattleshipGUI.iml" afterPath="$PROJECT_DIR$/BattleshipGUI.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/GUIController.java" afterPath="$PROJECT_DIR$/src/client/GUIController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/GameController.java" afterPath="$PROJECT_DIR$/src/client/GameController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Login.fxml" afterPath="$PROJECT_DIR$/src/client/Login.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/LoginController.java" afterPath="$PROJECT_DIR$/src/client/LoginController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/Main.java" afterPath="$PROJECT_DIR$/src/client/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/game.fxml" afterPath="$PROJECT_DIR$/src/client/game.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/gui.fxml" afterPath="$PROJECT_DIR$/src/client/gui.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/Fleet.java" afterPath="$PROJECT_DIR$/src/commoncore/Fleet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/Game.java" afterPath="$PROJECT_DIR$/src/commoncore/Game.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/GameObject.java" afterPath="$PROJECT_DIR$/src/commoncore/GameObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/GameOver.java" afterPath="$PROJECT_DIR$/src/commoncore/GameOver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/GameRequest.java" afterPath="$PROJECT_DIR$/src/commoncore/GameRequest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/LoginObject.java" afterPath="$PROJECT_DIR$/src/commoncore/LoginObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/ServerRequestObject.java" afterPath="$PROJECT_DIR$/src/commoncore/ServerRequestObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/Ship.java" afterPath="$PROJECT_DIR$/src/commoncore/Ship.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/Spot.java" afterPath="$PROJECT_DIR$/src/commoncore/Spot.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/commoncore/Transmission.java" afterPath="$PROJECT_DIR$/src/commoncore/Transmission.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/ClientRunnable.java" afterPath="$PROJECT_DIR$/src/server/ClientRunnable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/ServerController.java" afterPath="$PROJECT_DIR$/src/server/ServerController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/Watchtower.java" afterPath="$PROJECT_DIR$/src/server/Watchtower.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/server/watchtower.fxml" afterPath="$PROJECT_DIR$/src/server/watchtower.fxml" />
     </list>
     <ignored path="BattleshipGUI.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -46,91 +106,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Watchtower.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/server/Watchtower.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="778">
-              <caret line="122" column="59" selection-start-line="122" selection-start-column="53" selection-end-line="122" selection-end-column="59" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="battleshipDB.sql" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/battleshipDB.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="12" column="17" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Battleship.login" pinned="false" current-in-tab="false">
-        <entry file="dbDummy://dbtable:/4bf311d1/77914e7f-05d9-4dbf-bbd3-ecb6fbee79bc/Battleship.login">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="gui.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/client/gui.fxml">
-          <provider editor-type-id="JavaFX-Scene-Builder">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GUIController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/client/GUIController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="778">
-              <caret line="67" column="20" selection-start-line="67" selection-start-column="17" selection-end-line="67" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoginController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/client/LoginController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="31" column="19" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/client/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1824">
-              <caret line="164" column="53" selection-start-line="164" selection-start-column="53" selection-end-line="164" selection-end-column="53" />
+            <state relative-caret-position="183">
+              <caret line="327" column="5" selection-start-line="327" selection-start-column="5" selection-end-line="327" selection-end-column="5" />
               <folding>
+                <element signature="method#Main#0;class#Main#0" expanded="false" />
+                <element signature="method#start#0;class#Main#0" expanded="false" />
                 <element signature="method#getConnection#0;class#Main#0" expanded="false" />
+                <element signature="method#receive#0;class#Main#0" expanded="false" />
                 <element signature="method#startGUI#0;class#Main#0" expanded="false" />
                 <element signature="method#showGUI#0;class#Main#0" expanded="false" />
                 <element signature="method#showLogin#0;class#Main#0" expanded="false" />
-                <element signature="method#startGame#0;class#Main#0" expanded="false" />
+                <element signature="method#logout#0;class#Main#0" expanded="false" />
                 <element signature="method#login#0;class#Main#0" expanded="false" />
                 <element signature="method#send#0;class#Main#0" expanded="false" />
                 <element signature="method#send#1;class#Main#0" expanded="false" />
-                <element signature="method#listPlayers#0;class#Main#0" expanded="false" />
                 <element signature="method#gameRequest#0;class#Main#0" expanded="false" />
-                <element signature="method#newGame#0;class#Main#0" expanded="false" />
                 <element signature="method#confirmRequest#0;class#Main#0" expanded="false" />
                 <element signature="method#endGame#0;class#Main#0" expanded="false" />
               </folding>
@@ -138,15 +131,49 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/commoncore/Game.java">
+      <file leaf-file-name="Transmission.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/commoncore/Transmission.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1992">
-              <caret line="106" column="65" selection-start-line="106" selection-start-column="65" selection-end-line="106" selection-end-column="65" />
+            <state relative-caret-position="120">
+              <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GameObject.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/commoncore/GameObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="984">
+              <caret line="58" column="49" selection-start-line="58" selection-start-column="49" selection-end-line="58" selection-end-column="49" />
               <folding>
-                <element signature="e#708#749#0" expanded="false" />
-                <element signature="method#init#0;class#Game#0" expanded="false" />
-                <element signature="method#determineFirst#0;class#Game#0" expanded="false" />
+                <element signature="method#GameObject#0;class#GameObject#0" expanded="false" />
+                <element signature="method#GameObject#1;class#GameObject#0" expanded="false" />
+                <element signature="method#GameObject#2;class#GameObject#0" expanded="false" />
+                <element signature="method#GameObject#3;class#GameObject#0" expanded="false" />
+                <element signature="method#GameObject#4;class#GameObject#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GameRequest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/commoncore/GameRequest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="5" column="50" selection-start-line="5" selection-start-column="50" selection-end-line="5" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Watchtower.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/server/Watchtower.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="824">
+              <caret line="169" column="11" selection-start-line="169" selection-start-column="11" selection-end-line="169" selection-end-column="11" />
+              <folding>
+                <marker date="1479855486450" expanded="true" signature="4122:4188" ph="SELECT * fro... login" />
               </folding>
             </state>
           </provider>
@@ -155,12 +182,12 @@
       <file leaf-file-name="ClientRunnable.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/server/ClientRunnable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="696">
-              <caret line="358" column="0" selection-start-line="358" selection-start-column="0" selection-end-line="358" selection-end-column="0" />
+            <state relative-caret-position="835">
+              <caret line="179" column="53" selection-start-line="179" selection-start-column="44" selection-end-line="179" selection-end-column="53" />
               <folding>
-                <element signature="method#enterGameMode#0;class#ClientRunnable#0" expanded="false" />
                 <element signature="method#notifyUp#0;class#ClientRunnable#0" expanded="false" />
                 <element signature="method#notifyGameOver#0;class#ClientRunnable#0" expanded="false" />
+                <element signature="method#endGame#0;class#ClientRunnable#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -202,11 +229,8 @@
         <option value="$PROJECT_DIR$/src/client/Client.java" />
         <option value="/Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/jre/lib/rt.jar!/sun/reflect/NativeMethodAccessorImpl.class" />
         <option value="$PROJECT_DIR$/src/server/watchtower.fxml" />
-        <option value="$PROJECT_DIR$/src/server/ServerController.java" />
-        <option value="$PROJECT_DIR$/src/commoncore/Transmission.java" />
         <option value="$PROJECT_DIR$/src/client/CustomThreadFactory.java" />
         <option value="$PROJECT_DIR$/src/gui/GUIController.java" />
-        <option value="$PROJECT_DIR$/src/commoncore/GameRequest.java" />
         <option value="$PROJECT_DIR$/src/gui/GameController.java" />
         <option value="$PROJECT_DIR$/src/client/gui.fxml" />
         <option value="$PROJECT_DIR$/src/client/game.fxml" />
@@ -215,22 +239,26 @@
         <option value="$PROJECT_DIR$/src/client/SpotImpl.java" />
         <option value="/usr/lib/jvm/java-8-openjdk/jre/lib/rt.jar!/java/util/Comparator.class" />
         <option value="$PROJECT_DIR$/src/client/GameControllerTest.groovy" />
-        <option value="$PROJECT_DIR$/src/commoncore/ServerRequestObject.java" />
-        <option value="$PROJECT_DIR$/src/commoncore/AttackResult.java" />
-        <option value="$PROJECT_DIR$/src/commoncore/Attack.java" />
-        <option value="$PROJECT_DIR$/src/commoncore/Ship.java" />
-        <option value="$PROJECT_DIR$/src/server/Watchtower.java" />
-        <option value="$PROJECT_DIR$/src/commoncore/Spot.java" />
-        <option value="$PROJECT_DIR$/src/commoncore/GameOver.java" />
-        <option value="$PROJECT_DIR$/src/commoncore/GameObject.java" />
-        <option value="$PROJECT_DIR$/src/commoncore/Fleet.java" />
-        <option value="$PROJECT_DIR$/src/commoncore/Game.java" />
-        <option value="$PROJECT_DIR$/src/client/GUIController.java" />
-        <option value="$PROJECT_DIR$/src/commoncore/LoginObject.java" />
-        <option value="$PROJECT_DIR$/src/client/LoginController.java" />
-        <option value="$PROJECT_DIR$/src/client/GameController.java" />
         <option value="$PROJECT_DIR$/resources/battleshipDB.sql" />
+        <option value="$PROJECT_DIR$/src/client/Login.fxml" />
+        <option value="$PROJECT_DIR$/src/client/LoginController.java" />
+        <option value="$PROJECT_DIR$/src/server/Watchtower.java" />
+        <option value="$PROJECT_DIR$/src/client/GameController.java" />
+        <option value="$PROJECT_DIR$/src/commoncore/GameOver.java" />
+        <option value="$PROJECT_DIR$/src/commoncore/AttackResult.java" />
+        <option value="$PROJECT_DIR$/src/server/ServerController.java" />
+        <option value="$PROJECT_DIR$/src/commoncore/Spot.java" />
+        <option value="$PROJECT_DIR$/src/commoncore/LoginObject.java" />
+        <option value="$PROJECT_DIR$/src/commoncore/Game.java" />
+        <option value="$PROJECT_DIR$/src/commoncore/ServerRequestObject.java" />
+        <option value="$PROJECT_DIR$/src/commoncore/Attack.java" />
+        <option value="$PROJECT_DIR$/src/commoncore/Transmission.java" />
+        <option value="$PROJECT_DIR$/src/commoncore/GameRequest.java" />
+        <option value="$PROJECT_DIR$/src/commoncore/Fleet.java" />
+        <option value="$PROJECT_DIR$/src/commoncore/Ship.java" />
+        <option value="$PROJECT_DIR$/src/client/GUIController.java" />
         <option value="$PROJECT_DIR$/src/server/ClientRunnable.java" />
+        <option value="$PROJECT_DIR$/src/commoncore/GameObject.java" />
         <option value="$PROJECT_DIR$/src/client/Main.java" />
       </list>
     </option>
@@ -249,10 +277,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-3" />
+    <option name="x" value="-1" />
     <option name="y" value="44" />
-    <option name="width" value="2166" />
-    <option name="height" value="3799" />
+    <option name="width" value="2162" />
+    <option name="height" value="3801" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -610,6 +638,10 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="META-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -693,25 +725,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="BattleshipGUI_Server_jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
               <option name="myItemId" value="BattleshipGUI" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BattleshipGUI" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="out" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="artifacts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -721,11 +735,11 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.build.tools" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/battleshipiconico.ico" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/mysql-connector-java-5.1.9.jar!/" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/jdz/Google Drive/Coding/IDEA/primaryideaworkspace/BattleshipGUI/src/commoncore/Game.java" />
     <property name="project.structure.last.edited" value="Artifacts" />
@@ -736,6 +750,7 @@
     <property name="Downloaded.Files.Path.Enabled" value="true" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
+    <property name="findjar.last.used.dir" value="$PROJECT_DIR$/resources" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
@@ -760,7 +775,7 @@
         </pattern>
       </extension>
       <option name="MAIN_CLASS_NAME" value="server.Watchtower" />
-      <option name="VM_PARAMETERS" value="" />
+      <option name="VM_PARAMETERS" value="-ea" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -780,15 +795,21 @@
         </pattern>
       </extension>
       <option name="MAIN_CLASS_NAME" value="client.Main" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="BattleshipGUI" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="BattleshipGUI.jar" type="JarApplication" factoryName="JAR Application" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/BattleshipGUI/BattleshipGUI.jar" />
       <envs />
       <method />
     </configuration>
@@ -816,12 +837,6 @@
       </option>
       <envs />
       <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="BattleshipGUI.jar" type="JarApplication" factoryName="JAR Application" temporary="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/BattleshipGUI/BattleshipGUI.jar" />
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -1291,7 +1306,7 @@
     <configuration default="false" name="Main2" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="client.Main" />
-      <option name="VM_PARAMETERS" value="" />
+      <option name="VM_PARAMETERS" value="-ea" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1314,8 +1329,8 @@
       <item index="1" class="java.lang.String" itemvalue="Multirun.Battleship_All" />
       <item index="2" class="java.lang.String" itemvalue="Application.Watchtower" />
       <item index="3" class="java.lang.String" itemvalue="Application.Main" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.GameControllerTest.testPlaceShips" />
-      <item index="5" class="java.lang.String" itemvalue="JAR Application.BattleshipGUI.jar" />
+      <item index="4" class="java.lang.String" itemvalue="JAR Application.BattleshipGUI.jar" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.GameControllerTest.testPlaceShips" />
     </list>
     <recent_temporary>
       <list size="4">
@@ -1383,7 +1398,7 @@
       <workItem from="1479580541336" duration="73155000" />
       <workItem from="1479741618555" duration="11966000" />
       <workItem from="1479756317321" duration="12878000" />
-      <workItem from="1479771412039" duration="20566000" />
+      <workItem from="1479771412039" duration="40143000" />
     </task>
     <task id="LOCAL-00001" summary="creating game controller class">
       <created>1468327704744</created>
@@ -1490,11 +1505,18 @@
       <option name="project" value="LOCAL" />
       <updated>1479790204542</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="To the best of my knowledge at this point, everything works. Server is configured to receive clients on port 1500. battleship.jdzcode.com has been forwarded to my public ip at home, and port 1500 has been forwarded to Shadowfax for hosting internet battleship sessions. Initial tests are showing success.">
+      <created>1479796855730</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1479796855730</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="399865000" />
+    <option name="totallyTimeSpent" value="419442000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -1506,28 +1528,29 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-3" y="44" width="2166" height="3799" extended-state="6" />
+    <frame x="-1" y="44" width="2162" height="3801" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298193" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13147844" sideWeight="0.49074075" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13113414" sideWeight="0.48886827" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.400982" sideWeight="0.50185186" order="14" side_tool="true" content_ui="tabs" x="0" y="1394" width="2164" height="1098" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28789532" sideWeight="0.5111317" order="14" side_tool="true" content_ui="tabs" x="0" y="1394" width="2164" height="1098" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14814815" sideWeight="0.6703755" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.148423" sideWeight="0.6703755" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32878953" sideWeight="0.49573106" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19768518" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28805238" sideWeight="0.4925926" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28789532" sideWeight="0.48886827" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.400982" sideWeight="0.49814814" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.400982" sideWeight="0.49814814" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1535,7 +1558,6 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection Results" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32912534" sideWeight="0.49573106" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
@@ -1607,12 +1629,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/commoncore/Game.java</url>
-          <line>50</line>
+          <line>46</line>
           <properties />
           <option name="timeStamp" value="38" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="44" />
+      <option name="time" value="45" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1621,29 +1643,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/server/watchtower.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/javafx-src.zip!/javafx/fxml/Initializable.java" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/77914e7f-05d9-4dbf-bbd3-ecb6fbee79bc/console.sql" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/src.zip!/java/lang/StringBuilder.java" />
     <entry file="file://$PROJECT_DIR$/src/client/CustomThreadFactory.java" />
     <entry file="file://$PROJECT_DIR$/src/gui/GUIController.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/javafx-src.zip!/javafx/event/EventHandler.java" />
-    <entry file="file://$PROJECT_DIR$/src/commoncore/GUIInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/client/SpotImpl.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/javafx-src.zip!/javafx/scene/text/Text.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/javafx-src.zip!/com/sun/glass/ui/InvokeLaterDispatcher.java" />
@@ -1676,70 +1679,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/commoncore/Gameboard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/commoncore/AttackResult.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="26" column="53" selection-start-line="26" selection-start-column="53" selection-end-line="26" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/commoncore/Attack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
-          <folding>
-            <element signature="e#241#242#0" expanded="false" />
-            <element signature="e#303#304#0" expanded="false" />
-            <element signature="e#349#350#0" expanded="false" />
-            <element signature="e#391#392#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/commoncore/Transmission.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1117">
-          <caret line="78" column="23" selection-start-line="78" selection-start-column="21" selection-end-line="78" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/src.zip!/java/util/function/Function.java" />
-    <entry file="file://$PROJECT_DIR$/src/commoncore/GameOver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/commoncore/Spot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="960">
-          <caret line="43" column="56" selection-start-line="43" selection-start-column="56" selection-end-line="43" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1129#1130#0" expanded="false" />
-            <element signature="e#1155#1156#0" expanded="false" />
-            <element signature="e#1185#1186#0" expanded="false" />
-            <element signature="e#1211#1212#0" expanded="false" />
-            <element signature="e#1324#1325#0" expanded="false" />
-            <element signature="e#1426#1427#0" expanded="false" />
-            <element signature="e#1745#1746#0" expanded="false" />
-            <element signature="e#1783#1784#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///usr/lib/jvm/java-8-openjdk/jre/lib/rt.jar!/java/io/ObjectInputStream.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2377">
@@ -1747,148 +1687,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/commoncore/Ship.java">
+    <entry file="jar:///usr/lib/jvm/java-8-openjdk/jre/lib/rt.jar!/java/lang/Thread.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1296">
-          <caret line="82" column="87" selection-start-line="82" selection-start-column="87" selection-end-line="82" selection-end-column="87" />
-          <folding>
-            <element signature="method#inferShipLength#0;class#Ship#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/commoncore/Fleet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/Login.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/commoncore/GameRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/commoncore/LoginObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/commoncore/GameObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="27" column="10" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="10" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="method#GameObject#1;class#GameObject#0" expanded="false" />
-            <element signature="method#GameObject#2;class#GameObject#0" expanded="false" />
-            <element signature="method#GameObject#3;class#GameObject#0" expanded="false" />
-            <element signature="method#GameObject#5;class#GameObject#0" expanded="false" />
-            <element signature="method#GameObject#6;class#GameObject#0" expanded="false" />
-            <element signature="e#1644#1645#0" expanded="false" />
-            <element signature="e#1664#1665#0" expanded="false" />
-            <element signature="e#1706#1707#0" expanded="false" />
-            <element signature="e#1732#1733#0" expanded="false" />
-            <element signature="e#1768#1769#0" expanded="false" />
-            <element signature="e#1791#1792#0" expanded="false" />
-            <element signature="e#1831#1832#0" expanded="false" />
-            <element signature="e#1856#1857#0" expanded="false" />
-            <element signature="e#1945#1946#0" expanded="false" />
-            <element signature="e#1968#1969#0" expanded="false" />
-            <element signature="e#2015#2016#0" expanded="false" />
-            <element signature="e#2043#2044#0" expanded="false" />
-            <element signature="e#2083#2084#0" expanded="false" />
-            <element signature="e#2119#2120#0" expanded="false" />
-            <element signature="e#2154#2155#0" expanded="false" />
-            <element signature="e#2185#2186#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/commoncore/ServerRequestObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="14" column="15" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1034#1035#0" expanded="false" />
-            <element signature="e#1059#1060#0" expanded="false" />
-            <element signature="e#1098#1099#0" expanded="false" />
-            <element signature="e#1125#1126#0" expanded="false" />
-            <element signature="e#1191#1192#0" expanded="false" />
-            <element signature="e#1228#1229#0" expanded="false" />
-            <element signature="e#1273#1274#0" expanded="false" />
-            <element signature="e#1296#1297#0" expanded="false" />
-            <element signature="e#1367#1368#0" expanded="false" />
-            <element signature="e#1400#1401#0" expanded="false" />
-            <element signature="e#1612#1613#0" expanded="false" />
-            <element signature="e#1653#1654#0" expanded="false" />
-            <element signature="e#1711#1712#0" expanded="false" />
-            <element signature="e#1748#1749#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/ServerController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#566#567#0" expanded="false" />
-            <element signature="e#596#597#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/GameController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1023">
-          <caret line="269" column="60" selection-start-line="269" selection-start-column="58" selection-end-line="269" selection-end-column="60" />
-          <folding>
-            <element signature="e#8155#8156#0" expanded="false" />
-            <element signature="e#8182#8183#0" expanded="false" />
-            <element signature="e#8222#8223#0" expanded="false" />
-            <element signature="e#8251#8252#0" expanded="false" />
-            <element signature="method#sendMessage#0;class#GameController#0" expanded="false" />
-            <element signature="e#8542#8543#0" expanded="false" />
-            <element signature="e#8592#8593#0" expanded="false" />
-            <element signature="method#disableChat#0;class#GameController#0" expanded="false" />
-            <element signature="method#attack#0;class#GameController#0" expanded="false" />
-            <element signature="e#9946#9947#0" expanded="false" />
-            <element signature="e#9987#9988#0" expanded="false" />
-            <element signature="method#placeShips#0;class#GameController#0" expanded="false" />
-            <element signature="method#spotSetGenerator#0;class#GameController#0" expanded="false" />
-            <element signature="method#randGenerator#0;class#GameController#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/gui.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
+        <state relative-caret-position="804">
+          <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1914,78 +1716,258 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/commoncore/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1992">
-          <caret line="106" column="65" selection-start-line="106" selection-start-column="65" selection-end-line="106" selection-end-column="65" />
-          <folding>
-            <element signature="e#708#749#0" expanded="false" />
-            <element signature="method#init#0;class#Game#0" expanded="false" />
-            <element signature="method#determineFirst#0;class#Game#0" expanded="false" />
-          </folding>
-        </state>
+    <entry file="file://$PROJECT_DIR$/src/client/gui.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/Watchtower.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="778">
-          <caret line="122" column="59" selection-start-line="122" selection-start-column="53" selection-end-line="122" selection-end-column="59" />
+        <state relative-caret-position="120">
+          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/client/GUIController.java">
+    <entry file="file://$PROJECT_DIR$/src/commoncore/Gameboard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="778">
-          <caret line="67" column="20" selection-start-line="67" selection-start-column="17" selection-end-line="67" selection-end-column="20" />
+        <state relative-caret-position="480">
+          <caret line="20" column="37" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commoncore/GUIInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/watchtower.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/gui/GUI.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="775">
+          <caret line="41" column="81" selection-start-line="41" selection-start-column="81" selection-end-line="41" selection-end-column="81" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/client/LoginController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="31" column="19" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="19" />
+        <state relative-caret-position="552">
+          <caret line="30" column="47" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="47" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar:///usr/lib/jvm/java-8-openjdk/jre/lib/rt.jar!/java/lang/Thread.class">
+    <entry file="file://$PROJECT_DIR$/src/client/Login.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="804">
-          <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
+        <state relative-caret-position="336">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/GameController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commoncore/GameOver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commoncore/AttackResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/ServerController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commoncore/Spot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commoncore/LoginObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
+          <folding>
+            <element signature="e#649#650#0" expanded="true" />
+            <element signature="e#681#682#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commoncore/ServerRequestObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commoncore/Attack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commoncore/Transmission.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="51" selection-start-line="5" selection-start-column="51" selection-end-line="5" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commoncore/Fleet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commoncore/Ship.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="15" column="11" selection-start-line="15" selection-start-column="11" selection-end-line="15" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commoncore/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+          <folding>
+            <element signature="class#Gamestate#0;class#Game#0" expanded="false" />
+            <element signature="e#600#641#0" expanded="false" />
+            <element signature="method#determineFirst#0;class#Game#0" expanded="false" />
+            <element signature="method#validateAttack#0;class#Game#0" expanded="false" />
+            <element signature="method#notifyPlayers#0;class#Game#0" expanded="false" />
+            <element signature="method#setWinnerAndLoser#0;class#Game#0" expanded="false" />
+            <element signature="method#getClientRunnable#0;class#Game#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client/GUIController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1051">
+          <caret line="91" column="38" selection-start-line="91" selection-start-column="22" selection-end-line="91" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commoncore/GameRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="50" selection-start-line="5" selection-start-column="50" selection-end-line="5" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/commoncore/GameObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="984">
+          <caret line="58" column="49" selection-start-line="58" selection-start-column="49" selection-end-line="58" selection-end-column="49" />
+          <folding>
+            <element signature="method#GameObject#0;class#GameObject#0" expanded="false" />
+            <element signature="method#GameObject#1;class#GameObject#0" expanded="false" />
+            <element signature="method#GameObject#2;class#GameObject#0" expanded="false" />
+            <element signature="method#GameObject#3;class#GameObject#0" expanded="false" />
+            <element signature="method#GameObject#4;class#GameObject#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/Watchtower.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="824">
+          <caret line="169" column="11" selection-start-line="169" selection-start-column="11" selection-end-line="169" selection-end-column="11" />
+          <folding>
+            <marker date="1479855486450" expanded="true" signature="4122:4188" ph="SELECT * fro... login" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/server/ClientRunnable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="696">
-          <caret line="358" column="0" selection-start-line="358" selection-start-column="0" selection-end-line="358" selection-end-column="0" />
+        <state relative-caret-position="835">
+          <caret line="179" column="53" selection-start-line="179" selection-start-column="44" selection-end-line="179" selection-end-column="53" />
           <folding>
-            <element signature="method#enterGameMode#0;class#ClientRunnable#0" expanded="false" />
             <element signature="method#notifyUp#0;class#ClientRunnable#0" expanded="false" />
             <element signature="method#notifyGameOver#0;class#ClientRunnable#0" expanded="false" />
+            <element signature="method#endGame#0;class#ClientRunnable#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1824">
-          <caret line="164" column="53" selection-start-line="164" selection-start-column="53" selection-end-line="164" selection-end-column="53" />
+        <state relative-caret-position="183">
+          <caret line="327" column="5" selection-start-line="327" selection-start-column="5" selection-end-line="327" selection-end-column="5" />
           <folding>
+            <element signature="method#Main#0;class#Main#0" expanded="false" />
+            <element signature="method#start#0;class#Main#0" expanded="false" />
             <element signature="method#getConnection#0;class#Main#0" expanded="false" />
+            <element signature="method#receive#0;class#Main#0" expanded="false" />
             <element signature="method#startGUI#0;class#Main#0" expanded="false" />
             <element signature="method#showGUI#0;class#Main#0" expanded="false" />
             <element signature="method#showLogin#0;class#Main#0" expanded="false" />
-            <element signature="method#startGame#0;class#Main#0" expanded="false" />
+            <element signature="method#logout#0;class#Main#0" expanded="false" />
             <element signature="method#login#0;class#Main#0" expanded="false" />
             <element signature="method#send#0;class#Main#0" expanded="false" />
             <element signature="method#send#1;class#Main#0" expanded="false" />
-            <element signature="method#listPlayers#0;class#Main#0" expanded="false" />
             <element signature="method#gameRequest#0;class#Main#0" expanded="false" />
-            <element signature="method#newGame#0;class#Main#0" expanded="false" />
             <element signature="method#confirmRequest#0;class#Main#0" expanded="false" />
             <element signature="method#endGame#0;class#Main#0" expanded="false" />
           </folding>
@@ -1998,7 +1980,7 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
-          <last-edited>BattleshipGUI:jar</last-edited>
+          <last-edited>BattleshipGUI</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -2052,7 +2034,6 @@
             <option name="proportions">
               <list>
                 <option value="0.26429406" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -2072,7 +2053,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>mysql-connector-java-5.1.39-bin</last-edited>
+          <last-edited>mysql:mysql-connector-java:6.0.5</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

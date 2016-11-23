@@ -14,8 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static commoncore.GameObject.GameObjectType.QUIT;
-
 
 public class ClientRunnable implements Runnable {
     private Socket s;
@@ -31,17 +29,12 @@ public class ClientRunnable implements Runnable {
     private ClientRunnable opponent;
     //Game variables
     private Game game;
-    private Gameboard board;
-    private Fleet fleet;
-    private int playerNumber;
-    private AttackResult attackResult;
-    private Boolean myTurn = false;
     private Transmission t;
 
 
 
     //Constructor
-    public ClientRunnable (Socket sock) throws Exception {
+    ClientRunnable(Socket sock) {
         loggedIn = false;
         attempts = 0;
         status = Watchtower.Status.UNAVAILABLE;
@@ -114,7 +107,7 @@ public class ClientRunnable implements Runnable {
                                             opponent.getObjectOutputStream().writeObject(new Transmission(go));
                                             opponent.getObjectOutputStream().flush();
                                             game.setWinnerAndLoser(go.getGameOver().getWinnerUsername());
-                                            game.setGamestate(Game.Gamestate.gameOver);
+                                            game.setGamestate();
                                             break;
                                         case GAMESTATE:
                                             Game.Gamestate gs = go.getGamestate();
@@ -149,9 +142,9 @@ public class ClientRunnable implements Runnable {
                             case LOGINOBJECT:
                                 LoginObject lo = t.getLoginObject();
                                 switch (lo.getType()) {
-                                    case LOGIN:
+                                    case LOGINRESULT:
                                         break;
-                                    case LOGOUT:
+                                    case LOGOUTREQUEST:
                                         attempts = 0;
                                         loggedIn = false;
                                         logout();
@@ -182,9 +175,11 @@ public class ClientRunnable implements Runnable {
                                     case GAMEBOARD:
                                         break;
                                     case NEWGAME:
-                                        ClientRunnable player1 = w.getClientRunnable(go.getOpponentUsername());
-                                        w.newGame(player1, this);
-                                        opponentUsername = player1.getUsername();
+                                        if (go.getNewgameInviteAcceptance()) {
+                                            ClientRunnable player1 = w.getClientRunnable(go.getOpponentUsername());
+                                            w.newGame(player1, this);
+                                            opponentUsername = player1.getUsername();
+                                        }
                                         break;
                                 }
                                 break;
@@ -211,26 +206,19 @@ public class ClientRunnable implements Runnable {
                         logout();
                     } else if (!loggedIn && attempts < 5) {
                         LoginObject lo = t.getLoginObject();
-                        if (lo.getType() == LoginObject.Type.LOGIN) {
+                        if (lo.getType() == LoginObject.Type.LOGINREQUEST) {
                             String username = lo.getUsername();
                             String password = lo.getPassword();
                             Boolean success = w.trySql(username, password);
-                            Boolean unique = true;
-                            if (w.clientList.size() > 0) {
-                                for (int i = 0; i < w.clientList.size(); i++) {
-                                    if (w.clientList.get(i).getUsername().equals(username)) {
-                                        unique = false;
-                                        System.out.println("Username was found to not be unique.");
-                                    }
-                                }
-                            }
+                            Boolean unique = w.clientList.stream()
+                                    .map(ClientRunnable::getUsername)
+                                    .noneMatch(username::equals);
                             if (success && unique) {
                                 status = Watchtower.Status.AVAILABLE;
                                 loggedIn = true;
                                 this.username = username;
                                 Thread.currentThread().setName(username);
                                 LoginObject newLo = new LoginObject(true, username);
-                                newLo.setLoginSuccess(true);
                                 os.writeObject(new Transmission(newLo));
                                 os.flush();
                                 System.out.println("Successful login reported. Username: " + username + ".");
@@ -242,9 +230,7 @@ public class ClientRunnable implements Runnable {
 
                             } else {
                                 attempts++;
-                                lo = new LoginObject();
-                                lo.setType(LoginObject.Type.LOGIN);
-                                lo.setLoginSuccess(false);
+                                lo = new LoginObject(false, username);
                                 os.writeObject(new Transmission(lo));
                                 os.flush();
                                 System.out.println("Unsuccessful login by " + username + " reported.");
@@ -256,7 +242,7 @@ public class ClientRunnable implements Runnable {
                         System.out.println("Client disconnnected.");
                         if (game != null) {
                             try {
-                                opponent.getObjectOutputStream().writeObject(new Transmission(new GameObject(QUIT, username)));
+                                opponent.getObjectOutputStream().writeObject(new Transmission(new GameObject(username)));
                                 opponent.getObjectOutputStream().flush();
                             } catch (IOException e) {
                                 System.out.println("Encountered error when attempting to inform lingering opponent of " + username + "'s " +
@@ -289,7 +275,7 @@ public class ClientRunnable implements Runnable {
         System.out.println("Client logging out");
         loggedIn = false;
         try {
-            os.writeObject(new Transmission(new LoginObject(LoginObject.Type.LOGOUT)));
+            os.writeObject(new Transmission(new LoginObject(LoginObject.Type.LOGOUTREQUEST)));
             os.flush();
         } catch (Exception ignored) {}
         System.out.println("Executed logout transmission.");
@@ -306,10 +292,9 @@ public class ClientRunnable implements Runnable {
     }
 
     //Game methods
-    public void enterGameMode(Game game, String opponentUsername, int playerNumber) {
+    public void enterGameMode(Game game, String opponentUsername) {
         w.clientOs.remove(os);
         this.game = game;
-        this.playerNumber = playerNumber;
         this.status = Watchtower.Status.INGAME;
         opponent = game.getClientRunnable(opponentUsername);
         try {
@@ -320,17 +305,8 @@ public class ClientRunnable implements Runnable {
         } catch (IOException e) {System.out.println("Error sending client's preGame transmission.");}
     }
 
-    public Fleet getFleet() {
-        return fleet;
-    }
-
-    public void setMyTurn(Boolean up) {
-        myTurn = up;
-    }
-
     public void notifyUp(Boolean isUp) {
-        myTurn = isUp;
-        if (myTurn) {
+        if (isUp) {
             try {
                 os.writeObject(new Transmission(new GameObject(Game.Gamestate.youAreUp)));
                 os.flush();
@@ -356,7 +332,7 @@ public class ClientRunnable implements Runnable {
 
     private void endGame() {
         try {
-            os.writeObject(new Transmission(new GameObject(QUIT, opponent.getUsername())));
+            os.writeObject(new Transmission(new GameObject(opponent.getUsername())));
             os.flush();
         } catch (IOException e) {
             e.printStackTrace();

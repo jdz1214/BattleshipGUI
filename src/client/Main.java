@@ -20,8 +20,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
-import static commoncore.GameObject.GameObjectType.QUIT;
-
 
 public class Main extends Application {
     private Stage stage;
@@ -34,8 +32,8 @@ public class Main extends Application {
     private LoginController lc;
     private GUIController guiController;
     private GameController gameController;
-    private String address;
-    private int port;
+    private final String address;
+    private final int port;
     private Socket s;
     private ObjectOutputStream os;
     private ObjectInputStream is;
@@ -49,6 +47,7 @@ public class Main extends Application {
     private ObservableList<String> usernameList;
     SimpleListProperty<String> slp;
     private Fleet fleet;
+    private Parent root;
 
     public Main() {
         address = "battleship.jdzcode.com";
@@ -69,12 +68,14 @@ public class Main extends Application {
         stage.setTitle("Battleship");
         handleShutdown();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/Login.fxml"));
-        Parent root = null;
+        loader.setRoot(root);
         try {
             root = loader.load();
-        } catch (IOException e) {e.printStackTrace();}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         lc = loader.getController();
-        lc.init(Main.this);
+        lc.init(this);
         assert root != null;
         loginScene = new Scene(root);
         loginScene.getStylesheets().add("/client/application.css");
@@ -84,7 +85,6 @@ public class Main extends Application {
         this.fleet = new Fleet();
         getConnection();
         receive();
-
 	}
 
     private void getConnection() {
@@ -113,16 +113,29 @@ public class Main extends Application {
                     if (!loggedIn) {
                         if (t.getTransmissionType().equals(Transmission.TransmissionType.LOGINOBJECT)) {
                             LoginObject lo = t.getLoginObject();
-                            Boolean loginSuccess = lo.getLoginSuccess();
-                            assert loginSuccess != null;
-                            System.out.println(loginSuccess);
-                            if (loginSuccess != null) {
-                                loggedIn = loginSuccess;
-                                username = lo.getUsername();
-                                System.out.println(username + " successfully logged in.");
-                                startGUI();
-                            } else {
-                                Platform.runLater(() -> lc.setLblMessage("Login attempt " + loginAttempts + "/5 was unsuccessful."));
+                            switch (lo.getType()) {
+                                case LOGINREQUEST:
+                                    System.out.println("Invalid 'LOGINREQUEST' received in Main's !loggedin area. Expected 'LOGINRESULT'.");
+                                    break;
+                                case LOGINRESULT:
+                                    Boolean loginSuccess = lo.getLoginSuccess();
+                                    assert loginSuccess != null;
+                                    System.out.println(loginSuccess);
+                                    if (loginSuccess) {
+                                        loggedIn = true;
+                                        username = lo.getUsername();
+                                        System.out.println(username + " successfully logged in.");
+                                        startGUI();
+                                    } else {
+                                        Platform.runLater(() -> lc.setLblMessage("Login attempt " + loginAttempts + "/5 was unsuccessful."));
+                                    }
+                                    break;
+                                case LOGOUTREQUEST:
+                                    System.out.println("Invalid logout request received in Main's !loggedIn area.");
+                                    break;
+                                case KICK:
+                                    System.out.println("Invalid kick requeste received in Main's !loggedIn area.");
+                                    break;
                             }
                         }
                     } else {
@@ -167,7 +180,6 @@ public class Main extends Application {
                                         case GAMEOVER:
                                             GameOver gameOver = go.getGameOver();
                                             assert gameOver != null;
-                                            assert gameOver != null;
                                             String winnerUserName = gameOver.getWinnerUsername();
                                             assert winnerUserName != null;
                                             assert username != null;
@@ -185,13 +197,13 @@ public class Main extends Application {
                                             assert gs != null;
                                             switch (gs) {
                                                 case youAreUp:
-                                                    if (this.gameOver==false) {
+                                                    if (!this.gameOver) {
                                                         Platform.runLater(() -> gameController.youAreUp());
                                                     }
                                                     break;
 
                                                 case youAreNotUp:
-                                                    if (this.gameOver==false) {
+                                                    if (!this.gameOver) {
                                                         Platform.runLater(() -> gameController.youAreNotUp());
                                                     }
                                                     break;
@@ -225,11 +237,11 @@ public class Main extends Application {
                                 case LOGINOBJECT:
                                     LoginObject lo = t.getLoginObject();
                                     switch (lo.getType()) {
-                                        case LOGOUT:
+                                        case LOGOUTREQUEST:
                                             logout();
                                             break;
-                                        case LOGIN:
-                                            System.out.println("Error: Received login obj but already logged in.");
+                                        case LOGINRESULT:
+                                            System.out.println("Error: Received 'LOGINRESULT' object, but already logged in.");
                                             break;
                                         case KICK:
                                             System.out.println("[Kicked from server]");
@@ -320,7 +332,7 @@ public class Main extends Application {
             guiController.updateInfoLabel("");
             inGame = false;
             try {
-                os.writeObject(new Transmission(new GameObject(QUIT, getUsername())));
+                os.writeObject(new Transmission(new GameObject(getUsername())));
                 os.flush();
             } catch (IOException e) {e.printStackTrace();}
             stage.getScene().getWindow().hide();
@@ -357,7 +369,7 @@ public class Main extends Application {
             guiController.updateChat("[" + username + " logged out]");
         });
         LoginObject lo = new LoginObject();
-        lo.setType(LoginObject.Type.LOGOUT);
+        lo.setType();
 
         try {
             os.writeObject(new Transmission(lo));
@@ -393,10 +405,10 @@ public class Main extends Application {
         Platform.runLater(sg);
     }
 
-    public void login(String user, String pass) {
+    void login(String user, String pass) {
         System.out.println("Received call to log in. Attempts = " + loginAttempts);
         if (loginAttempts < 5) {
-            LoginObject lo = new LoginObject(true, user, pass);
+            LoginObject lo = new LoginObject(user, pass);
             Transmission t = new Transmission(lo);
             try {
                 os.writeObject(t);
@@ -422,7 +434,6 @@ public class Main extends Application {
     }
 
     void send(@NotNull String msg) {
-        assert msg != null;
         if (msg.length() > 0) {
             try {
                 os.writeObject(new Transmission(username + ": " + msg));
@@ -441,8 +452,8 @@ public class Main extends Application {
         } catch (Exception e) {System.out.println("Error sending transmission object");}
     }
 
-    void listPlayers() {
-        send(new Transmission(new ServerRequestObject(ServerRequestObject.ServerRequestObjectType.CLIENTREQUEST)));
+    private void listPlayers() {
+        send(new Transmission(new ServerRequestObject()));
     }
 
     void gameRequest(String otherPlayerUsername) {
@@ -456,14 +467,13 @@ public class Main extends Application {
 
     void newGame(String opponentUsername) {
         try {
-            os.writeObject(new Transmission(new GameObject(opponentUsername)));
+            os.writeObject(new Transmission(new GameObject(true, opponentUsername)));
             os.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println("Client Main initiated Watchtower newGame.");
         startGame(opponentUsername);
-
     }
 
     Stage getStage() {
@@ -480,11 +490,11 @@ public class Main extends Application {
         inGame = false;
     }
 
-    protected Boolean getGameOver() {
+    Boolean getGameOver() {
         return gameOver;
     }
 
-    public String getUsername() {
+    String getUsername() {
         return username;
     }
 	
@@ -492,7 +502,7 @@ public class Main extends Application {
 		launch(args);
 	}
 
-    public void setGameOver(boolean b) {
-        this.gameOver = b;
+    void setGameOver() {
+        this.gameOver = true;
     }
 }

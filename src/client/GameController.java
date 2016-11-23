@@ -101,11 +101,19 @@ public class GameController implements Initializable {
     private Main m;
     private String opponentUsername;
     private String attackSelectionId;
-    private Button attackSelectionBtn;
     private Boolean attackSelected;
     private Fleet fleet;
-    private int gridRowLength; //0 is a spot, so val of 5 means 6 spots. This setup enables direct iteration.
-    private int gridColLength;
+
+    public GameController() {
+        titledPane = new TitledPane();
+        lblAttackHistory = new Label();
+        txtInput = new TextField();
+        lblInfo = new Label();
+        gridAttackHistory = new GridPane();
+        gridFleet = new GridPane();
+        txtGameChat = new TextArea();
+        btnAttack = new Button();
+    }
 
     @FXML
     void init(Main m, String opponentUsername, Fleet fleet) {
@@ -115,8 +123,8 @@ public class GameController implements Initializable {
         lblAttackHistory.setText("Attack History vs. " + opponentUsername);
         btnAttack.setDisable(true);
         attackSelected = false;
-        gridRowLength = 5; //5 because it's 0-5, so 6 total.
-        gridColLength = 5;
+        int gridRowLength;
+        int gridColLength;
         this.fleet = fleet;
         gridAttackHistoryBtnList = gridAttackHistory.getChildren().stream()
                 .filter(btnNode -> btnNode instanceof Button)
@@ -140,10 +148,11 @@ public class GameController implements Initializable {
 
         List<Integer> gridSizes = gridFleetBtnList.stream()
                 .map(t -> t.getId().substring(9,11))
-                .map(w -> Integer.parseInt(w))
+                .map(Integer::parseInt)
                 .collect(Collectors.toList());
         OptionalInt max = gridSizes.stream()
                 .mapToInt(Integer::intValue).max();
+        assert max.isPresent();
         gridRowLength = (max.getAsInt()+11) / 10; //Adding 11 so that 55 becomes 66 -> corrects to .size() and .length() results from list positions.
         System.out.println("Maximum grid row length: " + gridRowLength);
         gridColLength = (max.getAsInt()+11) % 10;
@@ -151,7 +160,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void youAreUp() {
+    void youAreUp() {
         if(!m.getGameOver()) {
             enableGrid();
             System.out.println("Executing youAreUp");
@@ -160,7 +169,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void youAreNotUp() {
+    void youAreNotUp() {
         if(!m.getGameOver()) {
             disableGrid();
             lblInfo.setText("Awaiting opponent's move.");
@@ -170,7 +179,7 @@ public class GameController implements Initializable {
     @FXML
     private void attackSelection(ActionEvent event) {
         if (!attackSelected) {
-            attackSelectionBtn = (Button) event.getSource();
+            Button attackSelectionBtn = (Button) event.getSource();
             attackSelectionId = attackSelectionBtn.getId();
             System.out.println("Attack selection ID: " + attackSelectionId);
             attackSelected = true;
@@ -181,15 +190,13 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void disableGrid () {
-        gridAttackHistoryBtnList.stream().forEach(btn -> {
-            btn.setDisable(true);
-        });
+    void disableGrid() {
+        gridAttackHistoryBtnList.forEach(btn -> btn.setDisable(true));
         btnAttack.setDisable(true);
     }
 
     @FXML
-    public void disableGrid (String disableAllExceptThisBtnID) {
+    private void disableGrid(String disableAllExceptThisBtnID) {
         gridAttackHistoryBtnList.stream()
                 .filter(btn -> !btn.getId().equals(disableAllExceptThisBtnID))
                 .forEach(btn -> btn.setDisable(true));
@@ -197,7 +204,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void enableGrid () {
+    private void enableGrid() {
         gridAttackHistoryBtnList.stream()
                 .filter(btn -> btn.getText().equals("~"))
                 .forEach(btn -> btn.setDisable(false));
@@ -207,7 +214,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void processAttackResult(AttackResult attackResult) {
+    void processAttackResult(AttackResult attackResult) {
         gridAttackHistoryBtnList.stream()
                 .filter(btn -> btn.getId().substring(11,13).equals(attackResult.getSpotRowCol()))
                 .forEach(btn -> btn.setText(attackResult.wasHit() ? "X" : "O"));
@@ -248,7 +255,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void attack(ActionEvent event) {
+    public void attack() {
         System.out.println("Attack button clicked.");
         if (attackSelected) {
             System.out.println("Attack selected --> transmitting attack.");
@@ -261,7 +268,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public AttackResult evaluateAttackReceived(Attack attackReceived) {
+    AttackResult evaluateAttackReceived(Attack attackReceived) {
         AttackResult ar = fleet.evaluateAttackReceived(attackReceived);
             gridFleetBtnList.stream()
                     .filter(btn -> btn.getId().substring(9,11).equals(attackReceived.getAttackSpotRowColStr()))
@@ -276,12 +283,12 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void updateInfo(String infoText) {
+    private void updateInfo(String infoText) {
         lblInfo.setText(infoText);
     }
 
     @FXML //Generate ship locations
-    public void placeShips(Fleet fleet) {
+    private void placeShips(Fleet fleet) {
         //Grid 0,0 is top left-most corner.
         //First, place the largest (5) ship locations. Use these locations in a list to instantiate the new ship.
         //Determine orientation (vertical or horizontal).
@@ -329,23 +336,23 @@ public class GameController implements Initializable {
                     .collect(Collectors.toCollection(ArrayList::new));
             assert chosenLocations.size() == s.getShipLength();
             s.setLocations(chosenLocations);
-            spotHistory.addAll(chosenLocations.stream().map(spot -> spot.getRowColStr()).collect(Collectors.toSet()));
+            spotHistory.addAll(chosenLocations.stream().map(Spot::getRowColStr).collect(Collectors.toSet()));
             //Ship locations are now set.
 
             //Marking locations with the ship number.
-            s.getShipLocations().stream().forEach(spot -> spot.updateGrid(Integer.toString(s.getShipLength())));
+            s.getShipLocations().forEach(spot -> spot.updateGrid(Integer.toString(s.getShipLength())));
             //Grid locations are now marked with the length of the ship.
         }
     }
 
     @FXML
-    public void iWon() {
+    void iWon() {
         updateInfo("Congratulations, you won!");
         disableGrid();
     }
 
     @FXML
-    public void iLost() {
+    void iLost() {
         updateInfo("Game over. You have lost. " + opponentUsername + " is the winner.");
         disableGrid();
     }
@@ -373,16 +380,16 @@ public class GameController implements Initializable {
         return returnList;
     }
 
+    @SuppressWarnings("SameParameterValue")
     private int randGenerator(int min, int max) {
         Random rand = new Random();
-        int nextRand = rand.nextInt((max-min) +1) + min;
-        return nextRand;
+        return rand.nextInt((max-min) +1) + min;
     }
 
     private void announceWinner(String winnerUsername, String loserUsername) {
-        m.setGameOver(true);
+        m.setGameOver();
         System.out.println("winnerUsername: " + winnerUsername + " and loserUsername: " + loserUsername);
-        m.send(new Transmission(new GameObject(new GameOver(winnerUsername, loserUsername))));
+        m.send(new Transmission(new GameObject(new GameOver(winnerUsername))));
         System.out.println("Sent announceWinner message out.");
         updateInfo(m.getUsername().equals(winnerUsername) ? "Congratulations, you won!" : "Sorry, you have lost. " + winnerUsername + " is the winner.");
         disableGrid();

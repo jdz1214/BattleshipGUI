@@ -4,528 +4,424 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<TitledPane fx:id="titledPane" alignment="CENTER" collapsible="false" contentDisplay="CENTER" minHeight="937.0"
-            minWidth="535.0" prefHeight="937.0" prefWidth="535.0" text="Battleship" textAlignment="CENTER"
-            xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="client.GameController">
-    <AnchorPane>
-        <GridPane fx:id="gridAttackHistory" alignment="CENTER" focusTraversable="true" gridLinesVisible="true"
-                  layoutX="48.0" layoutY="67.0" prefHeight="312.0" prefWidth="443.0">
-            <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <opaqueInsets>
-                <Insets/>
-            </opaqueInsets>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-            </rowConstraints>
-            <Button fx:id="gridHistory00" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory01" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="1">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory02" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="2">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory03" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="3">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory04" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="4">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory05" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="5">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory10" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.rowIndex="1">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory11" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory12" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory13" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory14" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="1">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory15" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="1">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory20" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.rowIndex="2">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory21" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory22" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory23" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory24" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="2">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory25" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="2">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory30" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.rowIndex="3">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory31" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory32" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory33" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="3">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory34" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="3">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory35" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="3">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory40" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.rowIndex="4">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory41" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory42" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="4">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory43" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="4">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory44" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="4">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory45" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="4">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory50" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.rowIndex="5">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory51" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory52" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="5">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory53" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="5">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory54" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="5">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-            <Button fx:id="gridHistory55" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                    onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER"
-                    textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="5">
-                <font>
-                    <Font size="26.0"/>
-                </font>
-            </Button>
-        </GridPane>
-        <GridPane fx:id="gridFleet" alignment="CENTER" gridLinesVisible="true" layoutX="48.0" layoutY="545.0"
-                  prefHeight="312.0" prefWidth="443.0">
-            <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <opaqueInsets>
-                <Insets/>
-            </opaqueInsets>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-            </rowConstraints>
-            <Text fx:id="gridFleet00" strokeType="OUTSIDE" strokeWidth="0.0" text="~">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet01" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet02" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet03" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet04" layoutX="262.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="~" GridPane.columnIndex="4">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet05" layoutX="336.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="~" GridPane.columnIndex="5">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet10" layoutX="40.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="~"
-                  GridPane.rowIndex="1">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet12" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2"
-                  GridPane.rowIndex="1">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet11" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1"
-                  GridPane.rowIndex="1">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet13" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3"
-                  GridPane.rowIndex="1">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet14" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4"
-                  GridPane.rowIndex="1">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet15" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5"
-                  GridPane.rowIndex="1">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet20" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="2">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet21" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1"
-                  GridPane.rowIndex="2">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet22" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2"
-                  GridPane.rowIndex="2">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet23" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3"
-                  GridPane.rowIndex="2">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet24" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4"
-                  GridPane.rowIndex="2">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet25" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5"
-                  GridPane.rowIndex="2">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet30" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="3">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet31" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1"
-                  GridPane.rowIndex="3">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet32" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2"
-                  GridPane.rowIndex="3">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet33" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3"
-                  GridPane.rowIndex="3">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet34" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4"
-                  GridPane.rowIndex="3">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet35" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5"
-                  GridPane.rowIndex="3">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet40" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="4">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet41" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1"
-                  GridPane.rowIndex="4">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet42" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2"
-                  GridPane.rowIndex="4">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet43" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3"
-                  GridPane.rowIndex="4">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet44" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4"
-                  GridPane.rowIndex="4">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet45" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5"
-                  GridPane.rowIndex="4">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet50" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="5">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet51" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1"
-                  GridPane.rowIndex="5">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet52" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2"
-                  GridPane.rowIndex="5">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet53" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3"
-                  GridPane.rowIndex="5">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet54" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4"
-                  GridPane.rowIndex="5">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-            <Text fx:id="gridFleet55" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5"
-                  GridPane.rowIndex="5">
-                <font>
-                    <Font name="System Bold" size="16.0"/>
-                </font>
-            </Text>
-        </GridPane>
-        <Button fx:id="btnQuit" layoutX="431.0" layoutY="9.0" minHeight="-Infinity" mnemonicParsing="false"
-                onAction="#quit" prefHeight="27.0" prefWidth="60.0" text="Quit"/>
-        <Label fx:id="lblAttackHistory" alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="47.0"
-               prefHeight="16.0" prefWidth="444.0" text="Attack History" textAlignment="CENTER"/>
-        <Label fx:id="lblYourFleet" alignment="CENTER" contentDisplay="CENTER" layoutX="238.0" layoutY="871.0"
-               text="Your Fleet"/>
-        <TextArea fx:id="txtGameChat" editable="false" focusTraversable="false" layoutX="48.0" layoutY="388.0"
-                  prefHeight="109.0" prefWidth="443.0" promptText="Game Chat"/>
-        <TextField fx:id="txtInput" layoutX="48.0" layoutY="506.0" onAction="#onEnter" prefHeight="27.0"
-                   prefWidth="443.0" promptText="Chat Input"/>
-        <Button fx:id="btnAttack" contentDisplay="CENTER" layoutX="48.0" layoutY="11.0" minHeight="-Infinity"
-                mnemonicParsing="false" onAction="#attack" prefHeight="27.0" prefWidth="60.0" text="Attack"/>
-        <Label fx:id="lblInfo" alignment="CENTER" contentDisplay="CENTER" layoutX="120.0" layoutY="16.0"
-               prefHeight="17.0" prefWidth="297.0"/>
-    </AnchorPane>
+<TitledPane fx:id="titledPane" alignment="CENTER" collapsible="false" contentDisplay="CENTER" minHeight="600.0" minWidth="535.0" prefHeight="937.0" prefWidth="530.0" text="Battleship" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.GameController">
+   <content>
+      <AnchorPane>
+         <children>
+            <GridPane fx:id="gridAttackHistory" alignment="CENTER" focusTraversable="true" gridLinesVisible="true" layoutX="48.0" layoutY="67.0" prefHeight="312.0" prefWidth="443.0">
+               <children>
+                  <Button fx:id="gridHistory00" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory01" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory02" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory03" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory04" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory05" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory10" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory11" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory12" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory13" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory14" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory15" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory20" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory21" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory22" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory23" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory24" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory25" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory30" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory31" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory32" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory33" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory34" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory35" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory40" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory41" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory42" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory43" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory44" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory45" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory50" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory51" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory52" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory53" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory54" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="4" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="gridHistory55" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#attackSelection" prefHeight="59.0" prefWidth="73.0" text="~" textAlignment="CENTER" textOverrun="CLIP" GridPane.columnIndex="5" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+            <GridPane fx:id="gridFleet" alignment="CENTER" gridLinesVisible="true" layoutX="48.0" layoutY="545.0" prefHeight="312.0" prefWidth="443.0">
+               <children>
+                  <Text fx:id="gridFleet00" strokeType="OUTSIDE" strokeWidth="0.0" text="~">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet01" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet02" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet03" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet04" layoutX="262.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet05" layoutX="336.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet10" layoutX="40.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet12" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet11" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet13" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet14" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet15" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet20" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet21" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet22" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet23" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet24" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet25" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet30" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet31" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet32" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet33" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet34" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet35" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet40" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet41" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet42" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet43" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet44" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet45" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet50" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet51" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet52" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet53" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet54" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="4" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="gridFleet55" strokeType="OUTSIDE" strokeWidth="0.0" text="~" GridPane.columnIndex="5" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+            <Button fx:id="btnQuit" layoutX="431.0" layoutY="9.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#quit" prefHeight="27.0" prefWidth="60.0" text="Quit" />
+            <Label fx:id="lblAttackHistory" alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="47.0" prefHeight="16.0" prefWidth="444.0" text="Attack History" textAlignment="CENTER" />
+            <Label fx:id="lblYourFleet" alignment="CENTER" contentDisplay="CENTER" layoutX="238.0" layoutY="871.0" text="Your Fleet" />
+            <TextArea fx:id="txtGameChat" editable="false" focusTraversable="false" layoutX="48.0" layoutY="388.0" prefHeight="109.0" prefWidth="443.0" promptText="Game Chat" wrapText="true" />
+            <TextField fx:id="txtInput" layoutX="48.0" layoutY="506.0" onAction="#onEnter" prefHeight="27.0" prefWidth="443.0" promptText="Chat Input" />
+            <Button fx:id="btnAttack" contentDisplay="CENTER" layoutX="48.0" layoutY="11.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#attack" prefHeight="27.0" prefWidth="60.0" text="Attack" />
+            <Label fx:id="lblInfo" alignment="CENTER" contentDisplay="CENTER" layoutX="120.0" layoutY="16.0" prefHeight="17.0" prefWidth="297.0" />
+         </children>
+      </AnchorPane>
+   </content>
 </TitledPane>

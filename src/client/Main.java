@@ -47,7 +47,6 @@ public class Main extends Application {
     private ObservableList<String> usernameList;
     SimpleListProperty<String> slp;
     private Fleet fleet;
-    private Parent root;
 
     public Main() {
         address = "battleship.jdzcode.com";
@@ -64,24 +63,31 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-        stage = primaryStage;
-        stage.setTitle("Battleship");
-        handleShutdown();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/Login.fxml"));
-        loader.setRoot(root);
         try {
-            root = loader.load();
+            stage = primaryStage;
+            stage.setTitle("Battleship");
+            handleShutdown();
+    //        FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/Login.fxml"));
+    //        Parent root = null;
+    //        loader.setRoot(root);
+    //        try {
+    //            root = loader.load();
+    //        } catch (IOException e) {
+    //            e.printStackTrace();
+    //        }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/Login.fxml"));
+            Parent root = loader.load();
+            lc = loader.getController();
+            lc.init(this);
+            assert root != null;
+            loginScene = new Scene(root);
+            loginScene.getStylesheets().add("/client/application.css");
+            stage.setScene(loginScene);
+            stage.setTitle("Login:Battleship");
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        lc = loader.getController();
-        lc.init(this);
-        assert root != null;
-        loginScene = new Scene(root);
-        loginScene.getStylesheets().add("/client/application.css");
-        stage.setScene(loginScene);
-        stage.setTitle("Login:Battleship");
-        stage.show();
         this.fleet = new Fleet();
         getConnection();
         receive();
